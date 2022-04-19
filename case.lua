@@ -24,6 +24,7 @@ local tar
 _G.k = true
 _G.farm = false
 _G.change = false
+_G.item = false
 
 --
 
@@ -84,7 +85,7 @@ function main()
         end
         local playerpos = game.Players.LocalPlayer.Character.HumanoidRootPart
         local ts = game:GetService("TweenService")  
-        local info = TweenInfo.new(0.1, Enum.EasingStyle.Sine, Enum.EasingDirection.Out, 0, false, 0)
+        local info = TweenInfo.new(0.2, Enum.EasingStyle.Sine, Enum.EasingDirection.Out, 0, false, 0)
         local tween = ts:Create(playerpos, info, {CFrame = tar.HumanoidRootPart.CFrame * CFrame.new(0,0,10)})
         if tar.Humanoid.Health ~= 0 then
             tween:Play()
@@ -92,6 +93,7 @@ function main()
         punch()
     end)
 end
+
 
 sec:addToggle("Auto Farm", _G.farm, function(go)
 	if go then
@@ -104,6 +106,8 @@ sec:addToggle("Auto Farm", _G.farm, function(go)
         _G.farm = false
     end
 end)
+
+
 sec:addButton("Buy Arrow + Rokaka x5",function()
     local args = {
         [1] = "Merchant1",
