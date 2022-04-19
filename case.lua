@@ -47,6 +47,7 @@ change()
 change()
 change()
 change()
+
 function summon()
     if game.Players.LocalPlayer.Character.Stand.Head.Transparency == 1 then
         game:GetService("Players").LocalPlayer.Character.StandEvents.Summon:FireServer()
@@ -81,11 +82,10 @@ function main()
             tar = v
             end
         end
-
         local playerpos = game.Players.LocalPlayer.Character.HumanoidRootPart
         local ts = game:GetService("TweenService")  
-        local info = TweenInfo.new(0.2, Enum.EasingStyle.Sine, Enum.EasingDirection.Out, 0, false, 0)
-        local tween = ts:Create(playerpos, info, {CFrame = tar.HumanoidRootPart.CFrame * CFrame.new(0,0,10.5)})
+        local info = TweenInfo.new(0.1, Enum.EasingStyle.Sine, Enum.EasingDirection.Out, 0, false, 0)
+        local tween = ts:Create(playerpos, info, {CFrame = tar.HumanoidRootPart.CFrame * CFrame.new(0,0,10)})
         if tar.Humanoid.Health ~= 0 then
             tween:Play()
         end
@@ -103,4 +103,37 @@ sec:addToggle("Auto Farm", _G.farm, function(go)
     else
         _G.farm = false
     end
+end)
+sec:addButton("Buy Arrow + Rokaka x5",function()
+    local args = {
+        [1] = "Merchant1",
+        [2] = "Option1"
+    }
+    
+    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
+    local args = {
+        [1] = "Merchant1",
+        [2] = "Option3"
+    }
+    
+    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
+end)
+sec:addToggle("Anti AFK",nil,function(go)
+    if go then
+        _G.anti = true
+        while _G.anti == true do
+            wait()
+            local vu = game:GetService("VirtualUser")
+            game:GetService("Players").LocalPlayer.Idled:connect(function()
+            vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+            wait(1)
+            vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+            end)
+        end
+    else
+        _G.anti = false
+    end
+end)
+sec:addKeybind("Toggle", Enum.KeyCode.RightControl,function()
+    ui:toggle()
 end)
