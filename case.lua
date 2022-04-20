@@ -23,6 +23,7 @@ local tar
 
 _G.k = true
 _G.farm = false
+_G.jo = false
 _G.change = false
 _G.lair = false
 _G.item = false
@@ -136,6 +137,26 @@ function main()
     end)
 end
 
+function jo()
+    pcall(function()
+        summon()
+
+        for i,v in pairs(game.workspace.Living:GetChildren()) do
+            if v.Name == "Jotaro Over Heaven" then
+                tar = v
+            end
+        end
+        local playerpos = game.Players.LocalPlayer.Character.HumanoidRootPart
+        local ts = game:GetService("TweenService")  
+        local info = TweenInfo.new(0.2, Enum.EasingStyle.Sine, Enum.EasingDirection.Out, 0, false, 0)
+        local tween = ts:Create(playerpos, info, {CFrame = tar.HumanoidRootPart.CFrame * CFrame.new(0,0,10)})
+        tween:Play()
+        tar.Humanoid.Health = 0
+        tar.Humanoid.Health = 0
+        tar.Humanoid.Health = 0
+        punch()
+    end)
+end
 
 sec:addToggle("Auto Farm", _G.farm, function(go)
 	if go then
@@ -148,6 +169,19 @@ sec:addToggle("Auto Farm", _G.farm, function(go)
         _G.farm = false
     end
 end)
+
+sec:addToggle("Auto Jotaro", _G.jo, function(go)
+	if go then
+        _G.jo = true
+        while _G.jo == true do
+            wait()
+            jo()
+        end
+    else
+        _G.jo = false
+    end
+end)
+
 sec:addToggle("Auto Lair lvl.100", _G.lair, function(go)
 	if go then
         _G.lair = true
