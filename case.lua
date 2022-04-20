@@ -61,6 +61,14 @@ function boss()
     end)
 end
 
+function delstone()
+    for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+        if v.Name == "Stone Mask" then
+             v:Destroy()
+         end
+     end     
+end
+
 change()
 change()
 change()
@@ -154,6 +162,7 @@ sec:addToggle("Auto Lair lvl.100", _G.lair, function(go)
         while _G.lair == true do
             wait()
             boss()
+            delstone()
         end
     else
         _G.lair = false
