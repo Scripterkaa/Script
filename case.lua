@@ -24,6 +24,7 @@ local tar
 _G.k = true
 _G.farm = false
 _G.change = false
+_G.lair = false
 _G.item = false
 
 --
@@ -33,6 +34,47 @@ function change()
     c.Name = num
     num = num +1
 end
+
+function boss()
+    pcall(function()
+        for _,k in pairs(game:GetService("Workspace").Fartinglloll:GetChildren()) do
+            if k.Name == "28" then
+                k.Done:FireServer()
+                wait(1)
+            end
+        end
+        for i,v in pairs(game:GetService("Workspace").Living:GetChildren()) do
+            if v.Name == "Boss" then
+                summon()
+                v.Humanoid.Health = 0
+                local playerpos = game.Players.LocalPlayer.Character.HumanoidRootPart
+                local ts = game:GetService("TweenService")  
+                local info = TweenInfo.new(0.2, Enum.EasingStyle.Sine, Enum.EasingDirection.Out, 0, false, 0)
+                local tween = ts:Create(playerpos, info, {CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0,0,10)})
+                v.Humanoid.Health = 0
+                tween:Play()
+                v.Humanoid.Health = 0
+                punch()
+                v.Humanoid.Health = 0
+            end
+        end
+    end)
+end
+
+change()
+change()
+change()
+change()
+change()
+change()
+change()
+change()
+change()
+change()
+change()
+change()
+change()
+change()
 change()
 change()
 change()
@@ -106,7 +148,17 @@ sec:addToggle("Auto Farm", _G.farm, function(go)
         _G.farm = false
     end
 end)
-
+sec:addToggle("Auto Lair lvl.100", _G.lair, function(go)
+	if go then
+        _G.lair = true
+        while _G.lair == true do
+            wait()
+            boss()
+        end
+    else
+        _G.lair = false
+    end
+end)
 
 sec:addButton("Buy Arrow + Rokaka x5",function()
     local args = {
