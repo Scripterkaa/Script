@@ -61,7 +61,6 @@ function boss()
     end)
 end
 
-
 change()
 change()
 change()
@@ -173,6 +172,22 @@ sec:addButton("Buy Arrow + Rokaka x5",function()
         [2] = "Option3"
     }
     
+    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
+end)
+sec:addButton("Buy Rokaka x50",function()
+    local args = {
+        [1] = "Merchant1",
+        [2] = "Option1"
+    }
+    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
+    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
+    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
+    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
+    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
+    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
+    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
+    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
+    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
     game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
 end)
 sec:addToggle("Anti AFK",nil,function(go)
