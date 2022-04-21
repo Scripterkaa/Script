@@ -1,4 +1,3 @@
-
 local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/GreenDeno/Venyx-UI-Library/main/source.lua"))()
 local ui = library.new("Stand Upright", 5013109572)
 
@@ -206,6 +205,22 @@ sec:addButton("Buy Arrow + Rokaka x5",function()
         [2] = "Option3"
     }
     
+    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
+end)
+sec:addButton("Buy Stand Arrow x50",function()
+    local args = {
+        [1] = "Merchant1",
+        [2] = "Option3"
+    }
+    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
+    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
+    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
+    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
+    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
+    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
+    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
+    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
+    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
     game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
 end)
 sec:addButton("Buy Rokaka x50",function()
