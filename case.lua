@@ -11,20 +11,18 @@ local themes = {
 	TextColor = Color3.fromRGB(255, 0, 0)
 }
 
-local page1 = ui:addPage("Main", 5012544693)
 
-local sec = page1:addSection("Auto Farm")
 
 local num = 1
 local tar
 
 --
 
-_G.k = true
 _G.farm = false
 _G.jo = false
 _G.change = false
 _G.lair = false
+_G.drop = false
 _G.item = false
 
 --
@@ -157,6 +155,20 @@ function jo()
     end)
 end
 
+function drop()
+    pcall(function()
+        require(game.Players.LocalPlayer.PlayerScripts.ChatScript.ChatMain).MessagePosted:fire("/dropitem")
+        local toosl = game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Stone Mask")
+        toosl.Parent = game:GetService("Players").LocalPlayer.Character
+        wait(.2)
+        require(game.Players.LocalPlayer.PlayerScripts.ChatScript.ChatMain).MessagePosted:fire("/dropitem")
+    end)
+end
+
+local page1 = ui:addPage("Main", 5012540643)
+
+local sec = page1:addSection("Auto Farm")
+
 sec:addToggle("Auto Farm", _G.farm, function(go)
 	if go then
         _G.farm = true
@@ -192,54 +204,21 @@ sec:addToggle("Auto Lair lvl.100", _G.lair, function(go)
         _G.lair = false
     end
 end)
+local mm = page1:addSection("Misc")
 
-sec:addButton("Buy Arrow + Rokaka x5",function()
-    local args = {
-        [1] = "Merchant1",
-        [2] = "Option1"
-    }
-    
-    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
-    local args = {
-        [1] = "Merchant1",
-        [2] = "Option3"
-    }
-    
-    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
+mm:addToggle("Drop Stone Mask",nil,function(go)
+    if go then
+        _G.drop = true
+        while _G.drop == true do
+            drop()
+            wait()
+        end
+    else
+        _G.drop = false
+    end
 end)
-sec:addButton("Buy Stand Arrow x50",function()
-    local args = {
-        [1] = "Merchant1",
-        [2] = "Option3"
-    }
-    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
-    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
-    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
-    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
-    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
-    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
-    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
-    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
-    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
-    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
-end)
-sec:addButton("Buy Rokaka x50",function()
-    local args = {
-        [1] = "Merchant1",
-        [2] = "Option1"
-    }
-    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
-    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
-    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
-    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
-    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
-    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
-    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
-    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
-    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
-    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
-end)
-sec:addToggle("Anti AFK",nil,function(go)
+
+mm:addToggle("Anti AFK",nil,function(go)
     if go then
         _G.anti = true
         while _G.anti == true do
@@ -255,6 +234,58 @@ sec:addToggle("Anti AFK",nil,function(go)
         _G.anti = false
     end
 end)
-sec:addKeybind("Toggle", Enum.KeyCode.RightControl,function()
+mm:addKeybind("Toggle", Enum.KeyCode.RightControl,function()
     ui:toggle()
 end)
+
+local page2 = ui:addPage("Shop", 5012537953)
+
+local sec2 = page2:addSection("Shop")
+
+sec2:addButton("Buy Arrow + Rokaka x5",function()
+    local args = {
+        [1] = "Merchant1",
+        [2] = "Option1"
+    }
+    
+    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
+    local args = {
+        [1] = "Merchant1",
+        [2] = "Option3"
+    }
+    
+    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
+end)
+sec2:addButton("Buy Stand Arrow x50",function()
+    local args = {
+        [1] = "Merchant1",
+        [2] = "Option3"
+    }
+    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
+    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
+    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
+    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
+    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
+    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
+    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
+    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
+    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
+    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
+end)
+sec2:addButton("Buy Rokaka x50",function()
+    local args = {
+        [1] = "Merchant1",
+        [2] = "Option1"
+    }
+    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
+    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
+    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
+    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
+    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
+    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
+    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
+    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
+    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
+    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
+end)
+
