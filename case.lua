@@ -1,6 +1,6 @@
-local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/GreenDeno/Venyx-UI-Library/main/source.lua"))()
-local ui = library.new("Stand Upright", 5013109572)
 
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/GreenDeno/Venyx-UI-Library/main/source.lua"))()
+local ui = library.new("Stand Upright")
 
 local themes = {
 	Background = Color3.fromRGB(24, 24, 24),
@@ -10,9 +10,6 @@ local themes = {
 	DarkContrast = Color3.fromRGB(14, 14, 14),  
 	TextColor = Color3.fromRGB(255, 0, 0)
 }
-
-
-
 local num = 1
 local tar
 
@@ -52,6 +49,7 @@ function boss()
                 v.Humanoid.Health = 0
                 tween:Play()
                 v.Humanoid.Health = 0
+                summon()
                 punch()
                 v.Humanoid.Health = 0
             end
@@ -109,6 +107,7 @@ function clone()
 end
 function main()
     pcall(function()
+        local tar = nil
         for i,v in pairs(game:GetService("Workspace").Fartinglloll:GetChildren()) do
             if v.Name == "14" then
                 
@@ -120,34 +119,38 @@ function main()
 
         for i,v in pairs(game.workspace.Living:GetChildren()) do
             if v.Name == "Jungle Bandit" and v.Humanoid.Health ~=0 then
-            tar = v
+                tar = v
             end
         end
-        local playerpos = game.Players.LocalPlayer.Character.HumanoidRootPart
-        local ts = game:GetService("TweenService")  
-        local info = TweenInfo.new(0.2, Enum.EasingStyle.Sine, Enum.EasingDirection.Out, 0, false, 0)
-        local tween = ts:Create(playerpos, info, {CFrame = tar.HumanoidRootPart.CFrame * CFrame.new(0,0,10)})
-        if tar.Humanoid.Health ~= 0 then
-            tween:Play()
-        end
+        tween(tar.HumanoidRootPart)
         punch()
+    end)
+end
+
+function tween(pos)
+    pcall(function()
+        local speed = 400
+        local playerpos = game.Players.LocalPlayer.Character.HumanoidRootPart
+        local newpos = pos.Position
+        local ts = game:GetService("TweenService")  
+        local distance = (playerpos.Position - newpos).magnitude
+        local time = distance / speed
+        local info = TweenInfo.new(time)
+        local tw = ts:Create(playerpos, info, {CFrame = pos.CFrame * CFrame.new(0,0,10)})
+        tw:Play()
     end)
 end
 
 function jo()
     pcall(function()
         summon()
-
+    
         for i,v in pairs(game.workspace.Living:GetChildren()) do
             if v.Name == "Jotaro Over Heaven" then
                 tar = v
             end
         end
-        local playerpos = game.Players.LocalPlayer.Character.HumanoidRootPart
-        local ts = game:GetService("TweenService")  
-        local info = TweenInfo.new(0.2, Enum.EasingStyle.Sine, Enum.EasingDirection.Out, 0, false, 0)
-        local tween = ts:Create(playerpos, info, {CFrame = tar.HumanoidRootPart.CFrame * CFrame.new(0,0,10)})
-        tween:Play()
+        tween(tar.HumanoidRootPart)
         tar.Humanoid.Health = 0
         tar.Humanoid.Health = 0
         tar.Humanoid.Health = 0
@@ -171,6 +174,7 @@ local sec = page1:addSection("Auto Farm")
 
 sec:addToggle("Auto Farm", _G.farm, function(go)
 	if go then
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-492.606232, 66.0602646, 50.6380501, 0.997299254, -4.98696373e-08, -0.0734451637, 5.57781483e-08, 1, 7.83968446e-08, 0.0734451637, -8.22817512e-08, 0.997299254)
         _G.farm = true
         while _G.farm == true do
             wait()
@@ -183,6 +187,7 @@ end)
 
 sec:addToggle("Auto Jotaro", _G.jo, function(go)
 	if go then
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-315.721466, 15.7958221, -10047.0596, 0.999984205, -1.23565771e-08, 0.00562177878, 1.22580204e-08, 1, 1.75656751e-08, -0.00562177878, -1.7496486e-08, 0.999984205)
         _G.jo = true
         while _G.jo == true do
             wait()
