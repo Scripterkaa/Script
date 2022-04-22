@@ -19,6 +19,7 @@ _G.farm = false
 _G.jo = false
 _G.change = false
 _G.lair = false
+_G.lair40 = false
 _G.drop = false
 _G.item = false
 
@@ -40,27 +41,49 @@ function boss()
         for _,k in pairs(game:GetService("Workspace").Fartinglloll:GetChildren()) do
             if k.Name == "28" then
                 k.Done:FireServer()
-                wait(1)
             end
         end
         for i,v in pairs(game:GetService("Workspace").Living:GetChildren()) do
-            if v.Name == "Boss" then
+            if v.Name == "Boss" and v.Head.Display.Frame.t.Text == "Diavolo [Dungeon]" then
+                summon()
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0,0,5.5)
+                v.Humanoid.Health = 0
+                            
                 summon()
                 v.Humanoid.Health = 0
-                local playerpos = game.Players.LocalPlayer.Character.HumanoidRootPart
-                local ts = game:GetService("TweenService")  
-                local info = TweenInfo.new(0.2, Enum.EasingStyle.Sine, Enum.EasingDirection.Out, 0, false, 0)
-                local tween = ts:Create(playerpos, info, {CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0,0,10)})
                 v.Humanoid.Health = 0
-                tween:Play()
                 v.Humanoid.Health = 0
-                summon()
                 punch()
-                v.Humanoid.Health = 0
             end
         end
     end)
 end
+
+function boss40()
+    pcall(function()
+        for _,k in pairs(game:GetService("Workspace").Fartinglloll:GetChildren()) do
+            if k.Name == "21" then
+                k.Done:FireServer()
+            end
+        end
+        for i,v in pairs(game:GetService("Workspace").Living:GetChildren()) do
+            if v.Name == "Boss" and v.Head.Display.Frame.t.Text == "Dio [Dungeon]" then
+                v.Humanoid.Health = 0
+                summon()
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0,0,5.5)
+                v.Humanoid.Health = 0
+                            
+                summon()
+                v.Humanoid.Health = 0
+                v.Humanoid.Health = 0
+                v.Humanoid.Health = 0
+                punch()
+            end
+        end
+        
+    end)
+end
+
 function check()
     pcall(function()
         local am = 0
@@ -142,7 +165,7 @@ function main()
     end)
 end
 
-function tween(pos)
+function tween(pos,n)
     pcall(function()
         local speed = 400
         local playerpos = game.Players.LocalPlayer.Character.HumanoidRootPart
@@ -154,8 +177,9 @@ function tween(pos)
         local info = TweenInfo.new(time)
         local tw = ts:Create(playerpos, info, {CFrame = pos.CFrame * CFrame.new(0,0,10)})
         tw:Play()
-
-        wait(time)
+        if n == "w" then
+            wait(time)
+        end
     end)
 end
 
@@ -168,7 +192,7 @@ function jo()
                 tar = v
             end
         end
-        tween(tar.HumanoidRootPart)
+        tween(tar.HumanoidRootPart,"w")
         tar.Humanoid.Health = 0
         punch()
     end)
@@ -176,7 +200,6 @@ end
 
 function drop(a)
     pcall(function()
-        require(game.Players.LocalPlayer.PlayerScripts.ChatScript.ChatMain).MessagePosted:fire("/dropitem")
         local toosl = game:GetService("Players").LocalPlayer.Backpack:FindFirstChild(a)
         toosl.Parent = game:GetService("Players").LocalPlayer.Character
         wait(.2)
@@ -214,7 +237,19 @@ sec:addToggle("Auto Jotaro", _G.jo, function(go)
         _G.jo = false
     end
 end)
-
+sec:addToggle("Auto Lair lvl.40", _G.lair40, function(go)
+	if go then
+        _G.lair40 = true
+        while _G.lair40 == true do
+            wait()
+            boss40()
+            lairing = true
+        end
+    else
+        _G.lair40 = false
+        lairing = false
+    end
+end)
 sec:addToggle("Auto Lair lvl.100", _G.lair, function(go)
 	if go then
         _G.lair = true
