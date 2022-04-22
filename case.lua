@@ -324,4 +324,5 @@ sec2:addButton("Buy Rokaka x50",function()
     game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
     game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
 end)
+
 ui:SelectPage(ui.pages[1], true)
