@@ -22,6 +22,11 @@ _G.lair = false
 _G.drop = false
 _G.item = false
 
+-- status
+
+local farming = false
+local lairing = false
+
 --
 
 function change()
@@ -56,7 +61,17 @@ function boss()
         end
     end)
 end
-
+function check()
+    pcall(function()
+        local am = 0
+        for i,v in pairs(game:GetService("Players").LocalPlayer.Backpack:GetChildren()) do
+            if v.Name == "Charged Arrow" then
+                am = am +1
+            end
+        end
+        ui:Notify("Amount",am)
+    end)
+end
 change()
 change()
 change()
@@ -134,17 +149,20 @@ function tween(pos)
         local newpos = pos.Position
         local ts = game:GetService("TweenService")  
         local distance = (playerpos.Position - newpos).magnitude
+        
         local time = distance / speed
         local info = TweenInfo.new(time)
         local tw = ts:Create(playerpos, info, {CFrame = pos.CFrame * CFrame.new(0,0,10)})
         tw:Play()
+
+        wait(time)
     end)
 end
 
 function jo()
     pcall(function()
         summon()
-    
+        local tar = nil
         for i,v in pairs(game.workspace.Living:GetChildren()) do
             if v.Name == "Jotaro Over Heaven" then
                 tar = v
@@ -152,16 +170,14 @@ function jo()
         end
         tween(tar.HumanoidRootPart)
         tar.Humanoid.Health = 0
-        tar.Humanoid.Health = 0
-        tar.Humanoid.Health = 0
         punch()
     end)
 end
 
-function drop()
+function drop(a)
     pcall(function()
         require(game.Players.LocalPlayer.PlayerScripts.ChatScript.ChatMain).MessagePosted:fire("/dropitem")
-        local toosl = game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Stone Mask")
+        local toosl = game:GetService("Players").LocalPlayer.Backpack:FindFirstChild(a)
         toosl.Parent = game:GetService("Players").LocalPlayer.Character
         wait(.2)
         require(game.Players.LocalPlayer.PlayerScripts.ChatScript.ChatMain).MessagePosted:fire("/dropitem")
@@ -174,20 +190,21 @@ local sec = page1:addSection("Auto Farm")
 
 sec:addToggle("Auto Farm", _G.farm, function(go)
 	if go then
-        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-492.606232, 66.0602646, 50.6380501, 0.997299254, -4.98696373e-08, -0.0734451637, 5.57781483e-08, 1, 7.83968446e-08, 0.0734451637, -8.22817512e-08, 0.997299254)
         _G.farm = true
         while _G.farm == true do
+            punch()
             wait()
             main()
+            farming = true
         end
     else
         _G.farm = false
+        farming = false
     end
 end)
 
 sec:addToggle("Auto Jotaro", _G.jo, function(go)
 	if go then
-        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-315.721466, 15.7958221, -10047.0596, 0.999984205, -1.23565771e-08, 0.00562177878, 1.22580204e-08, 1, 1.75656751e-08, -0.00562177878, -1.7496486e-08, 0.999984205)
         _G.jo = true
         while _G.jo == true do
             wait()
@@ -204,25 +221,39 @@ sec:addToggle("Auto Lair lvl.100", _G.lair, function(go)
         while _G.lair == true do
             wait()
             boss()
+            lairing = true
         end
     else
         _G.lair = false
+        lairing = false
     end
 end)
 local mm = page1:addSection("Misc")
-
+mm:addButton("Check Charged Arrow",function()
+    check()
+end)
 mm:addToggle("Drop Stone Mask",nil,function(go)
     if go then
         _G.drop = true
         while _G.drop == true do
-            drop()
+            drop("Stone Mask")
             wait()
         end
     else
         _G.drop = false
     end
 end)
-
+mm:addToggle("Drop Requiem Arrow",nil,function(go)
+    if go then
+        _G.drop = true
+        while _G.drop == true do
+            drop("Requiem Arrow")
+            wait()
+        end
+    else
+        _G.drop = false
+    end
+end)
 mm:addToggle("Anti AFK",nil,function(go)
     if go then
         _G.anti = true
@@ -293,5 +324,4 @@ sec2:addButton("Buy Rokaka x50",function()
     game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
     game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
 end)
-
 ui:SelectPage(ui.pages[1], true)
