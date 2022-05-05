@@ -338,7 +338,7 @@ mm:addToggle("Anti AFK",nil,function(go)
     if go then
         _G.anti = true
         while _G.anti == true do
-            wait()
+            wait(60)
             local vu = game:GetService("VirtualUser")
             game:GetService("Players").LocalPlayer.Idled:connect(function()
                 vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
