@@ -153,7 +153,7 @@ change()
 
 function summon()
     pcall(function()
-        if game.Players.LocalPlayer.Character.Stand.Head.Transparency == 1 then
+        if game.Players.LocalPlayer.Character.Stand.UpperTorso.Transparency == 1 then
             game:GetService("Players").LocalPlayer.Character.StandEvents.Summon:FireServer()
         end
     end)
