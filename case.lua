@@ -1,6 +1,6 @@
 
 local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/GreenDeno/Venyx-UI-Library/main/source.lua"))()
-local ui = library.new("Stand Upright")
+local ui = library.new("Stand Upright | ")
 
 local themes = {
 	Background = Color3.fromRGB(24, 24, 24),
@@ -26,8 +26,8 @@ _G.item = false
 
 -- status
 
-local farming = false
 local lairing = false
+local bossing = false
 
 --
 
@@ -216,9 +216,11 @@ end
 function jo()
     pcall(function()
         summon()
+        bossing = false
         local tar = nil
         for i,v in pairs(game.workspace.Living:GetChildren()) do
             if v.Name == "Jotaro Over Heaven" then
+                bossing = true
                 tar = v
             end
         end
@@ -244,21 +246,20 @@ local sec = page1:addSection("Auto Farm")
 sec:addToggle("Auto Farm", _G.farm, function(go)
 	if go then
         _G.farm = true
-        while _G.farm == true do
+        while _G.farm == true and bossing == false do
             punch()
             wait()
             main()
-            farming = true
         end
     else
         _G.farm = false
-        farming = false
     end
 end)
 
 sec:addToggle("Auto Jotaro", _G.jo, function(go)
 	if go then
         _G.jo = true
+       
         while _G.jo == true do
             wait()
             jo()
@@ -267,48 +268,50 @@ sec:addToggle("Auto Jotaro", _G.jo, function(go)
         _G.jo = false
     end
 end)
-sec:addToggle("Auto Lair lvl.40", _G.lair40, function(go)
+
+local slair = page1:addSection("Auto Lairs")
+
+slair:addToggle("Auto Lair lvl.40", _G.lair40, function(go)
 	if go then
         _G.lair40 = true
-        while _G.lair40 == true do
+        while _G.lair40 == true and bossing == false do
             wait()
             boss40()
             lairing = true
         end
     else
         _G.lair40 = false
-        lairing = false
     end
 end)
 
-sec:addToggle("Auto Lair lvl.80", _G.lair80, function(go)
+slair:addToggle("Auto Lair lvl.80", _G.lair80, function(go)
 	if go then
         _G.lair80 = true
-        while _G.lair80 == true do
+        while _G.lair80 == true and bossing == false do
             wait()
             boss80()
             lairing = true
         end
     else
         _G.lair80 = false
-        lairing = false
     end
 end)
 
-sec:addToggle("Auto Lair lvl.100", _G.lair, function(go)
+slair:addToggle("Auto Lair lvl.100", _G.lair, function(go)
 	if go then
         _G.lair = true
-        while _G.lair == true do
+        while _G.lair == true and bossing == false do
             wait()
             boss()
             lairing = true
         end
     else
         _G.lair = false
-        lairing = false
     end
 end)
+
 local mm = page1:addSection("Misc")
+
 mm:addButton("Check Charged Arrow",function()
     check()
 end)
