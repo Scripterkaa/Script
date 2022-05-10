@@ -36,6 +36,11 @@ function change()
     c.Name = num
     num = num +1
 end
+function changee()
+    local c = game:GetService("Workspace").Fartinglloll:FindFirstChild("e")
+    c.Name = num
+    num = num +1
+end
 
 function boss()
     pcall(function()
@@ -129,7 +134,7 @@ change()
 change()
 change()
 change()
-change()
+changee()
 change()
 change()
 change()
