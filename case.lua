@@ -28,6 +28,8 @@ _G.item = false
 
 local lairing = false
 local bossing = false
+local doquest
+local farmmob
 
 --
 
@@ -180,18 +182,19 @@ function clone()
 end
 function main()
     pcall(function()
+        fullyfarm()
         local tar = nil
         for i,v in pairs(game:GetService("Workspace").Fartinglloll:GetChildren()) do
-            if v.Name == "14" then
-                
-                v.Done:FireServer()
-                v.QuestDone:FireServer()
+            if doquest ~= nil then
+                if v.Name == doquest then
+                    v.Done:FireServer()
+                    v.QuestDone:FireServer()
+                end
             end
         end
         summon()
-
         for i,v in pairs(game.workspace.Living:GetChildren()) do
-            if v.Name == "Jungle Bandit" and v.Humanoid.Health ~=0 then
+            if v.Name == farmmob and v.Humanoid.Health ~=0 then
                 tar = v
             end
         end
@@ -199,7 +202,7 @@ function main()
         punch()
     end)
 end
-
+local tw
 function tween(pos,n)
     pcall(function()
         local speed = 400
@@ -210,10 +213,39 @@ function tween(pos,n)
         
         local time = distance / speed
         local info = TweenInfo.new(time)
-        local tw = ts:Create(playerpos, info, {CFrame = pos.CFrame * CFrame.new(0,0,10)})
+        tw = ts:Create(playerpos, info, {CFrame = pos.CFrame * CFrame.new(0,0,10)})
         tw:Play()
-        if n == "w" then
-            wait(time)
+        wait(time)
+    end)
+end
+
+function fullyfarm()
+    pcall(function()
+        local lvl = game.Players.LocalPlayer.Data.Level
+
+        if lvl.Value < 25 then
+            farmmob = "Jotaro Part 4"
+        elseif lvl.Value >= 25 and lvl.Value < 30 then
+            doquest = "8"
+            farmmob = "Dio Over Heaven"
+        elseif lvl.Value >= 30 and lvl.Value < 40 then
+            doquest = "9"
+            farmmob = "Yoshikage Kira"
+        elseif lvl.Value >= 40 and lvl.Value < 50 then
+            doquest = "10"
+            farmmob = "Angelo"
+        elseif lvl.Value >= 50 and lvl.Value < 65 then
+            doquest = "11"
+            farmmob = "Alien"
+        elseif lvl.Value >= 65 and lvl.Value < 75 then
+            doquest = "12"
+            farmmob = "Jotaro Part 4"
+        elseif lvl.Value >= 75 and lvl.Value < 90 then
+            doquest = "13"
+            farmmob = "Kakyoin"
+        elseif lvl.Value >= 90 then
+            doquest = "14"
+            farmmob = "Jungle Bandit"
         end
     end)
 end
@@ -234,7 +266,6 @@ function jo()
         punch()
     end)
 end
-
 function drop(a)
     pcall(function()
         local toosl = game:GetService("Players").LocalPlayer.Backpack:FindFirstChild(a)
@@ -251,7 +282,7 @@ local sec = page1:addSection("Auto Farm")
 sec:addToggle("Auto Farm", _G.farm, function(go)
 	if go then
         _G.farm = true
-        while _G.farm == true and bossing == false do
+        while _G.farm == true do
             punch()
             wait()
             main()
@@ -279,7 +310,7 @@ local slair = page1:addSection("Auto Lairs")
 slair:addToggle("Auto Lair lvl.40", _G.lair40, function(go)
 	if go then
         _G.lair40 = true
-        while _G.lair40 == true and bossing == false do
+        while _G.lair40 == true do
             wait()
             boss40()
             lairing = true
@@ -292,7 +323,7 @@ end)
 slair:addToggle("Auto Lair lvl.80", _G.lair80, function(go)
 	if go then
         _G.lair80 = true
-        while _G.lair80 == true and bossing == false do
+        while _G.lair80 == true  do
             wait()
             boss80()
             lairing = true
@@ -305,7 +336,7 @@ end)
 slair:addToggle("Auto Lair lvl.100", _G.lair, function(go)
 	if go then
         _G.lair = true
-        while _G.lair == true and bossing == false do
+        while _G.lair == true do
             wait()
             boss()
             lairing = true
