@@ -34,12 +34,12 @@ local farmmob
 --
 
 function change()
-    local c = game:GetService("Workspace").Fartinglloll:FindFirstChild("ratio")
+    local c = game:GetService("Workspace").Ichangedthenameagainratio:FindFirstChild("ratio")
     c.Name = num
     num = num +1
 end
 function changee()
-    local c = game:GetService("Workspace").Fartinglloll:FindFirstChild("e")
+    local c = game:GetService("Workspace").Ichangedthenameagainratio:FindFirstChild("e")
     c.Name = num
     num = num +1
 end
