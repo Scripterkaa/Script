@@ -30,23 +30,24 @@ local lairing = false
 local bossing = false
 local doquest
 local farmmob
+local folname = "dawg"
 
 --
 
 function change()
-    local c = game:GetService("Workspace")["whoisthename?"]:FindFirstChild("ratio")
+    local c = game:GetService("Workspace")[folname]:FindFirstChild("ratio")
     c.Name = num
     num = num +1
 end
 function changee()
-    local c = game:GetService("Workspace")["whoisthename?"]:FindFirstChild("e")
+    local c = game:GetService("Workspace")[folname]:FindFirstChild("e")
     c.Name = num
     num = num +1
 end
 
 function boss()
     pcall(function()
-        for _,k in pairs(game:GetService("Workspace")["whoisthename?"]:GetChildren()) do
+        for _,k in pairs(game:GetService("Workspace")[folname]:GetChildren()) do
             if k.Name == "28" then
                 k.Done:FireServer()
             end
@@ -69,7 +70,7 @@ end
 
 function boss40()
     pcall(function()
-        for _,k in pairs(game:GetService("Workspace")["whoisthename?"]:GetChildren()) do
+        for _,k in pairs(game:GetService("Workspace")[folname]:GetChildren()) do
             if k.Name == "21" then
                 k.Done:FireServer()
             end
@@ -94,7 +95,7 @@ end
 
 function boss80()
     pcall(function()
-        for _,k in pairs(game:GetService("Workspace")["whoisthename?"]:GetChildren()) do
+        for _,k in pairs(game:GetService("Workspace")[folname]:GetChildren()) do
             if k.Name == "27" then
                 k.Done:FireServer()
             end
@@ -184,7 +185,7 @@ function main()
     pcall(function()
         fullyfarm()
         local tar = nil
-        for i,v in pairs(game:GetService("Workspace")["whoisthename?"]:GetChildren()) do
+        for i,v in pairs(game:GetService("Workspace")[folname]:GetChildren()) do
             if doquest ~= nil then
                 if v.Name == doquest then
                     v.Done:FireServer()
