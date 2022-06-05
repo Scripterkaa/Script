@@ -1,7 +1,7 @@
 
 local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/GreenDeno/Venyx-UI-Library/main/source.lua"))()
 local ui = library.new("Stand Upright | ")
-
+loadstring(game:HttpGet'https://github.com/sannin9000/scripts/raw/main/Stand%20Upright%20Bypass.lua')()
 local themes = {
 	Background = Color3.fromRGB(24, 24, 24),
 	Glow = Color3.fromRGB(0, 0, 0),
@@ -198,6 +198,9 @@ function main()
             if v.Name == farmmob and v.Humanoid.Health ~=0 then
                 tar = v
             end
+            if v.Humanoid.Health == 0 then
+                tween(game:GetService("Workspace").gettingbdLOLLLL.HumanoidRootPart)
+            end
         end
         tween(tar.HumanoidRootPart)
         punch()
@@ -206,17 +209,9 @@ end
 local tw
 function tween(pos,n)
     pcall(function()
-        local speed = 400
         local playerpos = game.Players.LocalPlayer.Character.HumanoidRootPart
-        local newpos = pos.Position
-        local ts = game:GetService("TweenService")  
-        local distance = (playerpos.Position - newpos).magnitude
-        
-        local time = distance / speed
-        local info = TweenInfo.new(time)
-        tw = ts:Create(playerpos, info, {CFrame = pos.CFrame * CFrame.new(0,0,10)})
-        tw:Play()
-        wait(time)
+        local newpos = pos.CFrame
+        playerpos.CFrame = newpos * CFrame.new(0,0,7)
     end)
 end
 
