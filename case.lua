@@ -15,6 +15,7 @@ local tar
 
 --
 
+_G.ham = false
 _G.farm = false
 _G.jo = false
 _G.lair80 = false
@@ -44,7 +45,15 @@ function changee()
     c.Name = num
     num = num +1
 end
+function hamoncharge()
+    pcall(function()
+        local args = {
+            [1] = true
+        }
 
+        game:GetService("Players").LocalPlayer.Character.SecondaryHandler.B:FireServer(unpack(args))
+    end)
+end
 function boss()
     pcall(function()
         for _,k in pairs(game:GetService("Workspace")[folname]:GetChildren()) do
@@ -331,7 +340,18 @@ sec:addToggle("Auto Farm", _G.farm, function(go)
         _G.farm = false
     end
 end)
-
+sec:addToggle("Auto Charge Hamon", nil, function(go)
+	if go then
+        _G.ham = true
+       
+        while _G.ham == true do
+            wait()
+            hamoncharge()
+        end
+    else
+        _G.ham = false
+    end
+end)
 sec:addToggle("Auto Jotaro", _G.jo, function(go)
 	if go then
         _G.jo = true
