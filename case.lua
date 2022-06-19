@@ -330,6 +330,31 @@ function drop(a)
     end)
 end
 
+function pick(a)
+    pcall(function()
+        local toosl = game:GetService("Players").LocalPlayer.Backpack:FindFirstChild(a)
+        toosl.Parent = game:GetService("Players").LocalPlayer.Character
+    end)
+end
+
+function Randomleg(a)
+    pcall(function()
+        local currentatt = game.Players.LocalPlayer.Data.Attri
+        local currentst = game.Players.LocalPlayer.Data.Stand
+        if currentatt.Value ~= "Legendary" then
+            if currentst.Value ~= "None" then
+                pick("Rokakaka")
+                game:GetService("Players").LocalPlayer.Character.Rokakaka.Use:FireServer()
+                wait(1.5)
+            elseif currentst.Value == "None" then
+                pick(a)
+                game:GetService("Players").LocalPlayer.Character:FindFirstChild(a).Use:FireServer()
+                wait(5)
+            end
+        end
+    end)
+end
+
 local page1 = ui:addPage("Main", 5012540643)
 
 local sec = page1:addSection("Auto Farm")
@@ -442,6 +467,7 @@ end)
 mm:addButton("FPS Boost",function()
     fpsboost()
 end)
+
 mm:addToggle("Anti AFK",nil,function(go)
     if go then
         _G.anti = true
@@ -458,11 +484,35 @@ mm:addToggle("Anti AFK",nil,function(go)
         _G.anti = false
     end
 end)
-mm:addKeybind("Toggle", Enum.KeyCode.RightControl,function()
-    ui:toggle()
+local sta = ui:addPage("Stand", 5012537953)
+local autoran = sta:addSection("Auto Random")
+
+autoran:addToggle("| | Auto Find LEGENDARY (Stand Arrow)",_G.autoleg,function(go)
+    if go then
+        _G.autoleg = true
+        while _G.autoleg == true do
+            wait()
+            Randomleg("Stand Arrow")
+        end
+    else
+        _G.autoleg = false
+    end
+end)
+
+autoran:addToggle("| | Auto Find LEGENDARY (Charged Arrow)",_G.autoleg,function(go)
+    if go then
+        _G.autoleg = true
+        while _G.autoleg == true do
+            wait()
+            Randomleg("Charged Arrow")
+        end
+    else
+        _G.autoleg = false
+    end
 end)
 
 local page2 = ui:addPage("Shop", 5012537953)
+
 local autobuy = page2:addSection("Auto Shop")
 
 autobuy:addToggle("Auto Buy Standard Arrow",nil,function(go)
