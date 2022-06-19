@@ -223,10 +223,14 @@ function tween(pos,n)
     pcall(function()
         local playerpos = game.Players.LocalPlayer.Character.HumanoidRootPart
         local newpos = pos.CFrame
-        playerpos.CFrame = newpos * CFrame.new(0,0,7)
+        playerpos.CFrame = newpos * CFrame.new(0,0,3)
     end)
 end
-
+function bringstand()
+    pcall(function()
+        game.Players.LocalPlayer.Character.Stand.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+    end)
+end
 function fullyfarm()
     pcall(function()
         local lvl = game.Players.LocalPlayer.Data.Level
@@ -363,7 +367,7 @@ sec:addToggle("Auto Farm", _G.farm, function(go)
 	if go then
         _G.farm = true
         while _G.farm == true do
-            punch()
+            bringstand()
             wait()
             main()
         end
