@@ -1,15 +1,9 @@
 
-local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/GreenDeno/Venyx-UI-Library/main/source.lua"))()
-local ui = library.new("Stand Upright | ")
+local library = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+
+local ui = library:MakeWindow({Name = "Stand Upright", HidePremium = false, SaveConfig = false, ConfigFolder = "Nothing"})
 loadstring(game:HttpGet'https://github.com/sannin9000/scripts/raw/main/Stand%20Upright%20Bypass.lua')()
-local themes = {
-	Background = Color3.fromRGB(24, 24, 24),
-	Glow = Color3.fromRGB(0, 0, 0),
-	Accent = Color3.fromRGB(10, 10, 10),
-	LightContrast = Color3.fromRGB(20, 20, 20),
-	DarkContrast = Color3.fromRGB(14, 14, 14),  
-	TextColor = Color3.fromRGB(255, 0, 0)
-}
+
 local num = 1
 local tar
 
@@ -27,7 +21,6 @@ _G.drop = false
 _G.item = false
 
 -- status
-
 local lairing = false
 local bossing = false
 local doquest
@@ -128,17 +121,6 @@ function boss80()
     end)
 end
 
-function check()
-    pcall(function()
-        local am = 0
-        for i,v in pairs(game:GetService("Players").LocalPlayer.Backpack:GetChildren()) do
-            if v.Name == "Charged Arrow" then
-                am = am +1
-            end
-        end
-        ui:Notify("Amount",am)
-    end)
-end
 change()
 change()
 change()
@@ -359,275 +341,275 @@ function Randomleg(a)
     end)
 end
 
-local page1 = ui:addPage("Main", 5012540643)
+local page1 = ui:MakeTab({
+    Name = "Main"
+})
 
-local sec = page1:addSection("Auto Farm")
+local sec = page1:AddSection({
+    Name = "Auto Farm"
+})
 
-sec:addToggle("Auto Farm", _G.farm, function(go)
-	if go then
-        _G.farm = true
-        while _G.farm == true do
-            bringstand()
-            wait()
-            main()
+sec:AddToggle({
+	Name = "Auto Farm",
+	Default = false,
+	Callback = function(go)
+		if go then
+            _G.farm = true
+            while _G.farm == true do
+                bringstand()
+                wait()
+                main()
+            end
+        else
+            _G.farm = false
         end
-    else
-        _G.farm = false
-    end
-end)
-sec:addToggle("Auto Charge Hamon", nil, function(go)
-	if go then
-        _G.ham = true
-       
-        while _G.ham == true do
-            wait()
-            hamoncharge()
+	end    
+})
+	
+sec:AddToggle({
+	Name = "Auto Jotaro",
+	Default = false,
+	Callback = function(go)
+		if go then
+            _G.jo = true
+           
+            while _G.jo == true do
+                wait()
+                jo()
+            end
+        else
+            _G.jo = false
         end
-    else
-        _G.ham = false
-    end
-end)
-sec:addToggle("Auto Jotaro", _G.jo, function(go)
-	if go then
-        _G.jo = true
-       
-        while _G.jo == true do
-            wait()
-            jo()
+	end    
+})
+
+local slair = page1:AddSection({
+    Name = "Auto Lairs"
+})
+
+slair:AddToggle({
+	Name = "Auto Lairs Lv.40",
+	Default = false,
+	Callback = function(go)
+		if go then
+            _G.lair40 = true
+            while _G.lair40 == true do
+                wait()
+                boss40()
+                lairing = true
+            end
+        else
+            _G.lair40 = false
         end
-    else
-        _G.jo = false
-    end
-end)
+	end    
+})
 
-local slair = page1:addSection("Auto Lairs")
 
-slair:addToggle("Auto Lair lvl.40", _G.lair40, function(go)
-	if go then
-        _G.lair40 = true
-        while _G.lair40 == true do
-            wait()
-            boss40()
-            lairing = true
+slair:AddToggle({
+	Name = "Auto Lairs Lv.80",
+	Default = false,
+	Callback = function(go)
+		if go then
+            _G.lair80 = true
+            while _G.lair80 == true do
+                wait()
+                boss80()
+                lairing = true
+            end
+        else
+            _G.lair80 = false
         end
-    else
-        _G.lair40 = false
-    end
-end)
+	end    
+})
 
-slair:addToggle("Auto Lair lvl.80", _G.lair80, function(go)
-	if go then
-        _G.lair80 = true
-        while _G.lair80 == true  do
-            wait()
-            boss80()
-            lairing = true
+slair:AddToggle({
+	Name = "Auto Lairs Lv.100",
+	Default = false,
+	Callback = function(go)
+		if go then
+            _G.lair = true
+            while _G.lair == true do
+                wait()
+                boss()
+                lairing = true
+            end
+        else
+            _G.lair = false
         end
-    else
-        _G.lair80 = false
-    end
-end)
+	end    
+})
 
-slair:addToggle("Auto Lair lvl.100", _G.lair, function(go)
-	if go then
-        _G.lair = true
-        while _G.lair == true do
-            wait()
-            boss()
-            lairing = true
+local mm = page1:AddSection({
+    Name = "Misc"
+})
+
+mm:AddToggle({
+	Name = "Drop Stone Mask",
+	Default = false,
+	Callback = function(go)
+		if go then
+            _G.drop = true
+            while _G.drop == true do
+                drop("Stone Mask")
+                wait()
+            end
+        else
+            _G.drop = false
         end
-    else
-        _G.lair = false
-    end
-end)
+	end    
+})
 
-local mm = page1:addSection("Misc")
-
-mm:addButton("Check Charged Arrow",function()
-    check()
-end)
-mm:addToggle("Drop Stone Mask",nil,function(go)
-    if go then
-        _G.drop = true
-        while _G.drop == true do
-            drop("Stone Mask")
-            wait()
+mm:AddToggle({
+	Name = "Anti AFK",
+	Default = false,
+	Callback = function(go)
+		if go then
+            _G.anti = true
+            while _G.anti == true do
+                wait(60)
+                local vu = game:GetService("VirtualUser")
+                game:GetService("Players").LocalPlayer.Idled:connect(function()
+                    vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+                    wait(1)
+                    vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+                end)
+            end
+        else
+            _G.anti = false
         end
-    else
-        _G.drop = false
-    end
-end)
-mm:addToggle("Drop Requiem Arrow",nil,function(go)
-    if go then
-        _G.drop = true
-        while _G.drop == true do
-            drop("Requiem Arrow")
-            wait()
-        end
-    else
-        _G.drop = false
-    end
-end)
-mm:addButton("FPS Boost",function()
-    fpsboost()
-end)
+	end    
+})
+local sta = ui:MakeTab({
+    Name = "Stand"
+})
+local autoran = sta:AddSection({
+    Name = "Legendary!!"
+})
 
-mm:addToggle("Anti AFK",nil,function(go)
-    if go then
-        _G.anti = true
-        while _G.anti == true do
-            wait(60)
-            local vu = game:GetService("VirtualUser")
-            game:GetService("Players").LocalPlayer.Idled:connect(function()
-                vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+autoran:AddToggle({
+	Name = "Auto Find LEGENDARY (STAND ARROW)",
+	Default = false,
+	Callback = function(go)
+		if go then
+            _G.autoleg = true
+            while _G.autoleg == true do
+                wait()
+                Randomleg("Stand Arrow")
+            end
+        else
+            _G.autoleg = false
+        end
+	end    
+})
+
+autoran:AddToggle({
+	Name = "Auto Find LEGENDARY (CHARGED ARROW)",
+	Default = false,
+	Callback = function(go)
+		if go then
+            _G.autoleg = true
+            while _G.autoleg == true do
+                wait()
+                Randomleg("Charged Arrow")
+            end
+        else
+            _G.autoleg = false
+        end
+	end    
+})
+
+local page2 = ui:MakeTab({
+    Name = "Shop"
+})
+
+local autobuy = page2:AddSection({
+    Name = "Auto Shop"
+})
+
+autobuy:AddToggle({
+	Name = "Auto Buy Arrow",
+	Default = false,
+	Callback = function(go)
+		if go then
+            _G.autoarrow = true
+            while _G.autoarrow == true do
                 wait(1)
-                vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
-            end)
-        end
-    else
-        _G.anti = false
-    end
-end)
-local sta = ui:addPage("Stand", 5012537953)
-local autoran = sta:addSection("Auto Random")
-
-autoran:addToggle("| | Auto Find LEGENDARY (Stand Arrow)",_G.autoleg,function(go)
-    if go then
-        _G.autoleg = true
-        while _G.autoleg == true do
-            wait()
-            Randomleg("Stand Arrow")
-        end
-    else
-        _G.autoleg = false
-    end
-end)
-
-autoran:addToggle("| | Auto Find LEGENDARY (Charged Arrow)",_G.autoleg,function(go)
-    if go then
-        _G.autoleg = true
-        while _G.autoleg == true do
-            wait()
-            Randomleg("Charged Arrow")
-        end
-    else
-        _G.autoleg = false
-    end
-end)
-
-local page2 = ui:addPage("Shop", 5012537953)
-
-local autobuy = page2:addSection("Auto Shop")
-
-autobuy:addToggle("Auto Buy Standard Arrow",nil,function(go)
-    if go then
-        _G.autoarrow = true
-        while _G.autoarrow == true do
-            wait(1)
-            local amount = 0
-            for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-                if v.Name == "Stand Arrow" then
-                    amount = amount +1
+                local amount = 0
+                for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+                    if v.Name == "Stand Arrow" then
+                        amount = amount +1
+                    end
+                end
+                if amount == 0 then
+                    local args = {
+                        [1] = "MerchantAU",
+                        [2] = "Option3"
+                    }
+                    
+                    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
                 end
             end
-            if amount == 0 then
-                local args = {
-                    [1] = "MerchantAU",
-                    [2] = "Option3"
-                }
-                
-                game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
-            end
+        else
+            _G.autoarrow = false
         end
-    else
-        _G.autoarrow = false
-    end
-end)
-autobuy:addToggle("Auto Buy Rokakaka",nil,function(go)
-    if go then
-        _G.autoroka = true
-        while _G.autoroka == true do
-            wait(1)
-            local amountr = 0
-            for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-                if v.Name == "Rokakaka" then
-                    amountr = amountr +1
+	end
+})
+autobuy:AddToggle({
+	Name = "Auto Buy Rokakaka",
+	Default = false,
+	Callback = function(go)
+		if go then
+            _G.autoroka = true
+            while _G.autoroka == true do
+                wait(1)
+                local amountr = 0
+                for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+                    if v.Name == "Rokakaka" then
+                        amountr = amountr +1
+                    end
+                end
+                if amountr == 0 then
+                    local args = {
+                        [1] = "MerchantAU",
+                        [2] = "Option1"
+                    }
+                    
+                    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
                 end
             end
-            if amountr == 0 then
-                local args = {
-                    [1] = "MerchantAU",
-                    [2] = "Option1"
-                }
-                
-                game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
-            end
+        else
+            _G.autoroka = false
         end
-    else
-        _G.autoroka = false
-    end
-end)
-
-local sec2 = page2:addSection("Lite Shop")
-
+	end
+})
+local sec2 = page2:AddSection({
+    Name = "Lite Shop"
+})
 
 
-sec2:addButton("Buy Standard Arrow x5",function()
-    local args = {
-        [1] = "MerchantAU",
-        [2] = "Option3"
-    }
+
+sec2:AddButton({
+	Name = "Buy x5 Arrow!",
+	Callback = function()
+        local args = {
+            [1] = "MerchantAU",
+            [2] = "Option3"
+        }
+        
+        game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
+  	end    
+})
     
-    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
-end)
 
-sec2:addButton("Buy Rokakaka x5",function()
-    local args = {
-        [1] = "MerchantAU",
-        [2] = "Option1"
-    }
-    
-    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
-end)
 
-local hb = page2:addSection("Huge Shop")
-
-hb:addButton("Buy Stand Arrow x50",function()
-    -- Script generated by SimpleSpy - credits to exx#9394
-
-local args = {
-    [1] = "MerchantAU",
-    [2] = "Option3"
-}
-
-game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
-
-    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
-    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
-    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
-    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
-    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
-    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
-    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
-    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
-    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
-    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
-end)
-hb:addButton("Buy Rokaka x50",function()
-    local args = {
-        [1] = "MerchantAU",
-        [2] = "Option1"
-    }
-    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
-    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
-    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
-    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
-    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
-    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
-    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
-    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
-    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
-    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
-end)
-
-ui:SelectPage(ui.pages[1], true)
+sec2:AddButton({
+	Name = "Buy x5 Rokakaka!",
+	Callback = function()
+        local args = {
+            [1] = "MerchantAU",
+            [2] = "Option1"
+        }
+        
+        game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
+  	end    
+})
