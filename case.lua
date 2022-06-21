@@ -294,7 +294,9 @@ end
 function invisible()
     pcall(function()
         local oldpos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
-        
+        tween(game:GetService("Workspace").gettingbdLOLLLL.HumanoidRootPart)
+        game.Players.LocalPlayer.Character.LowerTorso:Destroy()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = oldpos
     end)
 end
 
@@ -335,6 +337,10 @@ function Randomleg(a)
         local currentatt = game.Players.LocalPlayer.Data.Attri
         local currentst = game.Players.LocalPlayer.Data.Stand
         if currentatt.Value ~= "Legendary" then
+
+            print(currentst)
+            print(currentatt)
+            
             if currentst.Value ~= "None" then
                 pick("Rokakaka")
                 game:GetService("Players").LocalPlayer.Character.Rokakaka.Use:FireServer()
@@ -454,6 +460,12 @@ mm:AddButton({
 	Name = "Open Stand Storage",
 	Callback = function()
         game:GetService("Workspace")[folname][3].Done:FireServer()
+  	end    
+})
+mm:AddButton({
+	Name = "Invisible",
+	Callback = function()
+        invisible()
   	end    
 })
 mm:AddToggle({
