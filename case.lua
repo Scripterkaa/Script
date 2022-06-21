@@ -342,7 +342,7 @@ function Randomleg(a)
             elseif currentst.Value == "None" then
                 pick(a)
                 game:GetService("Players").LocalPlayer.Character:FindFirstChild(a).Use:FireServer()
-                wait(5)
+                wait(4)
             end
         end
     end)
@@ -510,47 +510,8 @@ local antiafk = mm:AddToggle({
 local sta = ui:MakeTab({
     Name = "Stand"
 })
-local autoran = sta:AddSection({
-    Name = "Legendary!!"
-})
 
-autoran:AddToggle({
-	Name = "Auto Find LEGENDARY (STAND ARROW)",
-	Default = false,
-	Callback = function(go)
-		if go then
-            _G.autoleg = true
-            while _G.autoleg == true do
-                wait()
-                Randomleg("Stand Arrow")
-            end
-        else
-            _G.autoleg = false
-        end
-	end    
-})
-
-autoran:AddToggle({
-	Name = "Auto Find LEGENDARY (CHARGED ARROW)",
-	Default = false,
-	Callback = function(go)
-		if go then
-            _G.autoleg = true
-            while _G.autoleg == true do
-                wait()
-                Randomleg("Charged Arrow")
-            end
-        else
-            _G.autoleg = false
-        end
-	end    
-})
-
-local page2 = ui:MakeTab({
-    Name = "Shop"
-})
-
-local autobuy = page2:AddSection({
+local autobuy = sta:AddSection({
     Name = "Auto Shop"
 })
 
@@ -610,6 +571,46 @@ autobuy:AddToggle({
         end
 	end
 })
+local autoran = sta:AddSection({
+    Name = "Legendary!!"
+})
+autoran:AddToggle({
+	Name = "Auto Find LEGENDARY (STAND ARROW)",
+	Default = false,
+	Callback = function(go)
+		if go then
+            _G.autoleg = true
+            while _G.autoleg == true do
+                wait()
+                Randomleg("Stand Arrow")
+            end
+        else
+            _G.autoleg = false
+        end
+	end    
+})
+
+autoran:AddToggle({
+	Name = "Auto Find LEGENDARY (CHARGED ARROW)",
+	Default = false,
+	Callback = function(go)
+		if go then
+            _G.autoleg = true
+            while _G.autoleg == true do
+                wait()
+                Randomleg("Charged Arrow")
+            end
+        else
+            _G.autoleg = false
+        end
+	end    
+})
+
+local page2 = ui:MakeTab({
+    Name = "Shop"
+})
+
+
 local sec2 = page2:AddSection({
     Name = "Lite Shop"
 })
