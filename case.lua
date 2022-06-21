@@ -1,7 +1,7 @@
 
 local library = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 
-local ui = library:MakeWindow({Name = "Stand Upright", HidePremium = false, SaveConfig = false, ConfigFolder = "Nothing"})
+local ui = library:MakeWindow({Name = "Stand Upright", HidePremium = true, IntroText = "Enjoy the Script"})
 loadstring(game:HttpGet'https://github.com/sannin9000/scripts/raw/main/Stand%20Upright%20Bypass.lua')()
 
 local num = 1
@@ -291,6 +291,13 @@ function fpsboost()
     end)
 end
 
+function invisible()
+    pcall(function()
+        local oldpos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+        
+    end)
+end
+
 function jo()
     pcall(function()
         summon()
@@ -353,6 +360,7 @@ sec:AddToggle({
 	Name = "Auto Farm",
 	Default = false,
 	Callback = function(go)
+        
 		if go then
             _G.farm = true
             while _G.farm == true do
@@ -442,7 +450,27 @@ slair:AddToggle({
 local mm = page1:AddSection({
     Name = "Misc"
 })
-
+mm:AddButton({
+	Name = "Open Stand Storage",
+	Callback = function()
+        game:GetService("Workspace")[folname][3].Done:FireServer()
+  	end    
+})
+mm:AddToggle({
+	Name = "Drop Requiem Arrow",
+	Default = false,
+	Callback = function(go)
+		if go then
+            _G.drop = true
+            while _G.drop == true do
+                drop("Requiem Arrow")
+                wait()
+            end
+        else
+            _G.drop = false
+        end
+	end    
+})
 mm:AddToggle({
 	Name = "Drop Stone Mask",
 	Default = false,
@@ -459,7 +487,7 @@ mm:AddToggle({
 	end    
 })
 
-mm:AddToggle({
+local antiafk = mm:AddToggle({
 	Name = "Anti AFK",
 	Default = false,
 	Callback = function(go)
