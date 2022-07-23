@@ -8,6 +8,7 @@ local num = 1
 local tar
 
 --
+_G.lair200 = false
 _G.autoarrow = false
 _G.autoroka = false
 _G.ham = false
@@ -120,7 +121,31 @@ function boss80()
         
     end)
 end
-
+function boss200()
+    pcall(function()
+        for _,k in pairs(game:GetService("Workspace")[folname]:GetChildren()) do
+            if k.Name == "32" then
+                k.Done:FireServer()
+            end
+        end
+        for i,v in pairs(game:GetService("Workspace").Living:GetChildren()) do
+            if v.Name == "Boss" and v.Head.Display.Frame.t.Text == "Jotaro P6 [Dungeon]" then
+                v.Humanoid.Health = 0
+                summon()
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0,0,8.5)
+                v.Humanoid.Health = 0
+                            
+                summon()
+                v.Humanoid.Health = 0
+                v.Humanoid.Health = 0
+                v.Humanoid.Health = 0
+                punch()
+            end
+        end
+        
+    end)
+end
+--33
 change()
 change()
 change()
@@ -132,6 +157,8 @@ change()
 change()
 change()
 changee()
+change()
+change()
 change()
 change()
 change()
@@ -449,6 +476,22 @@ slair:AddToggle({
             end
         else
             _G.lair = false
+        end
+	end    
+})
+slair:AddToggle({
+	Name = "Auto Lairs Lv.200",
+	Default = false,
+	Callback = function(go)
+		if go then
+            _G.lair200 = true
+            while _G.lair200 == true do
+                wait()
+                boss200()
+                lairing = true
+            end
+        else
+            _G.lair200 = false
         end
 	end    
 })
