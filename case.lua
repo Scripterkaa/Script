@@ -267,9 +267,12 @@ function fullyfarm()
         elseif lvl.Value >= 90 and lvl.Value < 130 then
             doquest = "14"
             farmmob = "Jungle Bandit"
-        elseif lvl.Value >= 130 then
+        elseif lvl.Value >= 130 and lvl.Value < 300 then
             doquest = "30"
             farmmob = "Sewer Vampire"
+        elseif lvl.Value >= 300 then
+            doquest = "33"
+            farmmob = "Pillerman"
         end
     end)
 end
