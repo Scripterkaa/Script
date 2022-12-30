@@ -6,7 +6,7 @@ loadstring(game:HttpGet'https://github.com/sannin9000/scripts/raw/main/Stand%20U
 
 local num = 1
 local tar
-
+local randomcount = 0
 --
 _G.lair200 = false
 _G.autoarrow = false
@@ -334,8 +334,6 @@ function Randomleg(a)
         
         if currentatt.Value ~= "Legendary" then
 
-            print(currentst.Value)
-            print(currentatt.Value)
             
             if currentst.Value ~= "None" then
                 pick("Rokakaka")
@@ -345,7 +343,10 @@ function Randomleg(a)
                 pick(a)
                 game:GetService("Players").LocalPlayer.Character:FindFirstChild(a).Use:FireServer()
                 wait(4)
-                
+                randomcount = randomcount + 1
+                print("สุ่มไปแล้ว",randomcount,"รอบ")
+                print("Stand:",currentst.Value)
+                print("Attribute:",currentatt.Value)
             end
         else
             webhook()
@@ -483,7 +484,7 @@ function webhook()
             {
                 ["embeds"]= {
                     {            
-                        ["title"]= "";
+                        ["title"]= "เห้ยๆๆ ไอเหี้ยมีคนได้ๆ";
                         ["color"]= tonumber(0x7269da);
                         
                         ["fields"]= {
