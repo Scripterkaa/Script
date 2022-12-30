@@ -1,4 +1,5 @@
-
+local webhook_url = _G.web
+print(_G.web)
 local library = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 
 local ui = library:MakeWindow({Name = "Stand Upright", HidePremium = true, IntroText = "Enjoy the Script"})
@@ -360,7 +361,6 @@ function Randomleg(a)
                 print("Stand:",currentst.Value)
                 print("Attribute:",currentatt.Value)
                 attcount()
-		webhook()
                 if randomcount == nextweb then
                     webhookatt()
                     nextweb = nextweb + 10
@@ -529,7 +529,7 @@ function webhook()
         local Encoded = HttpService:JSONEncode(Data)
 
         Request = http_request or request or HttpPost or syn.request
-        local Final = {Url = _G.web, Body = Encoded, Method = "POST", Headers = Headers}
+        local Final = {Url = webhook_url, Body = Encoded, Method = "POST", Headers = Headers}
         Request(Final)
     end)
 end
@@ -604,7 +604,7 @@ function webhookatt()
         local Encoded = HttpService:JSONEncode(Data)
 
         Request = http_request or request or HttpPost or syn.request
-        local Final = {Url = _G.web, Body = Encoded, Method = "POST", Headers = Headers}
+        local Final = {Url = webhook_url, Body = Encoded, Method = "POST", Headers = Headers}
         Request(Final)
     end)
 end
