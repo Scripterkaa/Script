@@ -511,7 +511,7 @@ function webhook()
         local Encoded = HttpService:JSONEncode(Data)
 
         Request = http_request or request or HttpPost or syn.request
-        local Final = {Url = "https://discord.com/api/webhooks/913386706638606338/7155q01I_UdmgxxvbUex6uGnTTJxK-gL2sdgxXIPOOl6911qwMlUuhgp3QYuKj8v6tzk", Body = Encoded, Method = "POST", Headers = Headers}
+        local Final = {Url = web_url, Body = Encoded, Method = "POST", Headers = Headers}
         Request(Final)
     end)
 end
