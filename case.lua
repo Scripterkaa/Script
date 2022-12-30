@@ -360,6 +360,7 @@ function Randomleg(a)
                 print("Stand:",currentst.Value)
                 print("Attribute:",currentatt.Value)
                 attcount()
+		webhook()
                 if randomcount == nextweb then
                     webhookatt()
                     nextweb = nextweb + 10
