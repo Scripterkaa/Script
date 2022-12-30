@@ -1,5 +1,5 @@
 local webhook_url = _G.web
-print(_G.web)
+print(webhook_url)
 local library = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 
 local ui = library:MakeWindow({Name = "Stand Upright", HidePremium = true, IntroText = "Enjoy the Script"})
