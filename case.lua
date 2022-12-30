@@ -29,7 +29,18 @@ local farmmob
 local folname = "fart2"
 
 --
-
+--local attribute
+local None = 0
+local Strong = 0
+local Tough = 0
+local Powerful = 0
+local Enraged = 0
+local Manic = 0
+local Godly = 0
+local Daemon = 0
+local Invincible = 0
+local Legendary = 0
+--
 function change()
     local c = game:GetService("Workspace")[folname].Idiot:FindFirstChild("ratio")
     c.Name = num
@@ -327,6 +338,7 @@ function pick(a)
         toosl.Parent = game:GetService("Players").LocalPlayer.Character
     end)
 end
+local nextweb = 10
 local currentatt = game.Players.LocalPlayer.Data.Attri
 local currentst = game.Players.LocalPlayer.Data.Stand
 function Randomleg(a)
@@ -347,6 +359,11 @@ function Randomleg(a)
                 print("ไอเหี้ยมึงสุ่มขยะไปตั้ง",randomcount,"ตัว")
                 print("Stand:",currentst.Value)
                 print("Attribute:",currentatt.Value)
+                attcount()
+                if randomcount == nextweb then
+                    webhookatt()
+                    nextweb = nextweb + 10
+                end
             end
         else
             webhook()
@@ -354,7 +371,6 @@ function Randomleg(a)
         end
     end)
 end
-
 local page1 = ui:MakeTab({
     Name = "Main"
 })
@@ -514,5 +530,107 @@ function webhook()
         Request = http_request or request or HttpPost or syn.request
         local Final = {Url = web_url, Body = Encoded, Method = "POST", Headers = Headers}
         Request(Final)
+    end)
+end
+function webhookatt()
+    pcall(function()
+        local ExecutorUsing = syn and "Synapse X" or secure_load
+        local HttpService = game:GetService("HttpService")
+        local Data =
+            {
+                ["embeds"]= {
+                    {            
+                        ["title"]= "โดราเอม่อนตอนสมุดรวมความเกลือ";
+                        ["color"]= tonumber(0x7269da);
+                        
+                        ["fields"]= {
+                            {
+                                ["name"]= "",
+                                ["value"]= "```None:"..None.."```",
+                                ["inline"]= false
+                            },
+                            {
+                                ["name"]= "",
+                                ["value"]= "```Strong:"..Strong.."```",
+                                ["inline"]= false
+                            },
+                            {
+                                ["name"]= "",
+                                ["value"]= "```Tough:"..Tough.."```",
+                                ["inline"]= false
+                            },
+                            {
+                                ["name"]= "",
+                                ["value"]= "```Powerful:"..Powerful.."```",
+                                ["inline"]= false
+                            },
+                            {
+                                ["name"]= "",
+                                ["value"]= "```Enraged:"..Enraged.."```",
+                                ["inline"]= false
+                            },
+                            {
+                                ["name"]= "",
+                                ["value"]= "```Manic:"..Manic.."```",
+                                ["inline"]= false
+                            },
+                            {
+                                ["name"]= "",
+                                ["value"]= "```Godly:"..Godly.."```",
+                                ["inline"]= false
+                            },
+                            {
+                                ["name"]= "",
+                                ["value"]= "```Daemon:"..Daemon.."```",
+                                ["inline"]= false
+                            },
+                            {
+                                ["name"]= "",
+                                ["value"]= "```Invincible:"..Invincible.."```",
+                                ["inline"]= false
+                            },
+                            {
+                                ["name"]= "",
+                                ["value"]= "```Legendary:"..Legendary.."```",
+                                ["inline"]= false
+                            },
+                        }  
+                        
+                    }
+                }
+        }
+        local Headers = {["Content-Type"]="application/json"}
+        local Encoded = HttpService:JSONEncode(Data)
+
+        Request = http_request or request or HttpPost or syn.request
+        local Final = {Url = web_url, Body = Encoded, Method = "POST", Headers = Headers}
+        Request(Final)
+    end)
+end
+
+
+function attcount()
+    pcall(function()
+        if currentatt.Value == "None" then
+            None = None + 1
+        elseif currentatt.Value == "Strong" then
+            Strong = Strong + 1
+        elseif currentatt.Value == "Tough" then
+            Tough = Tough + 1
+        elseif currentatt.Value == "Powerful" then
+            Powerful = Powerful + 1
+        elseif currentatt.Value == "Enraged" then
+            Enraged = Enraged + 1
+        elseif currentatt.Value == "Manic" then
+            Manic = Manic + 1
+        elseif currentatt.Value == "Godly" then
+            Godly = Godly + 1
+        elseif currentatt.Value == "Daemon" then
+            Daemon = Daemon + 1
+        elseif currentatt.Value == "Invincible" then
+            Invincible = Invincible + 1
+        elseif currentatt.Value == "Legendary" then
+            Legendary = Legendary + 1
+        end
     end)
 end
