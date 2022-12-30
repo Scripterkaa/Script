@@ -344,13 +344,13 @@ function Randomleg(a)
                 game:GetService("Players").LocalPlayer.Character:FindFirstChild(a).Use:FireServer()
                 wait(4)
                 randomcount = randomcount + 1
-                print("สุ่มไปแล้ว",randomcount,"รอบ")
+                print("ไอเหี้ยมึงสุ่มขยะไปตั้ง",randomcount,"ตัว")
                 print("Stand:",currentst.Value)
                 print("Attribute:",currentatt.Value)
             end
         else
             webhook()
-            game.Players.LocalPlayer:Kick("ได้รีเจ้นละไอเวร!!!")
+            game.Players.LocalPlayer:Kick("ได้รีเจ้นละไอเวร!!! มึงรู้ไหมมึงสุ่มไปตั้ง",randomcount,"รอบ")
         end
     end)
 end
