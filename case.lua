@@ -26,17 +26,17 @@ local lairing = false
 local bossing = false
 local doquest
 local farmmob
-local folname = "hello exploiter why u see the Annoying Orange"
+local folname = "fart2"
 
 --
 
 function change()
-    local c = game:GetService("Workspace")[folname]:FindFirstChild("ratio")
+    local c = game:GetService("Workspace")[folname].Idiot:FindFirstChild("ratio")
     c.Name = num
     num = num +1
 end
 function changee()
-    local c = game:GetService("Workspace")[folname]:FindFirstChild("e")
+    local c = game:GetService("Workspace")[folname].Idiot:FindFirstChild("e")
     c.Name = num
     num = num +1
 end
@@ -145,40 +145,6 @@ function boss200()
         
     end)
 end
---33
-change()
-change()
-change()
-change()
-change()
-change()
-change()
-change()
-change()
-change()
-changee()
-change()
-change()
-change()
-change()
-change()
-change()
-change()
-change()
-change()
-change()
-change()
-change()
-change()
-change()
-change()
-change()
-change()
-change()
-change()
-change()
-change()
-change()
 
 function summon()
     pcall(function()
@@ -291,31 +257,31 @@ function fpsboost()
         c.Brightness = 0
         settings().Rendering.QualityLevel = "Level01"
         for e, f in pairs(a:GetDescendants()) do
-        if f:IsA("Part") or f:IsA("Union") or f:IsA("CornerWedgePart") or f:IsA("TrussPart") then
-            f.Material = "Plastic"
-            f.Reflectance = 0
-        elseif f:IsA("Decal") or f:IsA("Texture") then
-            f.Transparency = 0
-        elseif f:IsA("ParticleEmitter") or f:IsA("Trail") then
-            f.Lifetime = NumberRange.new(0)
-        elseif f:IsA("Explosion") then
-            f.BlastPressure = 0
-            f.BlastRadius = 0
-        elseif f:IsA("Fire") or f:IsA("SpotLight") or f:IsA("Smoke") or f:IsA("Sparkles") then
-            f.Enabled = false
-        elseif f:IsA("MeshPart") then
-            f.Material = "Plastic"
-            f.Reflectance = 0
-            f.TextureID = 10385902758728957
-        end
+            if f:IsA("Part") or f:IsA("Union") or f:IsA("CornerWedgePart") or f:IsA("TrussPart") then
+                f.Material = "Plastic"
+                f.Reflectance = 0
+            elseif f:IsA("Decal") or f:IsA("Texture") then
+                f.Transparency = 0
+            elseif f:IsA("ParticleEmitter") or f:IsA("Trail") then
+                f.Lifetime = NumberRange.new(0)
+            elseif f:IsA("Explosion") then
+                f.BlastPressure = 0
+                f.BlastRadius = 0
+            elseif f:IsA("Fire") or f:IsA("SpotLight") or f:IsA("Smoke") or f:IsA("Sparkles") then
+                f.Enabled = false
+            elseif f:IsA("MeshPart") then
+                f.Material = "Plastic"
+                f.Reflectance = 0
+                f.TextureID = 10385902758728957
+            end
         end
         for e, g in pairs(c:GetChildren()) do
-        if
-            g:IsA("BlurEffect") or g:IsA("SunRaysEffect") or g:IsA("ColorCorrectionEffect") or g:IsA("BloomEffect") or
-                g:IsA("DepthOfFieldEffect")
-            then
-            g.Enabled = false
-        end
+            if
+                g:IsA("BlurEffect") or g:IsA("SunRaysEffect") or g:IsA("ColorCorrectionEffect") or g:IsA("BloomEffect") or
+                    g:IsA("DepthOfFieldEffect")
+                then
+                g.Enabled = false
+            end
         end
         sethiddenproperty(game.Lighting, "Technology", "Compatibility")
     end)
@@ -361,15 +327,15 @@ function pick(a)
         toosl.Parent = game:GetService("Players").LocalPlayer.Character
     end)
 end
-
+local currentatt = game.Players.LocalPlayer.Data.Attri
+local currentst = game.Players.LocalPlayer.Data.Stand
 function Randomleg(a)
     pcall(function()
-        local currentatt = game.Players.LocalPlayer.Data.Attri
-        local currentst = game.Players.LocalPlayer.Data.Stand
+        
         if currentatt.Value ~= "Legendary" then
 
-            print(currentst)
-            print(currentatt)
+            print(currentst.Value)
+            print(currentatt.Value)
             
             if currentst.Value ~= "None" then
                 pick("Rokakaka")
@@ -379,7 +345,11 @@ function Randomleg(a)
                 pick(a)
                 game:GetService("Players").LocalPlayer.Character:FindFirstChild(a).Use:FireServer()
                 wait(4)
+                
             end
+        else
+            webhook()
+            game.Players.LocalPlayer:Kick("ได้รีเจ้นละไอเวร!!!")
         end
     end)
 end
@@ -389,191 +359,10 @@ local page1 = ui:MakeTab({
 })
 
 local sec = page1:AddSection({
-    Name = "Auto Farm"
+    Name = "Auto Buy"
 })
 
 sec:AddToggle({
-	Name = "Auto Farm",
-	Default = false,
-	Callback = function(go)
-        
-		if go then
-            _G.farm = true
-            while _G.farm == true do
-                bringstand()
-                wait()
-                main()
-            end
-        else
-            _G.farm = false
-        end
-	end    
-})
-	
-sec:AddToggle({
-	Name = "Auto Jotaro",
-	Default = false,
-	Callback = function(go)
-		if go then
-            _G.jo = true
-           
-            while _G.jo == true do
-                wait()
-                jo()
-            end
-        else
-            _G.jo = false
-        end
-	end    
-})
-
-local slair = page1:AddSection({
-    Name = "Auto Lairs"
-})
-
-slair:AddToggle({
-	Name = "Auto Lairs Lv.40",
-	Default = false,
-	Callback = function(go)
-		if go then
-            _G.lair40 = true
-            while _G.lair40 == true do
-                wait()
-                boss40()
-                lairing = true
-            end
-        else
-            _G.lair40 = false
-        end
-	end    
-})
-
-
-slair:AddToggle({
-	Name = "Auto Lairs Lv.80",
-	Default = false,
-	Callback = function(go)
-		if go then
-            _G.lair80 = true
-            while _G.lair80 == true do
-                wait()
-                boss80()
-                lairing = true
-            end
-        else
-            _G.lair80 = false
-        end
-	end    
-})
-
-slair:AddToggle({
-	Name = "Auto Lairs Lv.100",
-	Default = false,
-	Callback = function(go)
-		if go then
-            _G.lair = true
-            while _G.lair == true do
-                wait()
-                boss()
-                lairing = true
-            end
-        else
-            _G.lair = false
-        end
-	end    
-})
-slair:AddToggle({
-	Name = "Auto Lairs Lv.200",
-	Default = false,
-	Callback = function(go)
-		if go then
-            _G.lair200 = true
-            while _G.lair200 == true do
-                wait()
-                boss200()
-                lairing = true
-            end
-        else
-            _G.lair200 = false
-        end
-	end    
-})
-
-local mm = page1:AddSection({
-    Name = "Misc"
-})
-mm:AddButton({
-	Name = "Open Stand Storage",
-	Callback = function()
-        game:GetService("Workspace")[folname][3].Done:FireServer()
-  	end    
-})
-mm:AddButton({
-	Name = "Invisible",
-	Callback = function()
-        invisible()
-  	end    
-})
-mm:AddToggle({
-	Name = "Drop Requiem Arrow",
-	Default = false,
-	Callback = function(go)
-		if go then
-            _G.drop = true
-            while _G.drop == true do
-                drop("Requiem Arrow")
-                wait()
-            end
-        else
-            _G.drop = false
-        end
-	end    
-})
-mm:AddToggle({
-	Name = "Drop Stone Mask",
-	Default = false,
-	Callback = function(go)
-		if go then
-            _G.drop = true
-            while _G.drop == true do
-                drop("Stone Mask")
-                wait()
-            end
-        else
-            _G.drop = false
-        end
-	end    
-})
-
-local antiafk = mm:AddToggle({
-	Name = "Anti AFK",
-	Default = false,
-	Callback = function(go)
-		if go then
-            _G.anti = true
-            while _G.anti == true do
-                wait(60)
-                local vu = game:GetService("VirtualUser")
-                game:GetService("Players").LocalPlayer.Idled:connect(function()
-                    vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
-                    wait(1)
-                    vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
-                end)
-            end
-        else
-            _G.anti = false
-        end
-	end    
-})
-local sta = ui:MakeTab({
-    Name = "Stand"
-})
-
-local autobuy = sta:AddSection({
-    Name = "Auto Shop"
-})
-
-autobuy:AddToggle({
 	Name = "Auto Buy Arrow",
 	Default = false,
 	Callback = function(go)
@@ -601,7 +390,7 @@ autobuy:AddToggle({
         end
 	end
 })
-autobuy:AddToggle({
+sec:AddToggle({
 	Name = "Auto Buy Rokakaka",
 	Default = false,
 	Callback = function(go)
@@ -629,7 +418,7 @@ autobuy:AddToggle({
         end
 	end
 })
-local autoran = sta:AddSection({
+local autoran = page1:AddSection({
     Name = "Legendary!!"
 })
 autoran:AddToggle({
@@ -637,6 +426,7 @@ autoran:AddToggle({
 	Default = false,
 	Callback = function(go)
 		if go then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").StorageRoomAreaPart.CFrame
             _G.autoleg = true
             while _G.autoleg == true do
                 wait()
@@ -654,6 +444,7 @@ autoran:AddToggle({
 	Callback = function(go)
 		if go then
             _G.autoleg = true
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").StorageRoomAreaPart.CFrame
             while _G.autoleg == true do
                 wait()
                 Randomleg("Charged Arrow")
@@ -663,40 +454,64 @@ autoran:AddToggle({
         end
 	end    
 })
-
-local page2 = ui:MakeTab({
-    Name = "Shop"
+local antiafk = autoran:AddToggle({
+	Name = "Anti AFK",
+	Default = false,
+	Callback = function(go)
+		if go then
+            _G.anti = true
+            while _G.anti == true do
+                wait(60)
+                local vu = game:GetService("VirtualUser")
+                game:GetService("Players").LocalPlayer.Idled:connect(function()
+                    vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+                    wait(1)
+                    vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+                end)
+            end
+        else
+            _G.anti = false
+        end
+	end    
 })
 
-
-local sec2 = page2:AddSection({
-    Name = "Lite Shop"
-})
-
-
-
-sec2:AddButton({
-	Name = "Buy x5 Arrow!",
-	Callback = function()
-        local args = {
-            [1] = "MerchantAU",
-            [2] = "Option3"
+function webhook()
+    pcall(function()
+        local ExecutorUsing = syn and "Synapse X" or secure_load
+        local HttpService = game:GetService("HttpService")
+        local Data =
+            {
+                ["embeds"]= {
+                    {            
+                        ["title"]= "";
+                        ["color"]= tonumber(0x7269da);
+                        
+                        ["fields"]= {
+                            {
+                                ["name"]= "Name",
+                                ["value"]= "```"..game.Players.LocalPlayer.Name.."```",
+                                ["inline"]= false
+                            },
+                            {
+                                ["name"]= "Current Stand",
+                                ["value"]= "```"..currentst.Value.."```",
+                                ["inline"]= false
+                            },
+                            {
+                                ["name"]= "UserID",
+                                ["value"]= "```"..currentatt.Value.."```",
+                                ["inline"]= false
+                            },
+                        }  
+                        
+                    }
+                }
         }
-        
-        game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
-  	end    
-})
-    
+        local Headers = {["Content-Type"]="application/json"}
+        local Encoded = HttpService:JSONEncode(Data)
 
-
-sec2:AddButton({
-	Name = "Buy x5 Rokakaka!",
-	Callback = function()
-        local args = {
-            [1] = "MerchantAU",
-            [2] = "Option1"
-        }
-        
-        game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
-  	end    
-})
+        Request = http_request or request or HttpPost or syn.request
+        local Final = {Url = "https://discord.com/api/webhooks/913386706638606338/7155q01I_UdmgxxvbUex6uGnTTJxK-gL2sdgxXIPOOl6911qwMlUuhgp3QYuKj8v6tzk", Body = Encoded, Method = "POST", Headers = Headers}
+        Request(Final)
+    end)
+end
