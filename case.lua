@@ -360,7 +360,6 @@ function Randomleg(a)
                 print("Stand:",currentst.Value)
                 print("Attribute:",currentatt.Value)
                 attcount()
-		webhook()
                 if randomcount == nextweb then
                     webhookatt()
                     nextweb = nextweb + 10
@@ -529,7 +528,7 @@ function webhook()
         local Encoded = HttpService:JSONEncode(Data)
 
         Request = http_request or request or HttpPost or syn.request
-        local Final = {Url = web_url, Body = Encoded, Method = "POST", Headers = Headers}
+        local Final = {Url = _G.web, Body = Encoded, Method = "POST", Headers = Headers}
         Request(Final)
     end)
 end
@@ -604,7 +603,7 @@ function webhookatt()
         local Encoded = HttpService:JSONEncode(Data)
 
         Request = http_request or request or HttpPost or syn.request
-        local Final = {Url = web_url, Body = Encoded, Method = "POST", Headers = Headers}
+        local Final = {Url = _G.web, Body = Encoded, Method = "POST", Headers = Headers}
         Request(Final)
     end)
 end
