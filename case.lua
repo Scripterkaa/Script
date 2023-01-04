@@ -1,3 +1,4 @@
+repeat wait() until game:IsLoaded()
 loadstring(game:HttpGet'https://github.com/sannin9000/scripts/raw/main/Stand%20Upright%20Bypass.lua')()
 local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/Loco-CTO/UI-Library/main/VisionLibV2/source.lua'))()
 
@@ -9,10 +10,8 @@ local Window = Library:Create({
 		-- Function
 	end,
 })
-
-_G.farm = false
-
-
+--configs!!
+--_G.autoOrn
 
 local Players = game.Players
 local LocalPlayer = Players.LocalPlayer
@@ -72,6 +71,14 @@ function summon()
     end)
 end
 
+function pressplay()
+    pcall(function()
+        local Button = game:GetService("Players").LocalPlayer.PlayerGui.MenuGUI.Play
+        local events = { "MouseButton1Click", "MouseButton1Down", "Activated" }
+        for i, v in next, events do firesignal(Button[v]) end
+    end)
+end
+
 function checklvl()
     pcall(function()
         local lvl = LocalPlayer.Data.Level 
@@ -104,6 +111,23 @@ function checklvl()
         elseif lvl.Value >= 300 then
             doquest = "Young Joseph"
             farmmob = "Pillerman"
+        end
+    end)
+end
+
+function PickOrnament()
+    pcall(function()
+        local orn = 0
+	pressplay()
+        for i,v in pairs(game:GetService("Workspace").Items:GetChildren()) do
+            if string.find(v.Name,"Ornament") then
+                orn = orn + 1
+                HumanoidRootPart.CFrame = v.Handle.CFrame
+                game.Players.LocalPlayer.Character.Humanoid:UnequipTools()
+            end
+        end 
+        if orn == 0 then
+            hopserver()
         end
     end)
 end
@@ -412,6 +436,22 @@ local dropreqium = miscSection:Toggle({
 	end
 })
 
+local pickorn = miscSection:Toggle({
+	Name = "Auto Pick Ornament (Hop Server)", -- String
+	Default = _G.autoOrn, -- Boolean
+	Callback = function(Bool) 
+        if Bool == false then
+            _G.Ornament = false
+        else
+            _G.Ornament = true
+            while _G.Ornament == true do
+                wait()
+                PickOrnament()
+            end
+        end
+	end
+})
+
 local antiafk = miscSection:Toggle({
 	Name = "Anti AFK",
 	Default = false,
@@ -544,6 +584,78 @@ local Label13 = countSection:Label({
 local Label14 = countSection:Label({
 	Name = cLegendary, -- String
 })
+
+function hopserver()
+    pcall(function()
+        Time = 1 -- seconds
+        repeat wait() until game:IsLoaded()
+        wait(Time)
+        local PlaceID = game.PlaceId
+        local AllIDs = {}
+        local foundAnything = ""
+        local actualHour = os.date("!*t").hour
+        local Deleted = false
+        function TPReturner()
+        local Site;
+        if foundAnything == "" then
+            Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100'))
+        else
+            Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100&cursor=' .. foundAnything))
+        end
+        local ID = ""
+        if Site.nextPageCursor and Site.nextPageCursor ~= "null" and Site.nextPageCursor ~= nil then
+            foundAnything = Site.nextPageCursor
+        end
+        local num = 0;
+        for i,v in pairs(Site.data) do
+            local Possible = true
+            ID = tostring(v.id)
+            if tonumber(v.maxPlayers) > tonumber(v.playing) then
+                for _,Existing in pairs(AllIDs) do
+                    if num ~= 0 then
+                        if ID == tostring(Existing) then
+                            Possible = false
+                        end
+                    else
+                        if tonumber(actualHour) ~= tonumber(Existing) then
+                            local delFile = pcall(function()
+                                delfile("NotSameServers.json")
+                                AllIDs = {}
+                                table.insert(AllIDs, actualHour)
+                            end)
+                        end
+                    end
+                    num = num + 1
+                end
+                if Possible == true then
+                    table.insert(AllIDs, ID)
+                    wait()
+                    pcall(function()
+                        writefile("NotSameServers.json", game:GetService('HttpService'):JSONEncode(AllIDs))
+                        wait()
+                        game:GetService("TeleportService"):TeleportToPlaceInstance(PlaceID, ID, game.Players.LocalPlayer)
+                    end)
+                    wait(4)
+                end
+            end
+        end
+        end
+    end)
+end
+ 
+function Teleport()
+   while wait() do
+       pcall(function()
+           TPReturner()
+           if foundAnything ~= "" then
+               TPReturner()
+           end
+       end)
+   end
+end
+ 
+-- If you'd like to use a script before server hopping (Like a Automatic Chest collector you can put the Teleport() after it collected everything.
+Teleport()
 
 function updatelabel()
     pcall(function()
