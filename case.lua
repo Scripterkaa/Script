@@ -1,36 +1,30 @@
-local webhook_url = _G.web
-print(webhook_url)
-local library = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
-
-local ui = library:MakeWindow({Name = "Stand Upright", HidePremium = true, IntroText = "Enjoy the Script"})
 loadstring(game:HttpGet'https://github.com/sannin9000/scripts/raw/main/Stand%20Upright%20Bypass.lua')()
+local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/Loco-CTO/UI-Library/main/VisionLibV2/source.lua'))()
 
-local num = 1
-local tar
-local randomcount = 0
---
-_G.lair200 = false
-_G.autoarrow = false
-_G.autoroka = false
-_G.ham = false
+local Window = Library:Create({
+	Name = "Stand Upright Script", -- String
+	Footer = "Loading...", -- String
+	ToggleKey = Enum.KeyCode.RightControl, -- Enum.KeyCode
+	LoadedCallback = function()
+		-- Function
+	end,
+})
+
 _G.farm = false
-_G.jo = false
-_G.lair80 = false
-_G.change = false
-_G.lair = false
-_G.lair40 = false
-_G.drop = false
-_G.item = false
 
--- status
-local lairing = false
-local bossing = false
+
+
+local Players = game.Players
+local LocalPlayer = Players.LocalPlayer
+local Character = LocalPlayer.Character
+local Humanoid = Character.Humanoid
+local HumanoidRootPart = Character.HumanoidRootPart
+
 local doquest
 local farmmob
-local folname = "fart2"
+local boss
+local randomcount = 0
 
---
---local attribute
 local None = 0
 local Strong = 0
 local Tough = 0
@@ -40,311 +34,141 @@ local Manic = 0
 local Godly = 0
 local Daemon = 0
 local Invincible = 0
+local GC = 0
+local Cheerful = 0
+local Sloppy = 0
+local Tragic = 0
+local Lethargic = 0
 local Legendary = 0
---
-function change()
-    local c = game:GetService("Workspace")[folname].Idiot:FindFirstChild("ratio")
-    c.Name = num
-    num = num +1
-end
-function changee()
-    local c = game:GetService("Workspace")[folname].Idiot:FindFirstChild("e")
-    c.Name = num
-    num = num +1
-end
-function hamoncharge()
-    pcall(function()
-        local args = {
-            [1] = true
-        }
 
-        game:GetService("Players").LocalPlayer.Character.SecondaryHandler.B:FireServer(unpack(args))
-    end)
-end
-function boss()
-    pcall(function()
-        for _,k in pairs(game:GetService("Workspace")[folname]:GetChildren()) do
-            if k.Name == "28" then
-                k.Done:FireServer()
-            end
-        end
-        for i,v in pairs(game:GetService("Workspace").Living:GetChildren()) do
-            if v.Name == "Boss" and v.Head.Display.Frame.t.Text == "Diavolo [Dungeon]" then
-                summon()
-                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0,0,5.5)
-                v.Humanoid.Health = 0
-                            
-                summon()
-                v.Humanoid.Health = 0
-                v.Humanoid.Health = 0
-                v.Humanoid.Health = 0
-                punch()
-            end
-        end
-    end)
-end
+local cNone = "None : "..""..None
+local cStrong = "Strong : "..""..Strong
+local cTough = "Tough : "..""..Tough
+local cPowerful = "Powerful : "..""..Powerful
+local cEnraged = "Enraged : "..""..Enraged
+local cManic = "Manic : "..""..Manic
+local cGodly = "Godly : "..""..Godly
+local cDaemon = "Daemon : "..""..Daemon
+local cInvincible = "Invincible : "..""..Invincible
+local cGC = "Glass Cannon : "..""..GC
+local cSloppy = "Sloppy : "..""..Sloppy
+local cTragic = "Tragic : "..""..Tragic
+local cLethargic = "Lethargic : "..""..Lethargic
+local cLegendary = "Legendary : "..""..Legendary
 
-function boss40()
-    pcall(function()
-        for _,k in pairs(game:GetService("Workspace")[folname]:GetChildren()) do
-            if k.Name == "21" then
-                k.Done:FireServer()
-            end
-        end
-        for i,v in pairs(game:GetService("Workspace").Living:GetChildren()) do
-            if v.Name == "Boss" and v.Head.Display.Frame.t.Text == "Dio [Dungeon]" then
-                v.Humanoid.Health = 0
-                summon()
-                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0,0,5.5)
-                v.Humanoid.Health = 0
-                            
-                summon()
-                v.Humanoid.Health = 0
-                v.Humanoid.Health = 0
-                v.Humanoid.Health = 0
-                punch()
-            end
-        end
-        
-    end)
-end
 
-function boss80()
-    pcall(function()
-        for _,k in pairs(game:GetService("Workspace")[folname]:GetChildren()) do
-            if k.Name == "27" then
-                k.Done:FireServer()
-            end
-        end
-        for i,v in pairs(game:GetService("Workspace").Living:GetChildren()) do
-            if v.Name == "Boss" and v.Head.Display.Frame.t.Text == "Homeless Lord" then
-                v.Humanoid.Health = 0
-                summon()
-                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0,0,5.5)
-                v.Humanoid.Health = 0
-                            
-                summon()
-                v.Humanoid.Health = 0
-                v.Humanoid.Health = 0
-                v.Humanoid.Health = 0
-                punch()
-            end
-        end
-        
-    end)
-end
-function boss200()
-    pcall(function()
-        for _,k in pairs(game:GetService("Workspace")[folname]:GetChildren()) do
-            if k.Name == "32" then
-                k.Done:FireServer()
-            end
-        end
-        for i,v in pairs(game:GetService("Workspace").Living:GetChildren()) do
-            if v.Name == "Boss" and v.Head.Display.Frame.t.Text == "Jotaro P6 [Dungeon]" then
-                v.Humanoid.Health = 0
-                summon()
-                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0,0,8.5)
-                v.Humanoid.Health = 0
-                            
-                summon()
-                v.Humanoid.Health = 0
-                v.Humanoid.Health = 0
-                v.Humanoid.Health = 0
-                punch()
-            end
-        end
-        
-    end)
-end
-
-function summon()
-    pcall(function()
-        if game.Players.LocalPlayer.Character.Stand.UpperTorso.Transparency == 1 then
-            game:GetService("Players").LocalPlayer.Character.StandEvents.Summon:FireServer()
-        end
-    end)
-end
-function barrage()
-    local args = {
-        [1] = true
-    }
-    
-    game:GetService("Players").LocalPlayer.Character.StandEvents.Barrage:FireServer(unpack(args))
-end
 function punch()
     pcall(function()
         game:GetService("Players").LocalPlayer.Character.StandEvents.M1:FireServer() 
     end)
 end
-function clone()
-    game:GetService("Players").LocalPlayer.Character.StandEvents.StarFinger:FireServer()
-end
-function main()
-    pcall(function()
-        fullyfarm()
-        local tar = nil
-        for i,v in pairs(game:GetService("Workspace")[folname]:GetChildren()) do
-            if doquest ~= nil then
-                if v.Name == doquest then
-                    v.Done:FireServer()
-                    v.QuestDone:FireServer()
-                end
-            end
-        end
-        summon()
-        for i,v in pairs(game.workspace.Living:GetChildren()) do
-            if v.Name == farmmob and v.Humanoid.Health ~=0 then
-                tar = v
-            end
-            if v.Humanoid.Health == 0 then
-                tween(game:GetService("Workspace").gettingbdLOLLLL.HumanoidRootPart)
-            end
-        end
-        tween(tar.HumanoidRootPart)
-        punch()
-    end)
-end
-local tw
-function tween(pos,n)
-    pcall(function()
-        local playerpos = game.Players.LocalPlayer.Character.HumanoidRootPart
-        local newpos = pos.CFrame
-        playerpos.CFrame = newpos * CFrame.new(0,0,3)
-    end)
-end
-function bringstand()
-    pcall(function()
-        game.Players.LocalPlayer.Character.Stand.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
-    end)
-end
-function fullyfarm()
-    pcall(function()
-        local lvl = game.Players.LocalPlayer.Data.Level
 
+function summon()
+    pcall(function()
+        if Character.Stand.UpperTorso.Transparency == 1 then
+            Character.StandEvents.Summon:FireServer()
+        end
+    end)
+end
+
+function checklvl()
+    pcall(function()
+        local lvl = LocalPlayer.Data.Level 
         if lvl.Value < 25 then
             farmmob = "Jotaro Part 4"
         elseif lvl.Value >= 25 and lvl.Value < 30 then
-            doquest = "8"
+            doquest = "Joseph Joestar"
             farmmob = "Dio Over Heaven"
         elseif lvl.Value >= 30 and lvl.Value < 40 then
-            doquest = "9"
+            doquest = "Okayasu"
             farmmob = "Yoshikage Kira"
         elseif lvl.Value >= 40 and lvl.Value < 50 then
-            doquest = "10"
+            doquest = "Josuke"
             farmmob = "Angelo"
         elseif lvl.Value >= 50 and lvl.Value < 65 then
-            doquest = "11"
+            doquest = "Rohan"
             farmmob = "Alien"
         elseif lvl.Value >= 65 and lvl.Value < 75 then
-            doquest = "12"
+            doquest = "DIO"
             farmmob = "Jotaro Part 4"
         elseif lvl.Value >= 75 and lvl.Value < 90 then
-            doquest = "13"
+            doquest = "Muhammed Avdol"
             farmmob = "Kakyoin"
         elseif lvl.Value >= 90 and lvl.Value < 130 then
-            doquest = "14"
+            doquest = "Giorno"
             farmmob = "Jungle Bandit"
         elseif lvl.Value >= 130 and lvl.Value < 300 then
-            doquest = "30"
+            doquest = "Zeppeli"
             farmmob = "Sewer Vampire"
         elseif lvl.Value >= 300 then
-            doquest = "33"
+            doquest = "Young Joseph"
             farmmob = "Pillerman"
         end
     end)
 end
-function fpsboost()
+
+function lair(lvl)
     pcall(function()
-        local a = game
-        local b = a.Workspace
-        local c = a.Lighting
-        local d = b.Terrain
-        d.WaterWaveSize = 0
-        d.WaterWaveSpeed = 0
-        d.WaterReflectance = 0
-        d.WaterTransparency = 0
-        c.GlobalShadows = false
-        c.FogEnd = 9e9
-        c.Brightness = 0
-        settings().Rendering.QualityLevel = "Level01"
-        for e, f in pairs(a:GetDescendants()) do
-            if f:IsA("Part") or f:IsA("Union") or f:IsA("CornerWedgePart") or f:IsA("TrussPart") then
-                f.Material = "Plastic"
-                f.Reflectance = 0
-            elseif f:IsA("Decal") or f:IsA("Texture") then
-                f.Transparency = 0
-            elseif f:IsA("ParticleEmitter") or f:IsA("Trail") then
-                f.Lifetime = NumberRange.new(0)
-            elseif f:IsA("Explosion") then
-                f.BlastPressure = 0
-                f.BlastRadius = 0
-            elseif f:IsA("Fire") or f:IsA("SpotLight") or f:IsA("Smoke") or f:IsA("Sparkles") then
-                f.Enabled = false
-            elseif f:IsA("MeshPart") then
-                f.Material = "Plastic"
-                f.Reflectance = 0
-                f.TextureID = 10385902758728957
+        if lvl == 200 then
+            for i,v in pairs(game:GetService("Workspace").Map.NPCs:GetChildren()) do
+                if v.Name == "i_stabman" then
+                    if v.Head.Main.Text.Text == "i_stabman [Lvl. 200+]" then
+                        v.Done:FireServer()
+                    end
+                end
+            end
+            boss = "Jotaro P6 [Dungeon]"
+        elseif lvl == 15 then
+            for i,v in pairs(game:GetService("Workspace").Map.NPCs:GetChildren()) do
+                if v.Name == "i_stabman" then
+                    if v.Head.Main.Text.Text == "i_stabman [Lvl. 15+]" then
+                        v.Done:FireServer()
+                    end
+                end
+            end
+            boss = "Bad Gi Boss"
+        elseif lvl == 40 then
+            for i,v in pairs(game:GetService("Workspace").Map.NPCs:GetChildren()) do
+                if v.Name == "i_stabman" then
+                    if v.Head.Main.Text.Text == "i_stabman [Lvl. 40+]" then
+                        v.Done:FireServer()
+                    end
+                end
+            end
+            boss = "Dio [Dungeon]"
+        elseif lvl == 80 then
+            for i,v in pairs(game:GetService("Workspace").Map.NPCs:GetChildren()) do
+                if v.Name == "i_stabman" then
+                    if v.Head.Main.Text.Text == "i_stabman [Lvl. 40+]" then
+                        v.Done:FireServer()
+                    end
+                end
+            end
+            boss = "Homeless Lord"
+        elseif lvl == 90 then
+            for i,v in pairs(game:GetService("Workspace").Map.NPCs:GetChildren()) do
+                if v.Name == "i_stabman" then
+                    if v.Head.Main.Text.Text == "i_stabman [Lvl. 40+]" then
+                        v.Done:FireServer()
+                    end
+                end
+            end
+            boss = "Homeless Lord"
+        end
+        for i,v in pairs(game:GetService("Workspace").Living:GetChildren()) do
+            if v.Name == "Boss" and v.Head.Display.Frame.t.Text == boss then
+                summon()
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0,0,5)                      
+                v.Humanoid.Health = 0
+                punch()
             end
         end
-        for e, g in pairs(c:GetChildren()) do
-            if
-                g:IsA("BlurEffect") or g:IsA("SunRaysEffect") or g:IsA("ColorCorrectionEffect") or g:IsA("BloomEffect") or
-                    g:IsA("DepthOfFieldEffect")
-                then
-                g.Enabled = false
-            end
-        end
-        sethiddenproperty(game.Lighting, "Technology", "Compatibility")
     end)
 end
-
-function invisible()
-    pcall(function()
-        local oldpos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
-        tween(game:GetService("Workspace").gettingbdLOLLLL.HumanoidRootPart)
-        game.Players.LocalPlayer.Character.LowerTorso:Destroy()
-        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = oldpos
-    end)
-end
-
-function jo()
-    pcall(function()
-        summon()
-        bossing = false
-        local tar = nil
-        for i,v in pairs(game.workspace.Living:GetChildren()) do
-            if v.Name == "Jotaro Over Heaven" then
-                bossing = true
-                tar = v
-            end
-        end
-        tween(tar.HumanoidRootPart,"w")
-        tar.Humanoid.Health = 0
-        punch()
-    end)
-end
-function drop(a)
-    pcall(function()
-        local toosl = game:GetService("Players").LocalPlayer.Backpack:FindFirstChild(a)
-        toosl.Parent = game:GetService("Players").LocalPlayer.Character
-        wait(.2)
-        require(game.Players.LocalPlayer.PlayerScripts.ChatScript.ChatMain).MessagePosted:fire("/dropitem")
-    end)
-end
-
-function pick(a)
-    pcall(function()
-        local toosl = game:GetService("Players").LocalPlayer.Backpack:FindFirstChild(a)
-        toosl.Parent = game:GetService("Players").LocalPlayer.Character
-    end)
-end
-local nextweb = 10
 local currentatt = game.Players.LocalPlayer.Data.Attri
 local currentst = game.Players.LocalPlayer.Data.Stand
 function Randomleg(a)
     pcall(function()
-        
         if currentatt.Value ~= "Legendary" then
 
             
@@ -361,118 +185,208 @@ function Randomleg(a)
                 print("Stand:",currentst.Value)
                 print("Attribute:",currentatt.Value)
                 attcount()
-                if randomcount == nextweb then
-                    webhookatt()
-                    nextweb = nextweb + 10
-                end
+                updatelabel()
             end
         else
-            webhook()
-            game.Players.LocalPlayer:Kick("ได้รีเจ้นละไอเวร!!! มึงรู้ไหมมึงสุ่มไปตั้ง",randomcount,"รอบ")
+            game.Players.LocalPlayer:Kick("ได้รีเจ้นละไอเวร!!!")
         end
     end)
 end
-local page1 = ui:MakeTab({
-    Name = "Main"
-})
 
-local sec = page1:AddSection({
-    Name = "Auto Buy"
-})
-
-sec:AddToggle({
-	Name = "Auto Buy Arrow",
-	Default = false,
-	Callback = function(go)
-		if go then
-            _G.autoarrow = true
-            while _G.autoarrow == true do
-                wait(1)
-                local amount = 0
-                for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-                    if v.Name == "Stand Arrow" then
-                        amount = amount +1
-                    end
-                end
-                if amount == 0 then
-                    local args = {
-                        [1] = "MerchantAU",
-                        [2] = "Option3"
-                    }
-                    
-                    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
+function farm()
+    pcall(function()
+        checklvl()
+        local tar = nil
+        for i,v in pairs(game:GetService("Workspace").Map.NPCs:GetChildren()) do
+            if doquest ~= nil then
+                if v.Name == doquest then
+                    v.Done:FireServer()
+                    v.QuestDone:FireServer()
                 end
             end
+        end
+        summon()
+        for i,v in pairs(game.workspace.Living:GetChildren()) do
+            if v.Name == farmmob and v.Humanoid.Health ~=0 then
+                tar = v
+            end
+            if v.Humanoid.Health == 0 then
+                HumanoidRootPart.CFrame = CFrame.new(11953.5244, 1.13030577, -4497.03027, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+            end
+        end
+        HumanoidRootPart.CFrame = tar.HumanoidRootPart.CFrame * CFrame.new(0,0,3)
+        punch()
+    end)
+end
+
+function pick(a)
+    pcall(function()
+        local toosl = game:GetService("Players").LocalPlayer.Backpack:FindFirstChild(a)
+        toosl.Parent = game:GetService("Players").LocalPlayer.Character
+    end)
+end
+
+
+function attcount()
+    pcall(function()
+        if currentatt.Value == "None" then
+            None = None + 1
+        elseif currentatt.Value == "Strong" then
+            Strong = Strong + 1
+        elseif currentatt.Value == "Tough" then
+            Tough = Tough + 1
+        elseif currentatt.Value == "Powerful" then
+            Powerful = Powerful + 1
+        elseif currentatt.Value == "Enrage" then
+            Enraged = Enraged + 1
+        elseif currentatt.Value == "Manic" then
+            Manic = Manic + 1
+        elseif currentatt.Value == "Godly" then
+            Godly = Godly + 1
+        elseif currentatt.Value == "Daemon" then
+            Daemon = Daemon + 1
+        elseif currentatt.Value == "Invincible" then
+            Invincible = Invincible + 1
+        elseif currentatt.Value == "Legendary" then
+            Legendary = Legendary + 1
+        elseif currentatt.Value == "Cheerful" then
+            Cheerful = Cheerful + 1
+        elseif currentatt.Value == "Tragic" then
+            Tragic = Tragic + 1
+        elseif currentatt.Value == "Lethargic" then
+            Lethargic = Lethargic + 1
+        elseif currentatt.Value == "Sloppy" then
+            Sloppy = Sloppy + 1
+        elseif currentatt.Value == "Glass Cannon" then
+            GC = GC + 1
+        end
+    end)
+end
+
+function autobuyif0(name)
+    pcall(function()
+        wait(1)
+        local amount = 0
+        for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+            if v.Name == name then
+                amount = amount +1
+            end
+        end
+        if amount == 0 and name == "Stand Arrow" then
+            local args = {
+                [1] = "MerchantAU",
+                [2] = "Option3"
+            }
+                    
+            game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
+        elseif amount == 0 and name == "Rokakaka" then
+            if amount == 0 then
+                local args = {
+                    [1] = "MerchantAU",
+                    [2] = "Option1"
+                }
+                
+                game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
+            end
+        end
+    end)
+end
+
+local Tab = Window:Tab({
+	Name = "Main", -- String
+	Color = Color3.new(1, 0, 0) -- Color3
+})
+
+local farmSection = Tab:Section({
+	Name = "Auto Farm" -- String
+})
+local Autofarm = farmSection:Toggle({
+	Name = "Auto Farm", -- String
+	Default = false, -- Boolean
+	Callback = function(Bool) 
+        if Bool == false then
+            _G.Farm = false
         else
-            _G.autoarrow = false
+            _G.Farm = true
+            while _G.Farm == true do
+                wait()
+                farm()
+            end
         end
 	end
 })
-sec:AddToggle({
-	Name = "Auto Buy Rokakaka",
-	Default = false,
-	Callback = function(go)
-		if go then
-            _G.autoroka = true
-            while _G.autoroka == true do
-                wait(1)
-                local amountr = 0
-                for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-                    if v.Name == "Rokakaka" then
-                        amountr = amountr +1
-                    end
-                end
-                if amountr == 0 then
-                    local args = {
-                        [1] = "MerchantAU",
-                        [2] = "Option1"
-                    }
-                    
-                    game:GetService("ReplicatedStorage").Events.BuyItem:FireServer(unpack(args))
-                end
-            end
+local lairSection = Tab:Section({
+	Name = "Auto Lair" -- String
+})
+
+local lair15 = lairSection:Toggle({
+	Name = "Lair lvl.15", -- String
+	Default = false, -- Boolean
+	Callback = function(Bool) 
+        if Bool == false then
+            _G.lair15 = false
         else
-            _G.autoroka = false
+            _G.lair15 = true
+            while _G.lair15 == true do
+                wait()
+                lair(15)
+            end
         end
 	end
 })
-local autoran = page1:AddSection({
-    Name = "Legendary!!"
-})
-autoran:AddToggle({
-	Name = "Auto Find LEGENDARY (STAND ARROW)",
-	Default = false,
-	Callback = function(go)
-		if go then
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").StorageRoomAreaPart.CFrame
-            _G.autoleg = true
-            while _G.autoleg == true do
-                wait()
-                Randomleg("Stand Arrow")
-            end
+
+local lair40 = lairSection:Toggle({
+	Name = "Lair lvl.40", -- String
+	Default = false, -- Boolean
+	Callback = function(Bool) 
+        if Bool == false then
+            _G.lair40 = false
         else
-            _G.autoleg = false
+            _G.lair40 = true
+            while _G.lair40 == true do
+                wait()
+                lair(40)
+            end
         end
-	end    
+	end
 })
 
-autoran:AddToggle({
-	Name = "Auto Find LEGENDARY (CHARGED ARROW)",
-	Default = false,
-	Callback = function(go)
-		if go then
-            _G.autoleg = true
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").StorageRoomAreaPart.CFrame
-            while _G.autoleg == true do
-                wait()
-                Randomleg("Charged Arrow")
-            end
+local lair80 = lairSection:Toggle({
+	Name = "Lair lvl.80", -- String
+	Default = false, -- Boolean
+	Callback = function(Bool) 
+        if Bool == false then
+            _G.lair80 = false
         else
-            _G.autoleg = false
+            _G.lair80 = true
+            while _G.lair80 == true do
+                wait()
+                lair(80)
+            end
         end
-	end    
+	end
 })
-local antiafk = autoran:AddToggle({
+
+local lair200 = lairSection:Toggle({
+	Name = "Lair lvl.200", -- String
+	Default = false, -- Boolean
+	Callback = function(Bool) 
+        if Bool == false then
+            _G.lair200 = false
+        else
+            _G.lair200 = true
+            while _G.lair200 == true do
+                wait()
+                lair(200)
+            end
+        end
+	end
+})
+
+local miscSection = Tab:Section({
+    Name = "Misc"
+})
+local antiafk = miscSection:Toggle({
 	Name = "Anti AFK",
 	Default = false,
 	Callback = function(go)
@@ -493,145 +407,149 @@ local antiafk = autoran:AddToggle({
 	end    
 })
 
-function webhook()
-    pcall(function()
-        local ExecutorUsing = syn and "Synapse X" or secure_load
-        local HttpService = game:GetService("HttpService")
-        local Data =
-            {
-                ["embeds"]= {
-                    {            
-                        ["title"]= "เห้ยๆๆ ไอเหี้ยมีคนได้ๆ";
-                        ["color"]= tonumber(0x7269da);
-                        
-                        ["fields"]= {
-                            {
-                                ["name"]= "Name",
-                                ["value"]= "```"..game.Players.LocalPlayer.Name.."```",
-                                ["inline"]= false
-                            },
-                            {
-                                ["name"]= "Current Stand",
-                                ["value"]= "```"..currentst.Value.."```",
-                                ["inline"]= false
-                            },
-                            {
-                                ["name"]= "UserID",
-                                ["value"]= "```"..currentatt.Value.."```",
-                                ["inline"]= false
-                            },
-                        }  
-                        
-                    }
-                }
-        }
-        local Headers = {["Content-Type"]="application/json"}
-        local Encoded = HttpService:JSONEncode(Data)
+local standTab = Window:Tab({
+	Name = "Stand", -- String
+	Color = Color3.new(0, 0, 1) -- Color3
+})
+local standSection = standTab:Section({
+	Name = "Auto Stand" -- String
+})
 
-        Request = http_request or request or HttpPost or syn.request
-        local Final = {Url = webhook_url, Body = Encoded, Method = "POST", Headers = Headers}
-        Request(Final)
-    end)
-end
-function webhookatt()
-    pcall(function()
-        local ExecutorUsing = syn and "Synapse X" or secure_load
-        local HttpService = game:GetService("HttpService")
-        local Data =
-            {
-                ["embeds"]= {
-                    {            
-                        ["title"]= "โดราเอม่อนตอนสมุดรวมความเกลือ";
-                        ["color"]= tonumber(0x7269da);
-                        
-                        ["fields"]= {
-                            {
-                                ["name"]= "",
-                                ["value"]= "```None:"..None.."```",
-                                ["inline"]= false
-                            },
-                            {
-                                ["name"]= "",
-                                ["value"]= "```Strong:"..Strong.."```",
-                                ["inline"]= false
-                            },
-                            {
-                                ["name"]= "",
-                                ["value"]= "```Tough:"..Tough.."```",
-                                ["inline"]= false
-                            },
-                            {
-                                ["name"]= "",
-                                ["value"]= "```Powerful:"..Powerful.."```",
-                                ["inline"]= false
-                            },
-                            {
-                                ["name"]= "",
-                                ["value"]= "```Enraged:"..Enraged.."```",
-                                ["inline"]= false
-                            },
-                            {
-                                ["name"]= "",
-                                ["value"]= "```Manic:"..Manic.."```",
-                                ["inline"]= false
-                            },
-                            {
-                                ["name"]= "",
-                                ["value"]= "```Godly:"..Godly.."```",
-                                ["inline"]= false
-                            },
-                            {
-                                ["name"]= "",
-                                ["value"]= "```Daemon:"..Daemon.."```",
-                                ["inline"]= false
-                            },
-                            {
-                                ["name"]= "",
-                                ["value"]= "```Invincible:"..Invincible.."```",
-                                ["inline"]= false
-                            },
-                            {
-                                ["name"]= "",
-                                ["value"]= "```Legendary:"..Legendary.."```",
-                                ["inline"]= false
-                            },
-                        }  
-                        
-                    }
-                }
-        }
-        local Headers = {["Content-Type"]="application/json"}
-        local Encoded = HttpService:JSONEncode(Data)
-
-        Request = http_request or request or HttpPost or syn.request
-        local Final = {Url = webhook_url, Body = Encoded, Method = "POST", Headers = Headers}
-        Request(Final)
-    end)
-end
-
-
-function attcount()
-    pcall(function()
-        if currentatt.Value == "None" then
-            None = None + 1
-        elseif currentatt.Value == "Strong" then
-            Strong = Strong + 1
-        elseif currentatt.Value == "Tough" then
-            Tough = Tough + 1
-        elseif currentatt.Value == "Powerful" then
-            Powerful = Powerful + 1
-        elseif currentatt.Value == "Enraged" then
-            Enraged = Enraged + 1
-        elseif currentatt.Value == "Manic" then
-            Manic = Manic + 1
-        elseif currentatt.Value == "Godly" then
-            Godly = Godly + 1
-        elseif currentatt.Value == "Daemon" then
-            Daemon = Daemon + 1
-        elseif currentatt.Value == "Invincible" then
-            Invincible = Invincible + 1
-        elseif currentatt.Value == "Legendary" then
-            Legendary = Legendary + 1
+local autobuy = standSection:Toggle({
+	Name = "Auto Buy Stand Arrow + Rokakaka", -- String
+	Default = false, -- Boolean
+	Callback = function(Bool) 
+        if Bool == false then
+            _G.autobuy = false
+        else
+            _G.autobuy = true
+            while _G.autobuy == true do
+                wait()
+                autobuyif0("Stand Arrow")
+                autobuyif0("Rokakaka")
+            end
         end
+	end
+})
+
+local autoarrow = standSection:Toggle({
+	Name = "Auto Find Legendary [Stand Arrow]", -- String
+	Default = false, -- Boolean
+	Callback = function(Bool) 
+        if Bool == false then
+            _G.autoleg = false
+        else
+            _G.autoleg = true
+            while _G.autoleg == true do
+                wait()
+                Randomleg("Stand Arrow")
+            end
+        end
+	end
+})
+
+local autoarrow = standSection:Toggle({
+	Name = "Auto Find Legendary [Charged Arrow]", -- String
+	Default = false, -- Boolean
+	Callback = function(Bool) 
+        if Bool == false then
+            _G.autolegc = false
+        else
+            _G.autolegc = true
+            while _G.autolegc == true do
+                wait()
+                Randomleg("Charged Arrow")
+            end
+        end
+	end  
+})
+local crandomcount = "Used Arrow: "..""..randomcount
+
+local count2Section = standTab:Section({
+	Name = "Count Arrow" -- String
+})
+local Label = count2Section:Label({
+	Name = crandomcount, -- String
+})
+local countSection = standTab:Section({
+	Name = "Count Attribute" -- String
+})
+
+
+local Label1 = countSection:Label({
+	Name = cNone, -- String
+})
+local Label2 = countSection:Label({
+	Name = cStrong, -- String
+})
+local Label3 = countSection:Label({
+	Name = cTough, -- String
+})
+local Label4 = countSection:Label({
+	Name = cSloppy, -- String
+})
+local Label5 = countSection:Label({
+	Name = cPowerful, -- String
+})
+local Label6 = countSection:Label({
+	Name = cEnraged, -- String
+})
+local Label7 = countSection:Label({
+	Name = cManic, -- String
+})
+local Label8 = countSection:Label({
+	Name = cLethargic, -- String
+})
+local Label9 = countSection:Label({
+	Name = cGodly, -- String
+})
+local Label10 = countSection:Label({
+	Name = cDaemon, -- String
+})
+local Label11 = countSection:Label({
+	Name = cInvincible, -- String
+})
+local Label12 = countSection:Label({
+	Name = cGC, -- String
+})
+local Label13 = countSection:Label({
+	Name = cTragic, -- String
+})
+local Label14 = countSection:Label({
+	Name = cLegendary, -- String
+})
+
+function updatelabel()
+    pcall(function()
+        local cNone = "None : "..""..None
+        local cStrong = "Strong : "..""..Strong
+        local cTough = "Tough : "..""..Tough
+        local cPowerful = "Powerful : "..""..Powerful
+        local cEnraged = "Enraged : "..""..Enraged
+        local cManic = "Manic : "..""..Manic
+        local cGodly = "Godly : "..""..Godly
+        local cDaemon = "Daemon : "..""..Daemon
+        local cInvincible = "Invincible : "..""..Invincible
+        local cGC = "Glass Cannon : "..""..GC
+        local cSloppy = "Sloppy : "..""..Sloppy
+        local cTragic = "Tragic : "..""..Tragic
+        local cLethargic = "Lethargic : "..""..Lethargic
+        local cLegendary = "Legendary : "..""..Legendary
+        local crandomcount = "Used Arrow: "..""..randomcount
+        Label1:SetName(cNone) -- String
+        Label2:SetName(cStrong) -- String
+        Label3:SetName(cTough) -- String
+        Label4:SetName(cSloppy) -- String
+        Label5:SetName(cPowerful) -- String
+        Label6:SetName(cEnraged) -- String
+        Label7:SetName(cManic) -- String
+        Label8:SetName(cLethargic) -- String
+        Label9:SetName(cGodly) -- String
+        Label10:SetName(cDaemon) -- String
+        Label11:SetName(cInvincible) -- String
+        Label12:SetName(cGC) -- String
+        Label13:SetName(cTragic) -- String
+        Label14:SetName(cLegendary) -- String
+        Label:SetName(crandomcount)
     end)
 end
