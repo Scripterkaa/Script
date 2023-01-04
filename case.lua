@@ -63,6 +63,7 @@ function punch()
     end)
 end
 
+
 function summon()
     pcall(function()
         if Character.Stand.UpperTorso.Transparency == 1 then
@@ -163,6 +164,14 @@ function lair(lvl)
                 punch()
             end
         end
+    end)
+end
+function drop(a)
+    pcall(function()
+        local toosl = game:GetService("Players").LocalPlayer.Backpack:FindFirstChild(a)
+        toosl.Parent = game:GetService("Players").LocalPlayer.Character
+        wait(.2)
+        require(game.Players.LocalPlayer.PlayerScripts.ChatScript.ChatMain).MessagePosted:fire("/dropitem")
     end)
 end
 local currentatt = game.Players.LocalPlayer.Data.Attri
@@ -386,6 +395,23 @@ local lair200 = lairSection:Toggle({
 local miscSection = Tab:Section({
     Name = "Misc"
 })
+
+local dropreqium = miscSection:Toggle({
+	Name = "Auto Drop Reqium Arrow", -- String
+	Default = false, -- Boolean
+	Callback = function(Bool) 
+        if Bool == false then
+            _G.dropreqium = false
+        else
+            _G.dropreqium = true
+            while _G.dropreqium == true do
+                wait()
+                drop("Requiem Arrow")
+            end
+        end
+	end
+})
+
 local antiafk = miscSection:Toggle({
 	Name = "Anti AFK",
 	Default = false,
