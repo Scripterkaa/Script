@@ -357,6 +357,7 @@ while _G.play == true do wait()
                 farm("Shinjuku",mon_sk,"Curse","13")
                 _gems = game.Players.LocalPlayer.Data.Gems.Value
             else
+                print("Doing Hog")
                 if moretime > 15 then
                     game.Players.LocalPlayer:Kick("Failed Quest")
                 end
