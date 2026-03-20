@@ -55,6 +55,7 @@ function dungeon_unlock(dun)
         game:GetService("Players").LocalPlayer.PlayerGui.DungeonTeleportUI.MainFrame.Visible == true
 
     if game:GetService("Players").LocalPlayer.PlayerGui.QuestUI.Quest.Visible == true then
+        print("Quest")
         if string.find(game:GetService("Players").LocalPlayer.PlayerGui.QuestUI.Quest.Quest.Holder.Content.QuestInfo.QuestRequirement.Text,"/6") ~= nil then
             tp("Starter")
             wait(1)
@@ -107,10 +108,9 @@ function dungeon_unlock(dun)
             until game:GetService("Players").LocalPlayer.PlayerGui.QuestUI.Quest.Visible == false
             dungeon_unlock()
         end
-    end
-    if game:GetService("Players").LocalPlayer.PlayerGui.DungeonTeleportUI.MainFrame.Visible == true then
+    elseif game:GetService("Players").LocalPlayer.PlayerGui.DungeonTeleportUI.MainFrame.Visible == true then
         game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("RequestDungeonPortal"):FireServer(dun.."Dungeon")
-        while true do wait() end
+        wait(45)
     end
 end
 function cancelquest()
@@ -331,7 +331,7 @@ while _G.play == true do wait()
         else
             if _Rune == false then
                 checkrune()
-                dungeon_unlock()
+                dungeon_unlock("Rune")
             else
                 if checktitle() == false and getQty("Boss Key") ~= 0 and _gems >= 175 then
                     tp("Boss")
