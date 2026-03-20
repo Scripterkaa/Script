@@ -333,6 +333,7 @@ while _G.play == true do wait()
     pcall(function()
         local _gems = game.Players.LocalPlayer.Data.Gems.Value
         checkrune()
+        wait(3)
         if game.PlaceId == 99684056491472 then
             game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("DungeonWaveVote"):FireServer("Easy")
             _dungeon()
