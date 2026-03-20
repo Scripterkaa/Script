@@ -316,6 +316,7 @@ function statsrr()
         game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("RerollSingleStat"):InvokeServer(unpack(args))
     end
 end
+unlock_artifact()
 while _G.play == true do wait()
     pcall(function()
         if game.PlaceId == 99684056491472 then
@@ -335,7 +336,6 @@ while _G.play == true do wait()
                 local mon_sl = CFrame.new(-1125, 18, 370)
                 local mon_sk = CFrame.new(-14, 2, -1847)
                 local mon_qc = CFrame.new(-1347, 1604, 1593)
-		        unlock_artifact()
                 equipass()
                 fastmode()
                 bless()
