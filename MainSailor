@@ -1,5 +1,4 @@
-repeat task.wait() until game:IsLoaded()
-task.wait(10)
+
 _G.play = true
 local moretime = 0
 local _gems = game.Players.LocalPlayer.Data.Gems.Value
