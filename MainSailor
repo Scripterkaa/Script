@@ -1,24 +1,22 @@
 _G.play = true
 local moretime = 0
-local _gems = game.Players.LocalPlayer.Data.Gems.Value
+local Unlock_Soul = game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("CheckPortalUnlock"):InvokeServer("SoulSociety")
+local _Rune = false
 function tp(place)
     game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("TeleportToPortal"):FireServer(place)
 end
 function checkrune()
-    local result = false
     game:GetService("ReplicatedStorage").Remotes.UpdateInventory.OnClientEvent:Connect(function(table,item)
         if table == "Runes" then
             for i,v in pairs(item) do
                 if i == "Fortune Rune" then
-                    result = true
+                    _Rune = true
                 end
             end
         end
     end)
 
     game:GetService("ReplicatedStorage").Remotes.RequestInventory:FireServer()
-    task.wait(2)
-    return result
 end
 
 function checktitle()
@@ -121,8 +119,8 @@ function bless()
 end
 function haki()
     pcall(function()
-        if game.Players.LocalPlayer.Character["Right Arm"].BrickColor ~= "Really black" then
-            game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("HakiRemote"):FireServer(unpack(args))
+        if game.Players.LocalPlayer.Character["Right Arm"].BrickColor.Name ~= "Really black" then
+            game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("HakiRemote"):FireServer("Toggle")
         end
     end)
 end
@@ -143,8 +141,10 @@ function farm(islands,pos,mon,quets)
         repeat wait()
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pos
             equipWeapon("Strongest In History")
-            skillx()
-            statsrr()
+            skillx()3
+            if checktitle() then
+                statsrr()
+            end
             wait(.25)
         until   game.Workspace.NPCs[mon.."1"].Humanoid.Health == 0 and
                 game.Workspace.NPCs[mon.."2"].Humanoid.Health == 0 and
@@ -291,10 +291,12 @@ end
 function farmboss()
     wait(.5)
     game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("RequestSummonBoss"):FireServer("SaberBoss")
-    equipWeapon("Strongest In History")
-    haki()
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(774, -1, -1089)
-    skillx()
+    repeat wait()
+        equipWeapon("Strongest In History")
+        haki()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(774, -1, -1089)
+        skillx()
+    until game.Workspace.NPCs.SaberBoss.Humanoid.Health <= 0
 end
 function statsrr()
     local R = game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("GetStatRerollData"):InvokeServer()
@@ -319,18 +321,20 @@ end
 unlock_artifact()
 while _G.play == true do wait()
     pcall(function()
+        local _gems = game.Players.LocalPlayer.Data.Gems.Value
         if game.PlaceId == 99684056491472 then
             game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("DungeonWaveVote"):FireServer("Easy")
             _dungeon()
         else
-            if checktitle() == false and getQty("Boss Key") ~= 0 and gems > 175 then
+            if checktitle() == false and getQty("Boss Key") ~= 0 and _gems >= 175 then
                 tp("Boss")
                 wait(1)
                 repeat wait()
+                    _gems = game.Players.LocalPlayer.Data.Gems.Value
                     farmboss()
-                until checktitle() or getQty("Boss Key") == 0
+                until checktitle() or getQty("Boss Key") == 0 or _gems <= 175
             end
-            if game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("CheckPortalUnlock"):InvokeServer("SoulSociety") then
+            if Unlock_Soul then
                 local mon_jm = CFrame.new(-1272, 1, -1188)
                 local mon_ac = CFrame.new(1070, 2, 1273)
                 local mon_sl = CFrame.new(-1125, 18, 370)
@@ -349,7 +353,8 @@ while _G.play == true do wait()
                 open_chest("Legendary")
                 farm("Slime",mon_sl,"Slime","14")
                 open_chest("Epic")
-                farm("Shinjuku",mon_sk,"Curse","12")
+                farm("Shinjuku",mon_sk,"Curse","13")
+                _gems = game.Players.LocalPlayer.Data.Gems.Value
             else
                 if moretime > 15 then
                     game.Players.LocalPlayer:Kick("Failed Quest")
