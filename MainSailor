@@ -55,6 +55,11 @@ function dungeon_unlock(dun)
     until game:GetService("Players").LocalPlayer.PlayerGui.QuestUI.Quest.Visible == true or
         game:GetService("Players").LocalPlayer.PlayerGui.DungeonTeleportUI.MainFrame.Visible == true
     if game:GetService("Players").LocalPlayer.PlayerGui.DungeonTeleportUI.MainFrame.Visible == true then
+        checkrune()
+        wait(5)
+        if _Rune == true then
+            return
+        end
         game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("RequestDungeonPortal"):FireServer(dun.."Dungeon")
         wait(45)
         game.Players.LocalPlayer:Kick("Portal not open")
