@@ -27,6 +27,7 @@ function reroll_passive()
 
     game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("SpecPassiveUpdateAutoSkip"):FireServer(unpack(args))
     game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("SpecPassiveReroll"):FireServer("Strongest In History")
+    wait(.5)
     game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("SpecPassiveReroll"):FireServer("Saber")
 end
 function confirmstats()
@@ -79,14 +80,16 @@ function statsrr()
     end
 end
 function setArtifact()
-
     game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("ArtifactSetAutoDelete"):FireServer("Common",true)
+    wait(.5)
     game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("ArtifactSetAutoDelete"):FireServer("Rare",true)
+    wait(.5)
     game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("ArtifactSetAutoDelete"):FireServer("Epic",true)
 end
 Ascend()
 while true do
     wait(.25)
+    setArtifact()
     reroll_passive()
     clanrr()
     traitrr()
