@@ -280,9 +280,10 @@ function _dungeon()
                 equipWeapon("Strongest In History")
                 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame
                 skillx()
+                checkrune()
                 wait(2)
             end
-            if checkrune() then
+            if _Rune == true then
                 game.Players.LocalPlayer:Kick("Got Runes")
             end
         end
