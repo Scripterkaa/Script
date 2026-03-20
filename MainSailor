@@ -6,11 +6,15 @@ function tp(place)
     game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("TeleportToPortal"):FireServer(place)
 end
 function checkrune()
+    if _Rune == true then
+        return
+    end
     game:GetService("ReplicatedStorage").Remotes.UpdateInventory.OnClientEvent:Connect(function(table,item)
         if table == "Runes" then
             for i,v in pairs(item) do
                 if i == "Fortune Rune" then
                     _Rune = true
+                    game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("LeaveDungeonPortal"):FireServer()
                 end
             end
         end
@@ -236,20 +240,17 @@ function DoHogyokuQuest()
 end
 
 function equiprunes()
-    local a = game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("GetTotalStats"):InvokeServer()
-    for i,v in pairs(a) do
-        if i == "Luck" then
-            for j,k in pairs(v) do
-                for d,o in pairs(k) do
-                    if o == 10.5 then
-                        return
-                    end
-                end
-            end
-        end
+    local isequip = game:GetService("Players").LocalPlayer.PlayerGui.StatsPanelUI.MainFrame.Frame.Content.SideFrame.UserStats.RuneEquipped.StatName.Text
+    if isequip ~= "Rune: Fortune Rune" then
+        local args = {
+            [1] = "Equip",
+            [2] = "Fortune Rune"
+        }
+
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("EquipRune"):FireServer(unpack(args))
     end
-    game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("EquipRune"):FireServer("Equip","Fortune Rune")
 end
+
 function open_chest(rarity)
     local amount = getQty(rarity.." Chest")
     if amount == 0 then
@@ -323,46 +324,53 @@ unlock_artifact()
 while _G.play == true do wait()
     pcall(function()
         local _gems = game.Players.LocalPlayer.Data.Gems.Value
+        checkrune()
         if game.PlaceId == 99684056491472 then
             game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("DungeonWaveVote"):FireServer("Easy")
             _dungeon()
         else
-            if checktitle() == false and getQty("Boss Key") ~= 0 and _gems >= 175 then
-                tp("Boss")
-                wait(1)
-                repeat wait()
-                    _gems = game.Players.LocalPlayer.Data.Gems.Value
-                    farmboss()
-                until checktitle() or getQty("Boss Key") == 0 or _gems <= 175
-            end
-            if Unlock_Soul then
-                local mon_jm = CFrame.new(-1272, 1, -1188)
-                local mon_ac = CFrame.new(1070, 2, 1273)
-                local mon_sl = CFrame.new(-1125, 18, 370)
-                local mon_sk = CFrame.new(-14, 2, -1847)
-                local mon_qc = CFrame.new(-1347, 1604, 1593)
-                equipass()
-                fastmode()
-                bless()
-                equipWeapon("Strongest In History")
-                haki()
-                farm("SoulSociety",mon_qc,"Quincy","17")
-                open_chest("Rare")
-                farm("Judgement",mon_jm,"Swordsman","16")
-                open_chest("Common")
-                farm("Academy",mon_ac,"AcademyTeacher","15")
-                open_chest("Legendary")
-                farm("Slime",mon_sl,"Slime","14")
-                open_chest("Epic")
-                farm("Shinjuku",mon_sk,"Curse","13")
-                _gems = game.Players.LocalPlayer.Data.Gems.Value
+            if _Rune == false then
+                checkrune()
+                dungeon_unlock()
             else
-                print("Doing Hog")
-                if moretime > 15 then
-                    game.Players.LocalPlayer:Kick("Failed Quest")
+                if checktitle() == false and getQty("Boss Key") ~= 0 and _gems >= 175 then
+                    tp("Boss")
+                    wait(1)
+                    repeat wait()
+                        _gems = game.Players.LocalPlayer.Data.Gems.Value
+                        farmboss()
+                    until checktitle() or getQty("Boss Key") == 0 or _gems <= 175
                 end
-                DoHogyokuQuest()
-                moretime = moretime + 1
+                if Unlock_Soul then
+                    local mon_jm = CFrame.new(-1272, 1, -1188)
+                    local mon_ac = CFrame.new(1070, 2, 1273)
+                    local mon_sl = CFrame.new(-1125, 18, 370)
+                    local mon_sk = CFrame.new(-14, 2, -1847)
+                    local mon_qc = CFrame.new(-1347, 1604, 1593)
+                    equipass()
+                    fastmode()
+                    bless()
+                    equiprunes()
+                    equipWeapon("Strongest In History")
+                    haki()
+                    farm("SoulSociety",mon_qc,"Quincy","17")
+                    open_chest("Rare")
+                    farm("Judgement",mon_jm,"Swordsman","16")
+                    open_chest("Common")
+                    farm("Academy",mon_ac,"AcademyTeacher","15")
+                    open_chest("Legendary")
+                    farm("Slime",mon_sl,"Slime","14")
+                    open_chest("Epic")
+                    farm("Shinjuku",mon_sk,"Curse","13")
+                    _gems = game.Players.LocalPlayer.Data.Gems.Value
+                else
+                    print("Doing Hog")
+                    if moretime > 15 then
+                        game.Players.LocalPlayer:Kick("Failed Quest")
+                    end
+                    DoHogyokuQuest()
+                    moretime = moretime + 1
+                end
             end
         end
     end)
