@@ -1,0 +1,364 @@
+repeat task.wait() until game:IsLoaded()
+task.wait(10)
+_G.play = true
+local moretime = 0
+local _gems = game.Players.LocalPlayer.Data.Gems.Value
+function tp(place)
+    game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("TeleportToPortal"):FireServer(place)
+end
+function checkrune()
+    local result = false
+    game:GetService("ReplicatedStorage").Remotes.UpdateInventory.OnClientEvent:Connect(function(table,item)
+        if table == "Runes" then
+            for i,v in pairs(item) do
+                if i == "Fortune Rune" then
+                    result = true
+                end
+            end
+        end
+    end)
+
+    game:GetService("ReplicatedStorage").Remotes.RequestInventory:FireServer()
+    task.wait(2)
+    return result
+end
+
+function checktitle()
+    local titledata = game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("GetTitlesData"):InvokeServer()
+
+    local result = false
+    for i,v in pairs(titledata) do
+        if i == "unlocked" then
+            for j,k in pairs(v) do
+                if k == "Destiny Marked" then
+                    result = true
+                end
+            end
+        end
+    end
+    if result == true then
+        game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("TitleEquip"):FireServer("Destiny Marked")
+    end
+
+    return result
+end
+
+function dungeon_unlock(dun)
+    game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("QuestAbandon"):FireServer("DungeonUnlock")
+    game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("TeleportToPortal"):FireServer("Dungeon")
+    repeat wait() until game.Workspace.ServiceNPCs:FindFirstChild("DungeonPortalsNPC") ~= nil
+    wait(1)
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace.ServiceNPCs.DungeonPortalsNPC.HumanoidRootPart.CFrame
+    repeat wait()
+        fireproximityprompt(game.Workspace.ServiceNPCs.DungeonPortalsNPC.HumanoidRootPart.DungeonNPCPrompt) 
+    until game:GetService("Players").LocalPlayer.PlayerGui.QuestUI.Quest.Visible == true or
+        game:GetService("Players").LocalPlayer.PlayerGui.DungeonTeleportUI.MainFrame.Visible == true
+
+    if game:GetService("Players").LocalPlayer.PlayerGui.QuestUI.Quest.Visible == true then
+        if string.find(game:GetService("Players").LocalPlayer.PlayerGui.QuestUI.Quest.Quest.Holder.Content.QuestInfo.QuestRequirement.Text,"/6") ~= nil then
+            tp("Starter")
+            wait(1)
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(90, 10, -137)
+            repeat wait()
+                fireproximityprompt(game.Workspace.StarterIsland.DungeonPuzzlePiece.PuzzlePrompt)
+            until game:GetService("Players").LocalPlayer.PlayerGui.QuestUI.Quest.Quest.Holder.Content.QuestInfo.QuestRequirement.Text == "1/6 Completed"
+            tp("Jungle")
+            wait(1)
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-396, 1, 509)
+            repeat wait()
+                fireproximityprompt(game.Workspace.JungleIsland.DungeonPuzzlePiece.PuzzlePrompt)
+            until game:GetService("Players").LocalPlayer.PlayerGui.QuestUI.Quest.Quest.Holder.Content.QuestInfo.QuestRequirement.Text == "2/6 Completed"
+            tp("Desert")
+            wait(1)
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1056, 7, -307)
+            repeat wait()
+                fireproximityprompt(game.Workspace.DesertIsland.DungeonPuzzlePiece.PuzzlePrompt)
+            until game:GetService("Players").LocalPlayer.PlayerGui.QuestUI.Quest.Quest.Holder.Content.QuestInfo.QuestRequirement.Text == "3/6 Completed"
+            tp("Snow")
+            wait(1)
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-314, -1, -1189)
+            repeat wait()
+                fireproximityprompt(game.Workspace.SnowIsland.DungeonPuzzlePiece.PuzzlePrompt)
+            until game:GetService("Players").LocalPlayer.PlayerGui.QuestUI.Quest.Quest.Holder.Content.QuestInfo.QuestRequirement.Text == "4/6 Completed"
+            tp("Shibuya")
+            wait(1)
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1717, 140, -27)
+            wait(2)
+            repeat wait()
+                fireproximityprompt(game.Workspace.ShibuyaStation.DungeonPuzzlePiece.PuzzlePrompt)
+            until game:GetService("Players").LocalPlayer.PlayerGui.QuestUI.Quest.Quest.Holder.Content.QuestInfo.QuestRequirement.Text == "5/6 Completed"
+            tp("HuecoMundo")
+            wait(1)
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-686, 100, 1335)
+            repeat wait()
+                fireproximityprompt(game.Workspace.HuecoMundo.DungeonPuzzlePiece.PuzzlePrompt)
+            until string.find(game:GetService("Players").LocalPlayer.PlayerGui.QuestUI.Quest.Quest.Holder.Content.QuestInfo.QuestRequirement.Text,"/25") ~= nil
+            wait(3)
+            dungeon_unlock()
+        elseif string.find(game:GetService("Players").LocalPlayer.PlayerGui.QuestUI.Quest.Quest.Holder.Content.QuestInfo.QuestRequirement.Text,"/25") ~= nil then
+            tp("Boss")
+            repeat
+                wait(.5)
+                game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("RequestSummonBoss"):FireServer("SaberBoss")
+                equipWeapon("Strongest In History")
+                haki()
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(774, -1, -1089)
+                skillx()
+            until game:GetService("Players").LocalPlayer.PlayerGui.QuestUI.Quest.Visible == false
+            dungeon_unlock()
+        end
+    end
+    if game:GetService("Players").LocalPlayer.PlayerGui.DungeonTeleportUI.MainFrame.Visible == true then
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("RequestDungeonPortal"):FireServer(dun.."Dungeon")
+        while true do wait() end
+    end
+end
+function cancelquest()
+    game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("QuestAbandon"):FireServer("repeatable")
+end
+function bless()
+    pcall(function()
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("BlessWeapon"):FireServer("Strongest In History")
+    end)
+end
+function haki()
+    pcall(function()
+        if game.Players.LocalPlayer.Character["Right Arm"]:FindFirstChild("ParticeEmitter") == nil then
+            game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("HakiRemote"):FireServer(unpack(args))
+        end
+    end)
+end
+function skillx()
+    pcall(function()
+        game:GetService("ReplicatedStorage"):WaitForChild("AbilitySystem"):WaitForChild("Remotes"):WaitForChild("RequestAbility"):FireServer(2)
+    end)
+end
+function unlock_artifact()
+    game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("ArtifactUnlockSystem"):FireServer()
+end
+function farm(islands,pos,mon,quets)
+    pcall(function()
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("TeleportToPortal"):FireServer(islands)
+        game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("QuestAbandon"):FireServer("repeatable")
+        wait(.75)
+        game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("QuestAccept"):FireServer("QuestNPC"..quets)
+        repeat wait()
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pos
+            equipWeapon("Strongest In History")
+            skillx()
+            statsrr()
+            wait(.25)
+        until   game.Workspace.NPCs[mon.."1"].Humanoid.Health == 0 and
+                game.Workspace.NPCs[mon.."2"].Humanoid.Health == 0 and
+                game.Workspace.NPCs[mon.."3"].Humanoid.Health == 0 and
+                game.Workspace.NPCs[mon.."4"].Humanoid.Health == 0 and
+                game.Workspace.NPCs[mon.."5"].Humanoid.Health == 0
+    end)
+end
+function equipass()
+    local RS = game:GetService("ReplicatedStorage")
+    local getAccessoryRemote = RS:WaitForChild("Remotes"):WaitForChild("GetAccessoryEquipped")
+    local equippedAccessories = getAccessoryRemote:InvokeServer()
+    if equippedAccessories.Stats ~= "Divine Wheel" then
+        local args = {
+            [1] = "EquipStats",
+            [2] = "Divine Wheel"
+        }
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("EquipAccessory"):FireServer(unpack(args))
+    end
+end
+function fastmode()
+
+    game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("SettingsToggle"):FireServer("RemoveShadows",true)
+    game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("SettingsToggle"):FireServer("RemoveTexture",true)
+    game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("SettingsToggle"):FireServer("DisableScreenShake",true)
+    game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("SettingsToggle"):FireServer("DisableCutscene",true)
+    game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("SettingsToggle"):FireServer("DisableVFX",true)
+    game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("SettingsToggle"):FireServer("DisableOtherVFX",true)
+
+end
+function getQty(itemname)
+    local result
+    game:GetService("ReplicatedStorage").Remotes.UpdateInventory.OnClientEvent:Connect(function(table,item)
+        if table == "Items" then
+            for i,v in pairs(item) do
+                if v.name == itemname then
+                    result = v.quantity or "0"
+                end
+            end
+        end
+    end)
+
+    game:GetService("ReplicatedStorage").Remotes.RequestInventory:FireServer()
+    task.wait(.5)
+    if result == nil then
+        result = 0
+    end
+    return result
+end
+function equipWeapon(toolName)
+    pcall(function()
+        if game.Workspace:FindFirstChild(game.Players.LocalPlayer.Name) ~= nil then
+            local tool = game.Players.LocalPlayer.Backpack:FindFirstChild(toolName) or game.Players.LocalPlayer.Character:FindFirstChild(toolName)
+            if tool then
+                game.Players.LocalPlayer.Character.Humanoid:EquipTool(tool)
+            end
+        end
+    end)
+end
+
+function getHogyoku(islands,num)
+
+    game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("TeleportToPortal"):FireServer(islands)
+    repeat wait() until game.Workspace:FindFirstChild("HogyokuFragment"..num) ~= nil
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace["HogyokuFragment"..num].CFrame
+    wait(.5 + moretime)
+    fireproximityprompt(game.Workspace["HogyokuFragment"..num].HogyokuCollectPrompt)
+    wait(.5 + moretime)
+
+end
+
+function DoHogyokuQuest()
+
+    game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("TeleportToPortal"):FireServer("HuecoMundo")
+    wait(2)
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-381, 9, 1526)
+    repeat wait() until game.Workspace.ServiceNPCs:FindFirstChild("HogyokuQuestNPC") ~= nil
+    wait(3)
+    fireproximityprompt(game.Workspace.ServiceNPCs.HogyokuQuestNPC.HumanoidRootPart.HogyokuQuestPrompt)
+    wait(1)
+    getHogyoku("Snow", "1")
+    getHogyoku("Shibuya", "2")
+    getHogyoku("HuecoMundo", "3")
+    getHogyoku("Shinjuku", "4")
+    getHogyoku("Slime", "5")
+    getHogyoku("Judgement", "6")
+    wait(5 + moretime)
+
+end
+
+function equiprunes()
+    local a = game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("GetTotalStats"):InvokeServer()
+    for i,v in pairs(a) do
+        if i == "Luck" then
+            for j,k in pairs(v) do
+                for d,o in pairs(k) do
+                    if o == 10.5 then
+                        return
+                    end
+                end
+            end
+        end
+    end
+    game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("EquipRune"):FireServer("Equip","Fortune Rune")
+end
+function open_chest(rarity)
+    local amount = getQty(rarity.." Chest")
+    if amount == 0 then
+        return
+    elseif amount > 10000 then
+        amount = 10000
+    end
+    game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UseItem"):FireServer("Use",rarity.." Chest",getQty(rarity.." Chest"),false)
+end
+function _dungeon()
+    haki()
+    for i,v in pairs(game.Workspace.NPCs:GetChildren()) do
+        if game:GetService("Players").LocalPlayer.PlayerGui.DungeonUI.ReplayDungeonFrameVisibleOnlyWhenClearingDungeon.Visible == true then
+            game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("DungeonWaveReplayVote"):FireServer("sponsor")
+        end
+        if string.find(v.Name,"Dungeon") ~= nil then
+            if game.Players.LocalPlayer.Character.Humanoid.Health < (game.Players.LocalPlayer.Character.Humanoid.MaxHealth / 10) then
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-130, 14, -121)
+                wait(2)
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(237, 14, 86)
+                wait(2)
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(239, 15, -115)
+                wait(2)
+                return
+            end
+            if v.Humanoid.Health ~= 0 then
+                equipWeapon("Strongest In History")
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame
+                skillx()
+                wait(2)
+            end
+            if checkrune() then
+                game.Players.LocalPlayer:Kick("Got Runes")
+            end
+        end
+    end
+end
+
+function farmboss()
+    wait(.5)
+    game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("RequestSummonBoss"):FireServer("SaberBoss")
+    equipWeapon("Strongest In History")
+    haki()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(774, -1, -1089)
+    skillx()
+end
+function statsrr()
+    local R = game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("GetStatRerollData"):InvokeServer()
+    if R.Stats.Luck.Rank ~= "Z" then
+        local args = {
+            [1] = {
+                ["A"] = true,
+                ["SSS"] = true,
+                ["SS"] = true,
+                ["S"] = true
+            }
+        }
+
+        game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("StatRerollUpdateAutoSkip"):FireServer(unpack(args))
+        local args = {
+            [1] = "Luck"
+        }
+
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("RerollSingleStat"):InvokeServer(unpack(args))
+    end
+end
+while _G.play == true do wait()
+    pcall(function()
+        if game.PlaceId == 99684056491472 then
+            game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("DungeonWaveVote"):FireServer("Easy")
+            _dungeon()
+        else
+            if checktitle() == false and getQty("Boss Key") ~= 0 and gems > 175 then
+                tp("Boss")
+                wait(1)
+                repeat wait()
+                    farmboss()
+                until checktitle() or getQty("Boss Key") == 0
+            end
+            if game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("CheckPortalUnlock"):InvokeServer("SoulSociety") then
+                local mon_jm = CFrame.new(-1272, 1, -1188)
+                local mon_ac = CFrame.new(1070, 2, 1273)
+                local mon_sl = CFrame.new(-1125, 18, 370)
+                local mon_sk = CFrame.new(-14, 2, -1847)
+                local mon_qc = CFrame.new(-1347, 1604, 1593)
+		        unlock_artifact()
+                equipass()
+                fastmode()
+                bless()
+                equipWeapon("Strongest In History")
+                haki()
+                farm("SoulSociety",mon_qc,"Quincy","17")
+                open_chest("Rare")
+                farm("Judgement",mon_jm,"Swordsman","16")
+                open_chest("Common")
+                farm("Academy",mon_ac,"AcademyTeacher","15")
+                open_chest("Legendary")
+                farm("Slime",mon_sl,"Slime","14")
+                open_chest("Epic")
+                farm("Shinjuku",mon_sk,"Curse","12")
+            else
+                if moretime > 15 then
+                    game.Players.LocalPlayer:Kick("Failed Quest")
+                end
+                DoHogyokuQuest()
+                moretime = moretime + 1
+            end
+        end
+    end)
+end
