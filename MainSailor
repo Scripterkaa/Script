@@ -296,6 +296,7 @@ function farmboss()
         haki()
         game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(774, -1, -1089)
         skillx()
+        wait(.25)
     until game.Workspace.NPCs.SaberBoss.Humanoid.Health <= 0
 end
 function statsrr()
