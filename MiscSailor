@@ -1,4 +1,3 @@
-
 local bpack = game.Players.LocalPlayer.Backpack
 
 function Ascend()
@@ -16,6 +15,19 @@ function traitrr()
 
     game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("TraitUpdateAutoSkip"):FireServer(unpack(args))
     local ctrait = game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("TraitGetData"):InvokeServer()
+end
+function reroll_passive()
+    local args = {
+        [1] = {
+            ["Epic"] = true,
+            ["Legendary"] = true,
+            ["Mythical"] = false
+        }
+    }
+
+    game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("SpecPassiveUpdateAutoSkip"):FireServer(unpack(args))
+    game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("SpecPassiveReroll"):FireServer("Strongest In History")
+    game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("SpecPassiveReroll"):FireServer("Saber")
 end
 function confirmstats()
     game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("ResetStats"):FireServer()
