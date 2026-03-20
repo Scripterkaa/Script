@@ -86,7 +86,7 @@ function setArtifact()
     wait(.5)
     game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("ArtifactSetAutoDelete"):FireServer("Epic",true)
 end
-Ascend()
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("SpecPassiveUnlock"):FireServer()
 while true do
     wait(.25)
     setArtifact()
