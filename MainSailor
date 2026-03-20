@@ -141,7 +141,7 @@ function farm(islands,pos,mon,quets)
         repeat wait()
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pos
             equipWeapon("Strongest In History")
-            skillx()3
+            skillx()
             if checktitle() then
                 statsrr()
             end
@@ -319,7 +319,7 @@ function statsrr()
     end
 end
 unlock_artifact()
-print("Soul: "..Unlock_Soul)
+print(Unlock_Soul)
 while _G.play == true do wait()
     pcall(function()
         local _gems = game.Players.LocalPlayer.Data.Gems.Value
