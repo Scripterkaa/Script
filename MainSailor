@@ -319,6 +319,7 @@ function statsrr()
     end
 end
 unlock_artifact()
+print("Soul: "..Unlock_Soul)
 while _G.play == true do wait()
     pcall(function()
         local _gems = game.Players.LocalPlayer.Data.Gems.Value
