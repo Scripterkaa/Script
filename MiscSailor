@@ -1,0 +1,82 @@
+repeat task.wait() until game:IsLoaded()
+task.wait(10)
+local bpack = game.Players.LocalPlayer.Backpack
+
+function Ascend()
+    game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("RequestAscend"):FireServer()
+end
+function traitrr()
+    local args = {
+        [1] = {
+            ["Epic"] = true,
+            ["Legendary"] = true,
+            ["Secret"] = false,
+            ["Mythical"] = true
+        }
+    }
+
+    game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("TraitUpdateAutoSkip"):FireServer(unpack(args))
+    local ctrait = game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("TraitGetData"):InvokeServer()
+end
+function confirmstats()
+    game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("ResetStats"):FireServer()
+    local args = {
+        [1] = "Sword",
+        [2] = 25000
+    }
+
+    game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("AllocateStat"):FireServer(unpack(args))
+    local args = {
+        [1] = "Defense",
+        [2] = 25000
+    }
+
+    game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("AllocateStat"):FireServer(unpack(args))
+end
+function clanrr()
+    local clan = game.Players.LocalPlayer:GetAttribute("CurrentClan") or "None"
+    if clan ~= "Monarch" then
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UseItem"):FireServer("Use","Clan Reroll",1,true)
+    end
+end
+function racerr()
+    game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("SettingsToggle"):FireServer("SkipEpicReroll",true)
+    game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("SettingsToggle"):FireServer("SkipLegendaryReroll",true)
+    local race = game.Players.LocalPlayer:GetAttribute("CurrentRace") or "None"
+    if race ~= "Kitsune" then
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UseItem"):FireServer("Use","Race Reroll",1,true)
+    end
+end
+function statsrr()
+    local Rank = game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("GetStatRerollData"):InvokeServer()
+    if Rank ~= "Z" then
+        local args = {
+            [1] = {
+                ["A"] = true,
+                ["SSS"] = true,
+                ["SS"] = true,
+                ["S"] = true
+            }
+        }
+
+        game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("StatRerollUpdateAutoSkip"):FireServer(unpack(args))
+        local args = {
+            [1] = "Luck"
+        }
+
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("RerollSingleStat"):InvokeServer(unpack(args))
+    end
+end
+function setArtifact()
+
+    game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("ArtifactSetAutoDelete"):FireServer("Common",true)
+    game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("ArtifactSetAutoDelete"):FireServer("Rare",true)
+    game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("ArtifactSetAutoDelete"):FireServer("Epic",true)
+end
+Ascend()
+while true do
+    wait(.25)
+    clanrr()
+    traitrr()
+    racerr()
+end
