@@ -44,6 +44,7 @@ function checktitle()
 end
 
 function dungeon_unlock(dun)
+    game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("QuestAbandon"):FireServer("repeatable")
     game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("QuestAbandon"):FireServer("DungeonUnlock")
     game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("TeleportToPortal"):FireServer("Dungeon")
     repeat wait() until game.Workspace.ServiceNPCs:FindFirstChild("DungeonPortalsNPC") ~= nil
@@ -53,7 +54,11 @@ function dungeon_unlock(dun)
         fireproximityprompt(game.Workspace.ServiceNPCs.DungeonPortalsNPC.HumanoidRootPart.DungeonNPCPrompt) 
     until game:GetService("Players").LocalPlayer.PlayerGui.QuestUI.Quest.Visible == true or
         game:GetService("Players").LocalPlayer.PlayerGui.DungeonTeleportUI.MainFrame.Visible == true
-
+    if game:GetService("Players").LocalPlayer.PlayerGui.DungeonTeleportUI.MainFrame.Visible == true then
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("RequestDungeonPortal"):FireServer(dun.."Dungeon")
+        wait(45)
+        game.Players.LocalPlayer:Kick("Portal not open")
+    end
     if game:GetService("Players").LocalPlayer.PlayerGui.QuestUI.Quest.Visible == true then
         print("Quest")
         if string.find(game:GetService("Players").LocalPlayer.PlayerGui.QuestUI.Quest.Quest.Holder.Content.QuestInfo.QuestRequirement.Text,"/6") ~= nil then
@@ -108,9 +113,6 @@ function dungeon_unlock(dun)
             until game:GetService("Players").LocalPlayer.PlayerGui.QuestUI.Quest.Visible == false
             dungeon_unlock()
         end
-    elseif game:GetService("Players").LocalPlayer.PlayerGui.DungeonTeleportUI.MainFrame.Visible == true then
-        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("RequestDungeonPortal"):FireServer(dun.."Dungeon")
-        wait(45)
     end
 end
 function cancelquest()
