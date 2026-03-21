@@ -16,7 +16,7 @@ function traitrr()
     game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("TraitUpdateAutoSkip"):FireServer(unpack(args))
     local ctrait = game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("TraitGetData"):InvokeServer()
 end
-function reroll_passive()
+function reroll_passive(weapon)
     local args = {
         [1] = {
             ["Epic"] = true,
@@ -26,9 +26,12 @@ function reroll_passive()
     }
 
     game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("SpecPassiveUpdateAutoSkip"):FireServer(unpack(args))
-    game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("SpecPassiveReroll"):FireServer("Strongest In History")
-    wait(.5)
-    game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("SpecPassiveReroll"):FireServer("Saber")
+    local _passive = game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("SpecPassiveGetData"):InvokeServer()
+    if a.Passives[weapon].Name ~= "Fortune Chosen" then
+        game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("SpecPassiveConfirm"):FireServer(true)
+	    game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("SpecPassiveReroll"):FireServer(weapon)
+        wait(.5)
+    end
 end
 function confirmstats()
     game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("ResetStats"):FireServer()
