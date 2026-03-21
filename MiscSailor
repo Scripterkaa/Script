@@ -91,9 +91,10 @@ function setArtifact()
 end
 game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("SpecPassiveUnlock"):FireServer()
 while true do
+    reroll_passive("Saber")
     wait(.25)
     setArtifact()
-    reroll_passive()
+    reroll_passive("Strongest In History")
     clanrr()
     traitrr()
     racerr()
