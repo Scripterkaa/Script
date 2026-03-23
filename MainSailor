@@ -251,7 +251,11 @@ end
 function killboss5min(islands,name)
     game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("TeleportToPortal"):FireServer(islands)
     wait(1)
+    if name == "GojoBoss" then
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1848, 8, 335)
+    end
     repeat wait()
+        print(name)
         equipWeapon("Strongest In History")
         game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.workspace.NPCs[name].HumanoidRootPart.CFrame * CFrame.new(10,0,0)
         haki()
