@@ -248,16 +248,34 @@ function DoHogyokuQuest()
     wait(5 + moretime)
 
 end
+function killboss5min(islands,name)
+    game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("TeleportToPortal"):FireServer(islands)
+    wait(1)
+    repeat wait()
+        equipWeapon("Strongest In History")
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.workspace.NPCs[name].HumanoidRootPart.CFrame * CFrame.new(10,0,0)
+        haki()
+        skillx()
+    until game.workspace.NPCs[name].Humanoid.Health == 0
+end
+function checkboss5min()
+    for i,v in pairs(game.workspace.NPCs:GetChildren()) do
+        if string.find(v.Name,"Boss") and v.Name ~= "YamatoBoss" then
+            if v.Name == "AizenBoss" then
+                killboss5min("HuecoMundo",v.Name)
+            elseif v.Name == "GojoBoss" or v.Name == "YujiBoss" or v.Name == "SukunaBoss" then
+                killboss5min("Shibuya",v.Name)
+            elseif v.Name == "JinwooBoss" then
+                killboss5min("Sailor",v.Name)
+            end
+        end
+    end
+end
 
 function equiprunes()
     local isequip = game:GetService("Players").LocalPlayer.PlayerGui.StatsPanelUI.MainFrame.Frame.Content.SideFrame.UserStats.RuneEquipped.StatName.Text
     if isequip ~= "Rune: Fortune Rune" then
-        local args = {
-            [1] = "Equip",
-            [2] = "Fortune Rune"
-        }
-
-        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("EquipRune"):FireServer(unpack(args))
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("EquipRune"):FireServer("Equip","Fortune Rune")
     end
 end
 
@@ -276,7 +294,7 @@ function _dungeon()
         if game:GetService("Players").LocalPlayer.PlayerGui.DungeonUI.ReplayDungeonFrameVisibleOnlyWhenClearingDungeon.Visible == true then
             game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("DungeonWaveReplayVote"):FireServer("sponsor")
         end
-        if string.find(v.Name,"Dungeon") ~= nil then
+        if string.find(v.Name,"Dungeon") ~= nil or string.find(v.Name,"Shadow") ~= nil then
             if game.Players.LocalPlayer.Character.Humanoid.Health < (game.Players.LocalPlayer.Character.Humanoid.MaxHealth / 10) then
                 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-130, 14, -121)
                 wait(2)
@@ -293,8 +311,10 @@ function _dungeon()
                 checkrune()
                 wait(2)
             end
-            if _Rune == true then
-                game.Players.LocalPlayer:Kick("Got Runes")
+            if game.PlaceId == 99684056491472 then
+                if _Rune == true then
+                    game.Players.LocalPlayer:Kick("Got Runes")
+                end
             end
         end
     end
@@ -354,6 +374,7 @@ while _G.play == true do wait()
                     until checktitle() or getQty("Boss Key") == 0 or _gems <= 175
                 end
                 if Unlock_Soul then
+                    checkboss5min()
                     local mon_jm = CFrame.new(-1272, 1, -1188)
                     local mon_ac = CFrame.new(1070, 2, 1273)
                     local mon_sl = CFrame.new(-1125, 18, 370)
