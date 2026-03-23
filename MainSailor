@@ -37,7 +37,9 @@ function checktitle()
         end
     end
     if result == true then
-        game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("TitleEquip"):FireServer("Destiny Marked")
+        if game:GetService("Players").LocalPlayer.PlayerGui.BasicStatsCurrencyAndButtonsUI.MainFrame.LevelInfo.Title.Text ~= "Title: Destiny Marked" then
+            game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("TitleEquip"):FireServer("Destiny Marked")
+        end
     end
 
     return result
