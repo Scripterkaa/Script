@@ -271,7 +271,7 @@ function checkboss5min()
                 killboss5min("HuecoMundo",v.Name)
             elseif v.Name == "GojoBoss" or v.Name == "YujiBoss" or v.Name == "SukunaBoss" then
                 killboss5min("Shibuya",v.Name)
-            elseif v.Name == "JinwooBoss" then
+            elseif v.Name == "JinwooBoss" or v.Name == "AlucardBoss" then
                 killboss5min("Sailor",v.Name)
             end
         end
