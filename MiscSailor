@@ -36,7 +36,7 @@ end
 function confirmstats()
     game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("ResetStats"):FireServer()
     local args = {
-        [1] = "Sword",
+        [1] = "Melee",
         [2] = 25000
     }
 
@@ -90,6 +90,7 @@ function setArtifact()
     game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("ArtifactSetAutoDelete"):FireServer("Epic",true)
 end
 game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("SpecPassiveUnlock"):FireServer()
+confirmstats()
 while true do
     reroll_passive("Saber")
     wait(.25)
