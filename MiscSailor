@@ -50,7 +50,7 @@ function confirmstats()
 end
 function clanrr()
     local clan = game.Players.LocalPlayer:GetAttribute("CurrentClan") or "None"
-    if clan ~= "Monarch" then
+    if clan ~= "Eminence" then
         game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UseItem"):FireServer("Use","Clan Reroll",1,true)
     end
 end
