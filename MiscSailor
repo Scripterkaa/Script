@@ -92,11 +92,12 @@ end
 game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("SpecPassiveUnlock"):FireServer()
 confirmstats()
 while true do
-    reroll_passive("Saber")
+    reroll_passive("Excalibur")
     wait(.25)
     setArtifact()
     reroll_passive("Strongest In History")
     clanrr()
     traitrr()
     racerr()
+    reroll_passive("Soul Reaper")
 end
