@@ -383,7 +383,7 @@ while _G.play == true do wait()
                         farmboss()
                     until checktitle() or getQty("Boss Key") == 0 or _gems <= 175
                 end
-                if Unlock_Soul then
+                if true then
                     checkboss5min()
                     local mon_jm = CFrame.new(-1272, 1, -1188)
                     local mon_ac = CFrame.new(1070, 2, 1273)
