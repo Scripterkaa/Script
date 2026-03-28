@@ -26,8 +26,13 @@ function reroll_passive(weapon)
     }
 
     game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("SpecPassiveUpdateAutoSkip"):FireServer(unpack(args))
+
     local _passive = game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("SpecPassiveGetData"):InvokeServer()
-    if a.Passives[weapon].Name ~= "Fortune Chosen" then
+    if _passive.Passive:FindFirstChild(weapon) == nil then
+        game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("SpecPassiveConfirm"):FireServer(true)
+	    game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("SpecPassiveReroll"):FireServer(weapon)
+    end
+    if _passive.Passives[weapon].Name ~= "Fortune Chosen" then
         game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("SpecPassiveConfirm"):FireServer(true)
 	    game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("SpecPassiveReroll"):FireServer(weapon)
         wait(.5)
@@ -92,12 +97,9 @@ end
 game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("SpecPassiveUnlock"):FireServer()
 confirmstats()
 while true do
-    reroll_passive("Excalibur")
     wait(.25)
     setArtifact()
-    reroll_passive("Strongest In History")
     clanrr()
     traitrr()
     racerr()
-    reroll_passive("Soul Reaper")
 end
