@@ -1,0 +1,78 @@
+if game.Players.LocalPlayer.Name ~= _G.leader then
+    function tradeto(playername)
+        local tradeplayer = game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("TradeRemotes"):WaitForChild("GetTradablePlayers"):InvokeServer()
+        local cantrade = 0
+            for i,v in pairs(tradeplayer) do
+                if v.name == playername then
+                    wait(2)
+                    print(v.userId)
+                    game.ReplicatedStorage.Remotes.TradeRemotes.SendTradeRequest:FireServer(v.userId)
+                end
+            end
+        wait(5)
+    end
+
+    function getQty(itemname)
+        local result
+        game:GetService("ReplicatedStorage").Remotes.UpdateInventory.OnClientEvent:Connect(function(table,item)
+            if table == "Items" then
+                for i,v in pairs(item) do
+                    if v.name == itemname then
+                        result = v.quantity or "0"
+                    end
+                end
+            end
+        end)
+
+        game:GetService("ReplicatedStorage").Remotes.RequestInventory:FireServer()
+        task.wait(.5)
+        if result == nil then
+            result = 0
+        end
+        return result
+    end
+
+    function additem(itemname)
+        local qty = getQty(itemname)
+        if qty ~= 0 then
+            task.wait(.5)
+            game.ReplicatedStorage.Remotes.TradeRemotes.AddItemToTrade:FireServer("Items",itemname,qty)
+        end
+    end
+
+    repeat task.wait(1)
+        tradeto(_G.leader)
+    until game:GetService("Players").LocalPlayer.PlayerGui.InTradingUI.MainFrame.Visible == true
+        for i,v in pairs(_G.item) do
+            additem(v)
+        end
+    repeat wait(.2)
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("TradeRemotes"):WaitForChild("SetReady"):FireServer(true)
+    until game:GetService("Players").LocalPlayer.PlayerGui.InTradingUI.MainFrame.Frame.Content.Player2Side.Player2Holder.Buttons.Ready.Txt.Text ~= "Ready"
+    repeat wait()
+    until game:GetService("Players").LocalPlayer.PlayerGui.InTradingUI.MainFrame.Frame.Content.Player2Side.Player2Holder.Buttons.Ready.Txt.Text == "CONFIRM"
+    repeat 
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("TradeRemotes"):WaitForChild("ConfirmTrade"):FireServer()
+        wait(.25)
+    until game:GetService("Players").LocalPlayer.PlayerGui.InTradingUI.MainFrame.Visible == false
+    game.Players.LocalPlayer:Kick("Done")
+end
+if game.Players.LocalPlayer.Name == _G.leader then
+    while true do
+        repeat task.wait() until game:GetService("Players").LocalPlayer.PlayerGui.TradeRequestUI.TradeRequest.Visible == true
+        task.wait(.25)
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("TradeRemotes"):WaitForChild("RespondToRequest"):FireServer(true)
+        wait(3)
+        repeat task.wait() until game:GetService("Players").LocalPlayer.PlayerGui.InTradingUI.MainFrame.Frame.Content.Player2Side.Player2Holder.Player2Holder.ReadyIndicator.Visible == true
+        repeat wait(.2)
+            game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("TradeRemotes"):WaitForChild("SetReady"):FireServer(true)
+        until game:GetService("Players").LocalPlayer.PlayerGui.InTradingUI.MainFrame.Frame.Content.Player2Side.Player2Holder.Buttons.Ready.Txt.Text ~= "Ready"
+        repeat wait()
+        until game:GetService("Players").LocalPlayer.PlayerGui.InTradingUI.MainFrame.Frame.Content.Player2Side.Player2Holder.Buttons.Ready.Txt.Text == "CONFIRM"
+        repeat 
+            game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("TradeRemotes"):WaitForChild("ConfirmTrade"):FireServer()
+            wait(.25)
+        until game:GetService("Players").LocalPlayer.PlayerGui.InTradingUI.MainFrame.Visible == false
+        wait(3)
+    end
+end
