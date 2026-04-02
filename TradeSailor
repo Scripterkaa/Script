@@ -55,7 +55,9 @@ if game.Players.LocalPlayer.Name ~= _G.leader then
         game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("TradeRemotes"):WaitForChild("ConfirmTrade"):FireServer()
         wait(.25)
     until game:GetService("Players").LocalPlayer.PlayerGui.InTradingUI.MainFrame.Visible == false
-    _G.Horst_AccountChangeDone()
+    if _G.Horst == true then
+        _G.Horst_AccountChangeDone()
+    end
     game.Players.LocalPlayer:Kick("Done")
 end
 if game.Players.LocalPlayer.Name == _G.leader then
