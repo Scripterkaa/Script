@@ -63,8 +63,9 @@ end
 if game.Players.LocalPlayer.Name == _G.leader then
     while true do
         repeat task.wait() until game:GetService("Players").LocalPlayer.PlayerGui.TradeRequestUI.TradeRequest.Visible == true
-        task.wait(.25)
-        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("TradeRemotes"):WaitForChild("RespondToRequest"):FireServer(true)
+        repeat task.wait(.25)
+            game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("TradeRemotes"):WaitForChild("RespondToRequest"):FireServer(true)
+        until game:GetService("Players").LocalPlayer.PlayerGui.InTradingUI.MainFrame.Visible == true
         wait(3)
         repeat task.wait() until game:GetService("Players").LocalPlayer.PlayerGui.InTradingUI.MainFrame.Frame.Content.Player2Side.Player2Holder.Player2Holder.ReadyIndicator.Visible == true
         repeat wait(.2)
