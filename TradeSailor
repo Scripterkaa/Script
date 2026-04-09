@@ -1,3 +1,14 @@
+_G.item = { 
+    "Frost Relic",
+    "Trait Reroll",
+    "Clan Reroll",
+    "Mythical Chest",
+    "Aura Crate",
+    "Cosmetic Crate",
+    "Power Shard",
+    "Race Reroll",
+    "Passive Shard",
+}
 if game.Players.LocalPlayer.Name ~= _G.leader then
     function tradeto(playername)
         local tradeplayer = game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("TradeRemotes"):WaitForChild("GetTradablePlayers"):InvokeServer()
