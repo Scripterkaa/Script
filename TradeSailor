@@ -1,6 +1,6 @@
 _G.item = { 
-    "Frost Relic",
-    "Clan Reroll",
+    "Aura Crate",
+    "Mythical Chest",
     "Cosmetic Crate",
 }
 if game.Players.LocalPlayer.Name ~= _G.leader then
