@@ -4,6 +4,7 @@ _G.item = {
     "Cosmetic Crate",
     "Clan Reroll",
     "Passive Shard",
+    "Secret Chest",
 }
 if game.Players.LocalPlayer.Name ~= _G.leader then
     function tradeto(playername)
