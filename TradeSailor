@@ -8,12 +8,15 @@ for _,v in pairs(_G.leader) do
 end
 
 _G.item = { 
+    "Race Reroll",
+    "Trait Reroll",
+    "Power Shard",
     "Aura Crate",
     "Mythical Chest",
     "Cosmetic Crate",
     "Clan Reroll",
+    "Chrysalis Sigil",
     "Passive Shard",
-    "Secret Chest",
 }
 if not match then
     function tradeto(playername)
