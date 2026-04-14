@@ -1,4 +1,4 @@
-local ran = maht.random(1,#_G.leader)
+local ran = math.random(1,#_G.leader)
 local match = false
 
 for _,v in pairs(_G.leader) do
