@@ -9,13 +9,16 @@ end
 _G.item = { 
     "Race Reroll",
     "Trait Reroll",
-    "Power Shard",
     "Aura Crate",
     "Mythical Chest",
     "Cosmetic Crate",
     "Clan Reroll",
-    "Chrysalis Sigil",
-    "Passive Shard",
+    "Abyss Sigil",
+    "Upper Seal",
+    "Eternal Core",
+    "Path Fragment",
+    "Battle Sigil",
+    "Power Remnant",
 }
 if not match then
     function tradeto(playername)
