@@ -9,7 +9,7 @@ end
 _G.item = { 
     "Upper Seal",
     "Race Reroll",
-    "Frost Relic", 
+    "Frost Relic",
 }
 if not match then
     function tradeto(playername)
