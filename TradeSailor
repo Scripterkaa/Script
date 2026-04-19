@@ -7,8 +7,7 @@ for _,v in pairs(_G.leader) do
 end
 
 _G.item = { 
-    "Dominion Brand",
-    "Bloodline Stone",
+    "Aura Crate",
 }
 if not match then
     function tradeto(playername)
