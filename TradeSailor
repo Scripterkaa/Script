@@ -7,8 +7,25 @@ for _,v in pairs(_G.leader) do
 end
 
 _G.item = { 
+    "Cosmic Essence",
+    "Star Mark",
+    "Galaxy Shard",
+    "Monster Pulse",
+    "Dominion Brand",
     "Bloodline Stone",
-    "Dominion Brand"
+    "Guild Key",
+    "Relic Part #3",
+    "Relic Part #4",
+    "Relic Part #2",
+    "Relic Part #1",
+    "Relic Part #8",
+    "Relic Part #7",
+    "Relic Part #5",
+    "Relic Part #6",
+    "Power Fragment",
+    "Time Remnant",
+    "World Core",
+    "Vampire Omen"
 }
 if not match then
     function tradeto(playername)
