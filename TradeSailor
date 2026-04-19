@@ -9,6 +9,8 @@ end
 _G.item = { 
     "Easter Egg",
     "Easter Key",
+    "Bloodline Stone",
+    "Dominion Brand"
 }
 if not match then
     function tradeto(playername)
