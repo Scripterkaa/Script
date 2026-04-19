@@ -7,8 +7,6 @@ for _,v in pairs(_G.leader) do
 end
 
 _G.item = { 
-    "Easter Egg",
-    "Easter Key",
     "Bloodline Stone",
     "Dominion Brand"
 }
