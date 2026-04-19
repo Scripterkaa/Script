@@ -1,4 +1,7 @@
-
+repeat task.wait() until game:IsLoaded()
+task.wait(5)
+local Root = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
+local status = ""
 function tp_getancient(islands)
         game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("TeleportToPortal"):FireServer(islands)
         wait(1)
@@ -90,8 +93,6 @@ function tp_getancient(islands)
         wait(2)
     end
 if game.PlaceId == 77747658251236 then
-    local Root = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
-    local status = ""
     repeat wait()
         game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("TeleportToPortal"):FireServer("World")
         print("FINE")
