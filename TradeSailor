@@ -22,10 +22,6 @@ _G.item = {
     "Relic Part #7",
     "Relic Part #5",
     "Relic Part #6",
-    "Power Fragment",
-    "Time Remnant",
-    "World Core",
-    "Vampire Omen"
 }
 if not match then
     function tradeto(playername)
