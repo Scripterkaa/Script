@@ -93,7 +93,7 @@ else
         tp(CFrame.new(-736, -4, -429))
         equipWeapon("Combat")
         game:GetService("ReplicatedStorage"):WaitForChild("CombatSystem"):WaitForChild("Remotes"):WaitForChild("RequestHit"):FireServer()
-    until game.Players.LocalPlayer.leaderstats.Bounty.Value < 50000000
+    until game.Players.LocalPlayer.leaderstats.Bounty.Value == 50000000
     if _G.Horst == true then
         _G.Horst_SetDescription("✨Bounty: "..tostring(game.Players.LocalPlayer.leaderstats.Bounty.Value))
         _G.Horst_AccountChangeDone()
