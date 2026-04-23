@@ -90,7 +90,7 @@ if _G.killer == false then
     game.Players.LocalPlayer:Kick("Done")
 else
     repeat wait()
-        tp(CFrame.new(-736, -4, -429))
+        tp(CFrame.new(-736, -4, -412))
         equipWeapon("Combat")
         game:GetService("ReplicatedStorage"):WaitForChild("CombatSystem"):WaitForChild("Remotes"):WaitForChild("RequestHit"):FireServer()
     until game.Players.LocalPlayer.leaderstats.Bounty.Value == 50000000
