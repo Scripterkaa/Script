@@ -17,6 +17,11 @@ function clearHealth()
     game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("EquipCosmetic"):FireServer("UnequipStats")
 end
 
+function NC()
+    game.Players.LocalPlayer:WaitForChild("HumanoidRootPart).CanCollide = false
+    game.Players.LocalPlayer:WaitForChild("Head).CanCollide = false
+    game.Players.LocalPlayer:WaitForChild("Torso).CanCollide = false
+end
 
 local Service = setmetatable({}, {
     __index = function(_,k)
