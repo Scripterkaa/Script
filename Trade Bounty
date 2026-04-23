@@ -92,6 +92,7 @@ if _G.killer == false then
     game.Players.LocalPlayer:Kick("Done")
 else
     repeat wait()
+        game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("SettingsToggle"):FireServer("DisablePvP",false)
         tp(CFrame.new(-736, -4, -412))
         equipWeapon("Combat")
         game:GetService("ReplicatedStorage"):WaitForChild("CombatSystem"):WaitForChild("Remotes"):WaitForChild("RequestHit"):FireServer()
