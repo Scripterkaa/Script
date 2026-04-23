@@ -88,6 +88,7 @@ if _G.killer == false then
     end
     clearHealth()
     repeat wait() 
+        NC()
         game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("SettingsToggle"):FireServer("DisablePvP",false)
         tp(CFrame.new(-736, -4, -412))
     until game.Players.LocalPlayer.leaderstats.Bounty.Value < 10000000
@@ -97,6 +98,7 @@ if _G.killer == false then
     game.Players.LocalPlayer:Kick("Done")
 else
     repeat wait()
+        NC()
         game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("SettingsToggle"):FireServer("DisablePvP",false)
         tp(CFrame.new(-736, -4, -412))
         equipWeapon("Combat")
