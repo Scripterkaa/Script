@@ -1,3 +1,10 @@
+local main = false
+
+for i,v in pairs(_G.killers) do
+    if game.Players.LocalPlayer.Name == v then
+        main = true
+    end
+end
 
 function clearHealth()
     game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("ResetStats"):FireServer()
@@ -18,9 +25,9 @@ function clearHealth()
 end
 
 function NC()
-    game.Players.LocalPlayer:WaitForChild("HumanoidRootPart).CanCollide = false
-    game.Players.LocalPlayer:WaitForChild("Head).CanCollide = false
-    game.Players.LocalPlayer:WaitForChild("Torso).CanCollide = false
+    game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CanCollide = false
+    game.Players.LocalPlayer.Character:WaitForChild("Head").CanCollide = false
+    game.Players.LocalPlayer.Character:WaitForChild("Torso").CanCollide = false
 end
 
 local Service = setmetatable({}, {
@@ -78,13 +85,12 @@ if game.PlaceId ~= 77747658251236 then
     end
 end
 
-if _G.killer == false then
+if main == false then
     local playercount = 0
     for i,v in pairs(game.Players:GetChildren()) do
-        playercount = playercount + 1
-    end
-    if playercount <= 1 then
-        game.Players.LocalPlayer:Kick("No one in Server")
+        if _G.killers:FindFirstChild(v.Name) == nil then
+            game.Players.LocalPlayer:Kick("No one in Server")
+        end
     end
     clearHealth()
     repeat wait() 
