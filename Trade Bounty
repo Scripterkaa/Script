@@ -5,6 +5,7 @@ if game.PlaceId == 130167267952199 then
     Root.CFrame = CFrame.new(-276, 323, -3058)
     wait(1)
     fireproximityprompt(game.Workspace.WorldIsland:WaitForChild("Model"):WaitForChild("Map"):WaitForChild("Door"):WaitForChild("Cube.003").Sea2DoorPrompt)
+    wait(10)
 end
 
 function clearHealth()
