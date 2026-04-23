@@ -1,14 +1,3 @@
-if game.PlaceId ~= 77747658251236 then
-    while true do wait()
-        local Root = game.Players.LocalPlayer.Character.HumanoidRootPart
-        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("TeleportToPortal"):FireServer("Sea2World")
-        wait(.2)
-        Root.CFrame = CFrame.new(-276, 323, -3058)
-        wait(1)
-        fireproximityprompt(game.Workspace.WorldIsland:WaitForChild("Model"):WaitForChild("Map"):WaitForChild("Door"):WaitForChild("Cube.003").Sea2DoorPrompt)
-        wait(10)
-    end
-end
 
 function clearHealth()
     game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("ResetStats"):FireServer()
@@ -70,6 +59,17 @@ function tp(pos)
     else
         task.wait(0.001)
         Root.CFrame = pos
+    end
+end
+
+if game.PlaceId ~= 77747658251236 then
+    while true do wait()
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("TeleportToPortal"):FireServer("Sea2World")
+        wait(.2)
+        tp(CFrame.new(-276, 323, -3058))
+        wait(1)
+        fireproximityprompt(game.Workspace.WorldIsland:WaitForChild("Model"):WaitForChild("Map"):WaitForChild("Door"):WaitForChild("Cube.003").Sea2DoorPrompt)
+        wait(10)
     end
 end
 
