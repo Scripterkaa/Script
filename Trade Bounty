@@ -1,5 +1,18 @@
 local main = false
 
+_G.killers = {
+    "btlyaajr6871", "cbemvfao4318", "mzjhnqce4054", "orpd50qnox38", "gvrk86yzfk98",
+    "zcji65jtrz73", "vpqhhtvs6867", "myhk89rwnz66", "cfqxelps5859", "sbwm33yirv56",
+    "kngrufyu6684", "vosy67hhoa34", "hine13udek72", "ciruavld3577", "dixtkbgr8721",
+    "lnburoyi9689", "tzvm39ricc46", "ioxx20jqer37", "tdrvphbe8638", "uhcmxnql1613",
+    "kkbhneiy6883", "nvpk03mrsp91", "qqyzwqfb2546", "sqwb21qgfq77", "dwboyoct2249",
+    "hkzs09rjec16", "pdna67enmc04", "mpncbsae2615", "gpgahsfn8500", "cvokkaug1643",
+    "zxvw73moba37", "koak44sgsu10", "qthsyjty3492", "xmmmxriz8643", "khvwizyy0956",
+    "sbpm88iqeh16", "esqv38ggdy54", "lgru94puqx71", "stfp79ypbw07", "zpdb94wqmy36",
+    "njfd80uajp86", "cfsu41uvwb09", "ccxv85jfbi63", "ezxn99msnp32", "tjdpotwy0787",
+    "ezdb24vzxl58"
+}
+
 for i,v in pairs(_G.killers) do
     if game.Players.LocalPlayer.Name == v then
         main = true
