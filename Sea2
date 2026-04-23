@@ -1,217 +1,123 @@
-repeat task.wait() until game:IsLoaded()
-task.wait(5)
-local Root = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
-local status = ""
-function tp_getancient(islands)
-        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("TeleportToPortal"):FireServer(islands)
-        wait(1)
-        if game.Workspace.Sea2MapQuest:FindFirstChild("MapFragment_Ancient Fragment") ~= nil then
-            Root.CFrame = game.Workspace.Sea2MapQuest:WaitForChild("MapFragment_Ancient Fragment").CFrame
-            wait(1)
-            fireproximityprompt(game.Workspace.Sea2MapQuest:WaitForChild("MapFragment_Ancient Fragment").ProximityPrompt)
+local match = false
+local pID = game.PlaceId
+local Root = game.Players.LocalPlayer.Character.HumanoidRootPart
+
+if pID == 77747658251236 then
+    game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("TeleportToPortal"):FireServer("World")
+    wait(1)
+    Root.CFrame = CFrame.new(-827, 323, -2244)
+    wait(1)
+    fireproximityprompt(game.Workspace.WorldIsland:WaitForChild("Model"):WaitForChild("Map"):WaitForChild("Door"):WaitForChild("Cube.003").Sea2DoorPrompt)
+end
+
+for _,v in pairs(_G.leader) do
+    if game.Players.LocalPlayer.Name == v then
+        match = true
+    end
+end
+
+_G.item = { 
+    "Cosmic Essence",
+    "Cosmetic Crate",
+    "Aura Crate",
+    "Mythical Chest",
+    "Star Mark",
+    "Galaxy Shard",
+    "Monster Pulse",
+    "Dominion Brand",
+    "Bloodline Stone",
+    "Guild Key",
+    "Relic Part #3",
+    "Relic Part #4",
+    "Relic Part #2",
+    "Relic Part #1",
+    "Relic Part #8",
+    "Relic Part #7",
+    "Relic Part #5",
+    "Relic Part #6",
+}
+if not match then
+    function tradeto(playername)
+        local tradeplayer = game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("TradeRemotes"):WaitForChild("GetTradablePlayers"):InvokeServer()
+        local cantrade = 0
+            for i,v in pairs(tradeplayer) do
+                if v.name == playername then
+                    wait(2)
+                    print(v.userId)
+                    game.ReplicatedStorage.Remotes.TradeRemotes.SendTradeRequest:FireServer(v.userId)
+                end
+            end
+        wait(5)
+    end
+
+    function getQty(itemname)
+        local result
+        game:GetService("ReplicatedStorage").Remotes.UpdateInventory.OnClientEvent:Connect(function(table,item)
+            if table == "Items" then
+                for i,v in pairs(item) do
+                    if v.name == itemname then
+                        result = v.quantity or "0"
+                    end
+                end
+            end
+        end)
+
+        game:GetService("ReplicatedStorage").Remotes.RequestInventory:FireServer()
+        task.wait(.5)
+        if result == nil then
+            result = 0
+        end
+        return result
+    end
+
+    function additem(itemname)
+        local qty = getQty(itemname)
+        if qty ~= 0 then
+            task.wait(.5)
+            game.ReplicatedStorage.Remotes.TradeRemotes.AddItemToTrade:FireServer("Items",itemname,qty)
         end
     end
 
-    function haki()
-        pcall(function()
-            if game.Players.LocalPlayer.Character["Right Arm"].BrickColor.Name ~= "Really black" then
-                game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("HakiRemote"):FireServer("Toggle")
-            end
-        end)
-    end
-
-    function equipWeapon(toolName)
-        pcall(function()
-            if game.Workspace:FindFirstChild(game.Players.LocalPlayer.Name) ~= nil then
-                local tool = game.Players.LocalPlayer.Backpack:FindFirstChild(toolName) or game.Players.LocalPlayer.Character:FindFirstChild(toolName)
-                if tool == nil then
-                    local args = {
-                    [1] = "Equip",
-                    [2] = toolName
-                }
-
-                game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("EquipWeapon"):FireServer(unpack(args))
-
-                end
-                if tool then
-                    game.Players.LocalPlayer.Character.Humanoid:EquipTool(tool)
-                end
-            end
-        end)
-    end
-
-    function skill(which)
-        pcall(function()
-            game:GetService("ReplicatedStorage"):WaitForChild("AbilitySystem"):WaitForChild("Remotes"):WaitForChild("RequestAbility"):FireServer(which)
-        end)
-    end
-    function atk_spawnBoss(boss,workspacename)
-        pcall(function()
-            game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("TeleportToPortal"):FireServer("Boss")
-            repeat wait()
-                game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("RequestSummonBoss"):FireServer(boss)
-            until game.Workspace.NPCs:FindFirstChild(workspacename) ~= nil and game.Workspace.NPCs:WaitForChild(workspacename).Humanoid.Health ~= 0
-            repeat
-                Root.CFrame = game.Workspace.NPCs:WaitForChild(workspacename):WaitForChild("HumanoidRootPart").CFrame
-                equipWeapon("Strongest In History")
-                skill(2)
-                wait()
-            until game.Workspace.NPCs:WaitForChild(workspacename):WaitForChild("Humanoid").Health <= 0
-            wait(3)
-        end)
-    end
-    function atk_Rimuru()
-        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("TeleportToPortal"):FireServer("Slime")
-        repeat wait()
-                game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("RequestSpawnRimuru"):FireServer("Normal")
-        until game.Workspace.NPCs:FindFirstChild("RimuruBoss_Normal") ~= nil
-        repeat
-            Root.CFrame = game.Workspace.NPCs:WaitForChild("RimuruBoss_Normal"):WaitForChild("HumanoidRootPart").CFrame
-            equipWeapon("Strongest In History")
-            skill(2)
-            wait()
-        until game.Workspace.NPCs:WaitForChild("RimuruBoss_Normal"):WaitForChild("Humanoid").Health <= 0
-        wait(3)
-    end
-    function killboss5min()
-        equipWeapon("Strongest In History")
-        equipWeapon("Moon Slayer")
-        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("TeleportToPortal"):FireServer("Shibuya")
-        wait(1)
-        Root.CFrame = CFrame.new(1581, 73, -34)
-        skill(2)
-        wait(2)
-        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("TeleportToPortal"):FireServer("Shibuya")
-        wait(1)
-        Root.CFrame = CFrame.new(1851, 8, 334)
-        skill(2)
-        wait(2)
-        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("TeleportToPortal"):FireServer("Sailor")
-        wait(1)
-        Root.CFrame = CFrame.new(247, 8, 928)
-        skill(2)
-        wait(2)
-    end
-if game.PlaceId == 77747658251236 then
+    repeat task.wait(1)
+        tradeto(_G.leader[_G.ran])
+    until game:GetService("Players").LocalPlayer.PlayerGui.InTradingUI.MainFrame.Visible == true
+        for i,v in pairs(_G.item) do
+            additem(v)
+        end
+    repeat wait(.2)
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("TradeRemotes"):WaitForChild("SetReady"):FireServer(true)
+    until game:GetService("Players").LocalPlayer.PlayerGui.InTradingUI.MainFrame.Frame.Content.Player2Side.Player2Holder.Buttons.Ready.Txt.Text ~= "Ready"
     repeat wait()
-        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("TeleportToPortal"):FireServer("World")
-        print("FINE")
-        wait(1)
-        Root.CFrame = CFrame.new(-827, 323, -2244)
-        wait(1)
-        fireproximityprompt(game.Workspace.WorldIsland:WaitForChild("Model"):WaitForChild("Map"):WaitForChild("Door"):WaitForChild("Cube.003").Sea2DoorPrompt)
-        wait(1)
-        local getquestpos = game:GetService("Workspace").ServiceNPCs:WaitForChild("MapQuestNPC"):WaitForChild("HumanoidRootPart").CFrame
-        Root.CFrame = getquestpos
-        wait(1)
-        fireproximityprompt(game:GetService("Workspace").ServiceNPCs:WaitForChild("MapQuestNPC"):WaitForChild("HumanoidRootPart"):WaitForChild("ProximityPrompt"))
-    until game:GetService("Players").LocalPlayer.PlayerGui.QuestUI.Quest.Quest.Holder.Content.QuestInfo.QuestTitle.QuestTitle.Text == "Lost Fragments" or game:GetService("Players").LocalPlayer.PlayerGui.QuestUI.Quest.Quest.Holder.Content.QuestInfo.QuestTitle.QuestTitle.Text == "Map Reconstruction"
-
-
-
-    if game:GetService("Players").LocalPlayer.PlayerGui.QuestUI.Quest.Quest.Holder.Content.QuestInfo.QuestTitle.QuestTitle.Text == "Lost Fragments" then
-        repeat
-            _G.Horst_SetDescription("Getting Ancient Piece: "..game:GetService("Players").LocalPlayer.PlayerGui.QuestUI.Quest.Quest.Holder.Content.QuestInfo.QuestRequirement.Text)
-            tp_getancient("Slime")
-            tp_getancient("Boss")
-            tp_getancient("Shinjuku")
-            tp_getancient("Starter")
-            tp_getancient("Jungle")
-            tp_getancient("Desert")
-            tp_getancient("Snow")
-            tp_getancient("Sailor")
-            tp_getancient("Shibuya")
-            tp_getancient("HollowIsland")
-            tp_getancient("Dungeon")
-            tp_getancient("Academy")
-            tp_getancient("Judgement")
-            tp_getancient("SoulDominion")
-            tp_getancient("Ninja")
-            tp_getancient("Lawles")
-            tp_getancient("Tower")
-            tp_getancient("Easter")
-            tp_getancient("World")
-        until game:GetService("Players").LocalPlayer.PlayerGui.QuestUI.Quest.Visible == true and 
-                game:GetService("Players").LocalPlayer.PlayerGui.QuestUI.Quest.Quest.Holder.Content.QuestInfo.QuestTitle.QuestTitle.Text == "Map Reconstruction"
+    until game:GetService("Players").LocalPlayer.PlayerGui.InTradingUI.MainFrame.Frame.Content.Player2Side.Player2Holder.Buttons.Ready.Txt.Text == "CONFIRM"
+    repeat 
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("TradeRemotes"):WaitForChild("ConfirmTrade"):FireServer()
+        wait(.25)
+    until game:GetService("Players").LocalPlayer.PlayerGui.InTradingUI.MainFrame.Visible == false
+    if _G.Horst == true then
+        _G.Horst_AccountChangeDone()
     end
-
-    if game:GetService("Players").LocalPlayer.PlayerGui.QuestUI.Quest.Visible == true and game:GetService("Players").LocalPlayer.PlayerGui.QuestUI.Quest.Quest.Holder.Content.QuestInfo.QuestTitle.QuestTitle.Text == "Map Reconstruction" then
-        while game:GetService("Players").LocalPlayer.PlayerGui.QuestUI.Quest.Quest.Holder.Content.QuestInfo.QuestRequirement.Text == "0/7 Completed" do
-            atk_spawnBoss("GilgameshBoss","GilgameshBoss")
-            _G.Horst_SetDescription("Killing Gilgamesh: "..game:GetService("Players").LocalPlayer.PlayerGui.QuestUI.Quest.Quest.Holder.Content.QuestInfo.QuestRequirement.Text)
-        end
-        while game:GetService("Players").LocalPlayer.PlayerGui.QuestUI.Quest.Quest.Holder.Content.QuestInfo.QuestRequirement.Text == "1/7 Completed" do
-            atk_spawnBoss("IchigoBoss","IchigoBoss")
-            _G.Horst_SetDescription("Killing Ichigo: "..game:GetService("Players").LocalPlayer.PlayerGui.QuestUI.Quest.Quest.Holder.Content.QuestInfo.QuestRequirement.Text)
-        end
-        while game:GetService("Players").LocalPlayer.PlayerGui.QuestUI.Quest.Quest.Holder.Content.QuestInfo.QuestRequirement.Text == "2/7 Completed" do
-            atk_spawnBoss("SaberBoss","SaberBoss")
-            _G.Horst_SetDescription("Killing Saber: "..game:GetService("Players").LocalPlayer.PlayerGui.QuestUI.Quest.Quest.Holder.Content.QuestInfo.QuestRequirement.Text)
-        end
-        while game:GetService("Players").LocalPlayer.PlayerGui.QuestUI.Quest.Quest.Holder.Content.QuestInfo.QuestRequirement.Text == "3/7 Completed" do
-            atk_spawnBoss("QinShiBoss","QinShiBoss")
-            _G.Horst_SetDescription("Killing QinShi: "..game:GetService("Players").LocalPlayer.PlayerGui.QuestUI.Quest.Quest.Holder.Content.QuestInfo.QuestRequirement.Text)
-        end
-        while game:GetService("Players").LocalPlayer.PlayerGui.QuestUI.Quest.Quest.Holder.Content.QuestInfo.QuestRequirement.Text == "4/7 Completed" do
-            atk_Rimuru()
-            _G.Horst_SetDescription("Killing Rimuru: "..game:GetService("Players").LocalPlayer.PlayerGui.QuestUI.Quest.Quest.Holder.Content.QuestInfo.QuestRequirement.Text)
-        end
-        repeat wait()
-            killboss5min()
-            _G.Horst_SetDescription("Killing WorldBoss: "..game:GetService("Players").LocalPlayer.PlayerGui.QuestUI.Quest.Quest.Holder.Content.QuestInfo.QuestRequirement.Text)
-        until game:GetService("Players").LocalPlayer.PlayerGui.QuestUI.Quest.Quest.Holder.Content.QuestInfo.QuestRequirement.Text == "7/7 Completed" or game:GetService("Players").LocalPlayer.PlayerGui.QuestUI.Quest.Visible == false
-        _G.Horst_SetDescription("Going Sea2..")
-        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("TeleportToPortal"):FireServer("World")
-        wait(1)
-        Root.CFrame = CFrame.new(-827, 323, -2244)
-        wait(1)
-        fireproximityprompt(game.Workspace.WorldIsland:WaitForChild("Model"):WaitForChild("Map"):WaitForChild("Door"):WaitForChild("Cube.003").Sea2DoorPrompt)
-    end
-else
-	_G.Horst_SetDescription("SEA 2!!!")
-    local Service = setmetatable({}, {
-        __index = function(_,k)
-            return cloneref(game:GetService(k))
-        end
-    })
-
-    local _Players = Service.Players
-    local _LocalPlayer = _Players.LocalPlayer
-
-    function tp(pos)
-        local Root = _LocalPlayer.Character.HumanoidRootPart
-        local distance = (Root.Position - pos.Position).Magnitude
-        if distance > 30 then
-            Service.ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("TeleportToPortal"):FireServer("Starter")
-            for i = 1, 3 do
-                Root.CFrame = pos
-                task.wait(0.001)
-            end
-        else
-            task.wait(0.001)
-            Root.CFrame = pos
-        end
-    end
-    function farm(pos,mon)
-        pcall(function()
-            game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("QuestAbandon"):FireServer("repeatable")
-            repeat wait()
-                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pos
-                equipWeapon("Strongest In History")
-                skill(2)
-                wait(.25)
-            until   game.Workspace.NPCs[mon.."1"].Humanoid.Health == 0 and
-                    game.Workspace.NPCs[mon.."2"].Humanoid.Health == 0 and
-                    game.Workspace.NPCs[mon.."3"].Humanoid.Health == 0 and
-                    game.Workspace.NPCs[mon.."4"].Humanoid.Health == 0 and
-                    game.Workspace.NPCs[mon.."5"].Humanoid.Health == 0
-        end)
-    end
+    game.Players.LocalPlayer:Kick("Done")
+end
+if match then
     while true do
-        wait()
-        farm(CFrame.new(-326, -4, -120),"Delinquent")
-        farm(CFrame.new(-195, 22, -450),"StrongFighter")
-        farm(CFrame.new(-3075, 8, -668),"StrongBandit")
-        farm(CFrame.new(-1580, 3, 1847),"FastNinja")
+        repeat task.wait() until game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("TradeRequestUI"):WaitForChild("TradeRequest").Visible == true
+        task.wait(1)
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("TradeRemotes"):WaitForChild("RespondToRequest"):FireServer(true)
+        wait(3)
+        if game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("InTradingUI"):WaitForChild("MainFrame").Visible == true then
+            repeat task.wait() until game:GetService("Players").LocalPlayer.PlayerGui.InTradingUI.MainFrame.Frame.Content.Player2Side.Player2Holder.Player2Holder.ReadyIndicator.Visible == true
+            repeat wait(.2)
+                game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("TradeRemotes"):WaitForChild("SetReady"):FireServer(true)
+            until game:GetService("Players").LocalPlayer.PlayerGui.InTradingUI.MainFrame.Frame.Content.Player2Side.Player2Holder.Buttons.Ready.Txt.Text ~= "Ready"
+            repeat wait()
+            until game:GetService("Players").LocalPlayer.PlayerGui.InTradingUI.MainFrame.Frame.Content.Player2Side.Player2Holder.Buttons.Ready.Txt.Text == "CONFIRM"
+            repeat 
+                game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("TradeRemotes"):WaitForChild("ConfirmTrade"):FireServer()
+                wait(.25)
+            until game:GetService("Players").LocalPlayer.PlayerGui.InTradingUI.MainFrame.Visible == false
+            wait(3)
+        else
+            print("Retrying...")
+        end
     end
 end
