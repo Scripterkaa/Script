@@ -1,8 +1,8 @@
 local match = false
 local pID = game.PlaceId
-local Root = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart")
 
 if pID == 77747658251236 then
+    local Root = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart")
     game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("TeleportToPortal"):FireServer("World")
     wait(1)
     Root.CFrame = CFrame.new(-827, 323, -2244)
