@@ -1,4 +1,4 @@
-if game.PlaceId == 130167267952199 then
+if game.PlaceId ~= 77747658251236 then
     local Root = game.Players.LocalPlayer.Character.HumanoidRootPart
     game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("TeleportToPortal"):FireServer("Sea2World")
     wait(.2)
