@@ -18,9 +18,6 @@ end
 
 _G.item = { 
     "Cosmic Essence",
-    "Cosmetic Crate",
-    "Aura Crate",
-    "Mythical Chest",
     "Star Mark",
     "Galaxy Shard",
     "Monster Pulse",
