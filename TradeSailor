@@ -16,12 +16,12 @@ for _,v in pairs(_G.leader) do
     end
 end
 
-_G.item = { 
-    "Cosmic Essence",
-    "Star Mark",
-    "Galaxy Shard",
-    "Monster Pulse",
+_G.item = {
+    "Aura Crate",
+    "Cosmetic Crate",
+    "Adamantite",
     "Dominion Brand",
+    "Mythical Chest",
     "Bloodline Stone",
     "Guild Key",
     "Relic Part #3",
