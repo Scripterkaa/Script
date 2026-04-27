@@ -18,6 +18,13 @@ end
 
 _G.item = {
     "Aura Crate",
+    "Cosmetic Crate",
+    "Mythical Chest",
+    "Passive Shard",
+    "Power Shard",
+    "Adamantite",
+    "Trait Reroll",
+    "Race Reroll",
     "Crystal Key",
 }
 if not match then
