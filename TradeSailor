@@ -21,6 +21,16 @@ _G.item = {
     "Cosmetic Crate",
     "Mythical Chest",
     "Crystal Key",
+    "Relic Part #8",
+    "Relic Part #7",
+    "Relic Part #6",
+    "Relic Part #5",
+    "Relic Part #4",
+    "Relic Part #3",
+    "Relic Part #2",
+    "Relic Part #1",
+    "Dominion Brand",
+    "Bloodline Stone"
 }
 if not match then
     function tradeto(playername)
