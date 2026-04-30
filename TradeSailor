@@ -31,7 +31,9 @@ _G.item = {
     "Relic Part #1",
     "Dominion Brand",
     "Bloodline Stone",
-    "Clan Reroll"
+    "Clan Reroll",
+    "Passive Shard",
+    "Power Shard"
 }
 if not match then
     function tradeto(playername)
