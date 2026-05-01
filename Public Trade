@@ -113,7 +113,7 @@ if match then
             until game:GetService("Players").LocalPlayer.PlayerGui.InTradingUI.MainFrame.Visible == false
             local des = ""
             for i,v in pairs(_G.item) do
-                des = des = des..v..": "..getQtyKM(v).." "
+                des = des = des..getQtyKM(v).." "
             end
             if _G.Horst == true then
                 _G.Horst_SetDescription(des)
