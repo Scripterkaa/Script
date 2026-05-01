@@ -1,7 +1,7 @@
 local match = false
 
 for _,v in pairs(_G.leader) do
-    if game.Players.LocalPlayer.Name == v then
+    if game.Players.LocalPlayer.DisplayName == v then
         match = true
     end
 end
