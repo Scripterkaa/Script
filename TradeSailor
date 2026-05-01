@@ -35,6 +35,33 @@ _G.item = {
     "Passive Shard",
     "Power Shard"
 }
+function getQtyKM(itemname)
+        local result
+        game:GetService("ReplicatedStorage").Remotes.UpdateInventory.OnClientEvent:Connect(function(table,item)
+            if table == "Items" then
+                for i,v in pairs(item) do
+                    if v.name == itemname then
+                        local qty = tostring(v.quantity) or 0
+                        if #qty > 3 and #qty < 7 then
+                            local str = string.sub(qty, 1,-4).."k"
+                            result = str
+                        end
+                        if #qty >= 7 then
+                            local str = string.sub(qty,1,-7).."."..string.sub(qty,2,3).."M"
+                            result = str
+                        end
+                    end
+                end
+            end
+        end)
+
+        game:GetService("ReplicatedStorage").Remotes.RequestInventory:FireServer()
+        task.wait(.5)
+        if result == nil then
+            result = 0
+        end
+        return result
+    end
 if not match then
     function tradeto(playername)
         local tradeplayer = game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("TradeRemotes"):WaitForChild("GetTradablePlayers"):InvokeServer()
@@ -114,6 +141,13 @@ if match then
                 game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("TradeRemotes"):WaitForChild("ConfirmTrade"):FireServer()
                 wait(.25)
             until game:GetService("Players").LocalPlayer.PlayerGui.InTradingUI.MainFrame.Visible == false
+            local des = ""
+            for i,v in pairs(_G.item) do
+                des = des..getQtyKM(v).." "
+            end
+            if _G.Horst == true then
+                _G.Horst_SetDescription(des)
+            end
             wait(3)
         else
             print("Retrying...")
