@@ -1,15 +1,6 @@
 local match = false
 local pID = game.PlaceId
 
-if pID == 77747658251236 then
-    local Root = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart")
-    game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("TeleportToPortal"):FireServer("World")
-    wait(1)
-    Root.CFrame = CFrame.new(-827, 323, -2244)
-    wait(1)
-    fireproximityprompt(game.Workspace.WorldIsland:WaitForChild("Model"):WaitForChild("Map"):WaitForChild("Door"):WaitForChild("Cube.003").Sea2DoorPrompt)
-end
-
 for _,v in pairs(_G.leader) do
     if game.Players.LocalPlayer.Name == v then
         match = true
