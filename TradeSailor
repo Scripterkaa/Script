@@ -43,7 +43,7 @@ function getQtyKM(itemname)
         end)
 
         game:GetService("ReplicatedStorage").Remotes.RequestInventory:FireServer()
-        task.wait(.5)
+        task.wait(1)
         if result == nil then
             result = 0
         end
@@ -135,7 +135,6 @@ if match then
             if _G.Horst == true then
                 _G.Horst_SetDescription(des)
             end
-            wait(3)
         else
             print("Retrying...")
         end
