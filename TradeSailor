@@ -20,6 +20,7 @@ function getQtyKM(itemname)
                 for i,v in pairs(item) do
                     if v.name == itemname then
                         local qty = tostring(v.quantity) or 0
+                        result = qty
                         if #qty > 3 and #qty < 7 then
                             local str = string.sub(qty, 1,-4).."k"
                             result = str
