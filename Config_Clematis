@@ -1,4 +1,4 @@
-script_key = _G.Key;
+script_key = getgenv().Key;
 getgenv().Config = {
     -- Plant Configuration --
     ["KeepSeeds"] = {   -- Seeds in this list will not be planted
