@@ -1,13 +1,13 @@
-script_key = getgenv().Key;
+script_key= getgenv().Key
 getgenv().Config = {
     -- Plant Configuration --
     ["KeepSeeds"] = {   -- Seeds in this list will not be planted
         "Dragon's Breath", 
         "Moon Bloom",
-        "Gold",
-        "Venus Fly Trap",
-        "Mushroom",
         "Rainbow",
+        "Venom Spitter",
+        "Venus Fly Trap",
+        "Mushroom"
     },
     ["Include_Mutation"] = false, -- Include mutation plant to remove (false skip)
     ["LimitPlanting"] = { -- You can add more seed by yourself
@@ -51,9 +51,17 @@ getgenv().Config = {
         }
     },
 
+    -- Daily Deal
+    ["Daily_Deal"] = {
+        ["Enable"] = true,
+        ["Require_Fruits"] = {
+            ["Bamboo"] = 100,
+        }
+    },
+
     -- Pet Configuration --
     ["AutoUpgradePetSlot"] = {
-        ["Enable"] = true,
+        ["Enable"] = false,
         ["MaxSlot"] = 6,
     },
     ["AutoEquipPets"] = {
@@ -77,7 +85,6 @@ getgenv().Config = {
         ["All_Seeds_Limit"] = 20,
 		["Limit_Specfic"] = {
 			["Carrot"] = 999,
-            ["Mushroom"] = 1000,
 		},
         ["Blacklist_Seeds"] = {
             "Something",
@@ -103,6 +110,7 @@ getgenv().Config = {
     -- Mailbox Configuration --
     ["AutoMailbox"] = {
         ["UserId"] = {9229929696},
+        ["AutoAcceptMail"] = true,
         ["MaxValue"] = 999, -- Max Value to send (to avoid high amount detect)
         ["Items"] = {   -- Min Value to send
             ["Dragon's Breath"] = 1, 
@@ -110,25 +118,24 @@ getgenv().Config = {
             ["Venus Fly Trap"] = 1,
             ["Gold"] = 10,
             ["Rainbow"] = 1,
-            ["Common Sprinkler"] = 1000,
+            ["Common Sprinkler"] = 100,
             ["Uncommon Sprinkler"] = 50,
             ["Rare Sprinkler"] = 50,
             ["Legendary Sprinkler"] = 5,
             ["Super Watering Can"] = 1,
             ["Super Sprinkler"] = 1,
             ["Mushroom"] = 50,
+            ["Venom Spitter"] = 1,
         },
         ["Pets"] = {
             "Unicorn",
             "Raccoon",
-            "GoldenDragonfly",
+            "Golden Dragonfly",
         }
     },
 
     -- Misc --
     ["Plant_Underground"] = false,
-    ["Disable_Public_Log"] = false,
-    ["AutoSell_Interval"] = 5,
 
     -- Logger --
     ["Log"] = {
