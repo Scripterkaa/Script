@@ -120,6 +120,15 @@ getgenv().GAG2Config = {
             ["Super Sprinkler"] = 1,
             ["Mushroom"] = 50,
             ["Venom Spitter"] = 1,
+            ["Super Watering Can"] = 1,
+            ["Super Sprinkler"] = 1,
+            ["Mushroom"] = 50,
+            ["Venom Spitter"] = 1,
+            ["BlackDragon"] = 1, 
+            ["GoldenDragonfly"] = 1, 
+            ["Unicorn"] = 1,
+            ["Raccoon"] = 1, 
+            ["IceSerpent"] = 1,
         }
     },  -- ["Username"] = { ["Item Name"] = Amount }
     COLLECT_MAIL = true,
