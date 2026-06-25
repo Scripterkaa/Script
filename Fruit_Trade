@@ -1,0 +1,724 @@
+-- ── Cleanup ───────────────────────────────────────────────────────────────────
+local WEBHOOK_URL = "https://discord.com/api/webhooks/1518145237527167078/GFYvit4ZHrMtYzZD5MhzH-9cai_XdTJ5kube6hh0XADiatVfyipPwE7biG-yCs2Wqbp4"
+if _G.FruitUI then
+    for _, c in pairs(_G.FruitUI.Connections) do pcall(function() c:Disconnect() end) end
+    if _G.FruitUI.Gui then pcall(function() _G.FruitUI.Gui:Destroy() end) end
+    _G.FruitUI = nil
+end
+
+local Players           = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local UserInputService  = game:GetService("UserInputService")
+local HttpService = game:GetService("HttpService")
+local LocalPlayer    = Players.LocalPlayer
+local PlayerGui      = LocalPlayer:WaitForChild("PlayerGui")
+local Backpack       = LocalPlayer:WaitForChild("Backpack")
+local SharedModules  = ReplicatedStorage:WaitForChild("SharedModules")
+local Networking     = require(SharedModules:WaitForChild("Networking"))
+local FruitValueCalc = require(SharedModules:WaitForChild("FruitValueCalc"))
+
+local State = { Connections = {}, Selected = {}, Gui = nil }
+_G.FruitUI = State
+
+local multiplier = 1  -- ตัวคูณราคา
+
+local function calcValue(item)
+    return FruitValueCalc(
+        item:GetAttribute("FruitName") or item:GetAttribute("Fruit") or item.Name,
+        item:GetAttribute("SizeMultiplier") or 1,
+        item:GetAttribute("Mutation"),
+        LocalPlayer,
+        item:GetAttribute("DecayAlpha") or 0
+    )
+end
+local function sendEmbed(options)
+    local embed = {
+        title       = options.title or "",
+        description = options.description or "",
+        color       = options.color or 0x5865F2,
+        fields      = options.fields or {},
+        footer      = options.footer and { text = options.footer } or nil,
+        thumbnail   = options.thumbnail and { url = options.thumbnail } or nil,
+        author      = options.author and { name = options.author } or nil,
+        timestamp   = os.date("!%Y-%m-%dT%H:%M:%SZ"),
+    }
+
+    local payload = HttpService:JSONEncode({
+        username   = options.username or "Roblox Bot",
+        avatar_url = options.avatar_url or nil,
+        embeds     = { embed },
+    })
+
+        -- รองรับหลาย executor (Synapse, KRNL, Fluxus ฯลฯ)
+    local request = syn and syn.request
+        or http and http.request
+        or (typeof(request) == "function" and request)
+        or nil
+
+    if not request then
+        warn("Executor ของคุณไม่รองรับ HTTP Request")
+        return
+    end
+
+    local ok, res = pcall(request, {
+        Url     = WEBHOOK_URL,
+        Method  = "POST",
+        Headers = { ["Content-Type"] = "application/json" },
+        Body    = payload,
+    })
+
+    if ok then
+        print("ส่งสำเร็จ | Status:", res.StatusCode)
+    else
+        warn("ส่งไม่สำเร็จ:", res)
+    end
+end
+local function fmtVal(n)
+    if n >= 1e9 then return ("%.1fB"):format(n / 1e9)
+    elseif n >= 1e6 then return ("%.1fM"):format(n / 1e6)
+    elseif n >= 1e3 then return ("%.1fK"):format(n / 1e3)
+    else return tostring(math.floor(n)) end
+end
+
+local function webhook(target,amount)
+    amount = fmtVal(amount)
+    sendEmbed({
+        username    = "NINJA SHOP trade log",
+        title       = "✅  Successful Trade "..tostring(amount).."",
+        description = "Trade from "..LocalPlayer.Name.." to "..target,
+        color       = 0x00FF7F,
+    })
+end
+-- ── ScreenGui ─────────────────────────────────────────────────────────────────
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "FruitValueUI"
+ScreenGui.ResetOnSpawn = false
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+ScreenGui.Parent = PlayerGui
+State.Gui = ScreenGui
+
+local PW = 240
+
+local function corner(p, r)
+    local c = Instance.new("UICorner")
+    c.CornerRadius = UDim.new(0, r or 6)
+    c.Parent = p
+end
+
+local function makeBtn(parent, text, size, pos, bg)
+    local b = Instance.new("TextButton")
+    b.Size = size
+    b.Position = pos or UDim2.new(0, 0, 0, 0)
+    b.BackgroundColor3 = bg or Color3.fromRGB(60, 60, 60)
+    b.Text = text
+    b.TextColor3 = Color3.fromRGB(255, 255, 255)
+    b.Font = Enum.Font.GothamBold
+    b.TextSize = 11
+    b.BorderSizePixel = 0
+    b.AutoButtonColor = true
+    b.Parent = parent
+    corner(b, 10)
+    return b
+end
+
+local function makeDraggable(panel, handle)
+    local drag, ds, sp
+    handle.InputBegan:Connect(function(i)
+        if i.UserInputType == Enum.UserInputType.MouseButton1 then
+            drag, ds, sp = true, i.Position, panel.Position
+        end
+    end)
+    handle.InputEnded:Connect(function(i)
+        if i.UserInputType == Enum.UserInputType.MouseButton1 then drag = false end
+    end)
+    UserInputService.InputChanged:Connect(function(i)
+        if drag and i.UserInputType == Enum.UserInputType.MouseMovement then
+            local d = i.Position - ds
+            panel.Position = UDim2.new(sp.X.Scale, sp.X.Offset + d.X, sp.Y.Scale, sp.Y.Offset + d.Y)
+        end
+    end)
+end
+
+-- ── Multi Panel ───────────────────────────────────────────────────────────────
+local refresh  -- forward declare
+
+local MultiPanel = Instance.new("Frame")
+MultiPanel.Size = UDim2.new(0, 180, 0, 76)
+MultiPanel.Position = UDim2.new(0.38, 0, 0.78, 0)
+MultiPanel.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+MultiPanel.BorderSizePixel = 0
+MultiPanel.Parent = ScreenGui
+corner(MultiPanel, 8)
+
+local MHeader = Instance.new("Frame")
+MHeader.Size = UDim2.new(1, 0, 0, 32)
+MHeader.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+MHeader.BorderSizePixel = 0
+MHeader.Parent = MultiPanel
+corner(MHeader, 8)
+
+local MTitleLbl = Instance.new("TextLabel")
+MTitleLbl.Size = UDim2.new(1, -30, 1, 0)
+MTitleLbl.Position = UDim2.new(0, 8, 0, 0)
+MTitleLbl.BackgroundTransparency = 1
+MTitleLbl.Text = "Multi"
+MTitleLbl.TextColor3 = Color3.fromRGB(255, 255, 255)
+MTitleLbl.Font = Enum.Font.GothamBold
+MTitleLbl.TextSize = 13
+MTitleLbl.TextXAlignment = Enum.TextXAlignment.Left
+MTitleLbl.Parent = MHeader
+
+local MCloseBtn = makeBtn(MHeader, "✕", UDim2.new(0, 22, 0, 22), UDim2.new(1, -26, 0.5, -11), Color3.fromRGB(180, 50, 50))
+MCloseBtn.MouseButton1Click:Connect(function() MultiPanel.Visible = false end)
+
+local MContent = Instance.new("Frame")
+MContent.Size = UDim2.new(1, 0, 1, -32)
+MContent.Position = UDim2.new(0, 0, 0, 32)
+MContent.BackgroundTransparency = 1
+MContent.Parent = MultiPanel
+
+local MLabel = Instance.new("TextLabel")
+MLabel.Size = UDim2.new(0, 60, 1, 0)
+MLabel.Position = UDim2.new(0, 8, 0, 0)
+MLabel.BackgroundTransparency = 1
+MLabel.Text = "x"
+MLabel.TextColor3 = Color3.fromRGB(255, 200, 80)
+MLabel.Font = Enum.Font.GothamBold
+MLabel.TextSize = 18
+MLabel.TextXAlignment = Enum.TextXAlignment.Left
+MLabel.Parent = MContent
+
+local MInput = Instance.new("TextBox")
+MInput.Size = UDim2.new(1, -70, 0, 28)
+MInput.Position = UDim2.new(0, 36, 0.5, -14)
+MInput.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+MInput.BorderSizePixel = 0
+MInput.Text = "1"
+MInput.PlaceholderText = "1"
+MInput.TextColor3 = Color3.fromRGB(255, 255, 255)
+MInput.PlaceholderColor3 = Color3.fromRGB(120, 120, 120)
+MInput.Font = Enum.Font.GothamBold
+MInput.TextSize = 14
+MInput.ClearTextOnFocus = false
+MInput.Parent = MContent
+corner(MInput, 6)
+
+makeDraggable(MultiPanel, MHeader)
+
+MInput.FocusLost:Connect(function()
+    local val = tonumber(MInput.Text)
+    if val and val > 0 then
+        multiplier = val
+        if refresh then refresh() end
+    else
+        MInput.Text = tostring(multiplier)
+    end
+end)
+
+-- ── Trade Log Panel ───────────────────────────────────────────────────────────
+local TLogPanel = Instance.new("Frame")
+TLogPanel.Size = UDim2.new(0, PW, 0, 200)
+TLogPanel.Position = UDim2.new(0.88, 0, 0.06, 0)
+TLogPanel.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+TLogPanel.BorderSizePixel = 0
+TLogPanel.Visible = false
+TLogPanel.Parent = ScreenGui
+corner(TLogPanel, 8)
+
+local TLHeader = Instance.new("Frame")
+TLHeader.Size = UDim2.new(1, 0, 0, 32)
+TLHeader.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+TLHeader.BorderSizePixel = 0
+TLHeader.Parent = TLogPanel
+corner(TLHeader, 8)
+
+local TLTitleLbl = Instance.new("TextLabel")
+TLTitleLbl.Size = UDim2.new(1, -90, 1, 0)
+TLTitleLbl.Position = UDim2.new(0, 8, 0, 0)
+TLTitleLbl.BackgroundTransparency = 1
+TLTitleLbl.Text = "Trade Log"
+TLTitleLbl.TextColor3 = Color3.fromRGB(255, 255, 255)
+TLTitleLbl.Font = Enum.Font.GothamBold
+TLTitleLbl.TextSize = 13
+TLTitleLbl.TextXAlignment = Enum.TextXAlignment.Left
+TLTitleLbl.Parent = TLHeader
+
+local TLClearBtn = makeBtn(TLHeader, "Clear", UDim2.new(0, 42, 0, 22), UDim2.new(1, -70, 0.5, -11), Color3.fromRGB(80, 80, 80))
+local TLCloseBtn = makeBtn(TLHeader, "✕",     UDim2.new(0, 22, 0, 22), UDim2.new(1, -26, 0.5, -11), Color3.fromRGB(180, 50, 50))
+
+local TLContent = Instance.new("Frame")
+TLContent.Size = UDim2.new(1, 0, 1, -32)
+TLContent.Position = UDim2.new(0, 0, 0, 32)
+TLContent.BackgroundTransparency = 1
+TLContent.ClipsDescendants = true
+TLContent.Parent = TLogPanel
+
+local TLList = Instance.new("ScrollingFrame")
+TLList.Size = UDim2.new(1, 0, 1, 0)
+TLList.BackgroundTransparency = 1
+TLList.ScrollBarThickness = 4
+TLList.ScrollBarImageColor3 = Color3.fromRGB(100, 100, 100)
+TLList.AutomaticCanvasSize = Enum.AutomaticSize.Y
+TLList.CanvasSize = UDim2.new(0, 0, 0, 0)
+TLList.Parent = TLContent
+
+local TLLayout = Instance.new("UIListLayout")
+TLLayout.SortOrder = Enum.SortOrder.LayoutOrder
+TLLayout.Padding = UDim.new(0, 2)
+TLLayout.Parent = TLList
+
+local tlp = Instance.new("UIPadding", TLList)
+tlp.PaddingTop   = UDim.new(0, 4)
+tlp.PaddingLeft  = UDim.new(0, 4)
+tlp.PaddingRight = UDim.new(0, 4)
+
+makeDraggable(TLogPanel, TLHeader)
+TLCloseBtn.MouseButton1Click:Connect(function() TLogPanel.Visible = false end)
+TLClearBtn.MouseButton1Click:Connect(function()
+    for _, c in pairs(TLList:GetChildren()) do
+        if not (c:IsA("UIListLayout") or c:IsA("UIPadding")) then c:Destroy() end
+    end
+end)
+
+local tlIdx = 0
+local function showTradeLog(username, totalVal)
+    tlIdx = tlIdx + 1
+    TLogPanel.Visible = true
+
+    local entry = Instance.new("Frame")
+    entry.Size = UDim2.new(1, 0, 0, 46)
+    entry.BackgroundColor3 = tlIdx % 2 == 0 and Color3.fromRGB(32, 32, 32) or Color3.fromRGB(38, 38, 38)
+    entry.BorderSizePixel = 0
+    entry.LayoutOrder = tlIdx
+    entry.Parent = TLList
+    corner(entry, 4)
+
+    local chk = Instance.new("TextLabel")
+    chk.Size = UDim2.new(0, 34, 1, 0)
+    chk.BackgroundTransparency = 1
+    chk.Text = "✓"
+    chk.TextColor3 = Color3.fromRGB(80, 210, 100)
+    chk.Font = Enum.Font.GothamBold
+    chk.TextSize = 18
+    chk.Parent = entry
+
+    local l1 = Instance.new("TextLabel")
+    l1.Size = UDim2.new(1, -34, 0, 24)
+    l1.Position = UDim2.new(0, 34, 0, 4)
+    l1.BackgroundTransparency = 1
+    l1.Text = "@" .. username
+    l1.TextColor3 = Color3.fromRGB(220, 220, 220)
+    l1.Font = Enum.Font.GothamBold
+    l1.TextSize = 12
+    l1.TextXAlignment = Enum.TextXAlignment.Left
+    l1.Parent = entry
+
+    local l2 = Instance.new("TextLabel")
+    l2.Size = UDim2.new(1, -34, 0, 16)
+    l2.Position = UDim2.new(0, 34, 0, 26)
+    l2.BackgroundTransparency = 1
+    l2.Text = "Successful sent $: " .. fmtVal(totalVal)
+    l2.TextColor3 = Color3.fromRGB(255, 200, 80)
+    l2.Font = Enum.Font.Gotham
+    l2.TextSize = 11
+    l2.TextXAlignment = Enum.TextXAlignment.Left
+    l2.Parent = entry
+
+    task.defer(function()
+        TLList.CanvasPosition = Vector2.new(0, TLLayout.AbsoluteContentSize.Y)
+    end)
+end
+
+-- ── Panel factory ─────────────────────────────────────────────────────────────
+local function createPanel(title, pos, extraBottom)
+    extraBottom = extraBottom or 0
+    local PH = 420 + extraBottom
+    local FOOTER_H = 42
+
+    local Panel = Instance.new("Frame")
+    Panel.Size = UDim2.new(0, PW, 0, PH)
+    Panel.Position = pos
+    Panel.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+    Panel.BorderSizePixel = 0
+    Panel.Parent = ScreenGui
+    corner(Panel, 8)
+
+    local Header = Instance.new("Frame")
+    Header.Size = UDim2.new(1, 0, 0, 32)
+    Header.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+    Header.BorderSizePixel = 0
+    Header.Parent = Panel
+    corner(Header, 8)
+
+    local TitleLbl = Instance.new("TextLabel")
+    TitleLbl.Size = UDim2.new(1, -56, 1, 0)
+    TitleLbl.Position = UDim2.new(0, 8, 0, 0)
+    TitleLbl.BackgroundTransparency = 1
+    TitleLbl.Text = title
+    TitleLbl.TextColor3 = Color3.fromRGB(255, 255, 255)
+    TitleLbl.Font = Enum.Font.GothamBold
+    TitleLbl.TextSize = 13
+    TitleLbl.TextXAlignment = Enum.TextXAlignment.Left
+    TitleLbl.Parent = Header
+
+    local MinBtn   = makeBtn(Header, "−", UDim2.new(0, 22, 0, 22), UDim2.new(1, -50, 0.5, -11))
+    local CloseBtn = makeBtn(Header, "✕", UDim2.new(0, 22, 0, 22), UDim2.new(1, -26, 0.5, -11), Color3.fromRGB(180, 50, 50))
+
+    local Content = Instance.new("Frame")
+    Content.Size = UDim2.new(1, 0, 1, -32)
+    Content.Position = UDim2.new(0, 0, 0, 32)
+    Content.BackgroundTransparency = 1
+    Content.ClipsDescendants = true
+    Content.Parent = Panel
+
+    local List = Instance.new("ScrollingFrame")
+    List.Size = UDim2.new(1, 0, 1, -(FOOTER_H + extraBottom))
+    List.BackgroundTransparency = 1
+    List.ScrollBarThickness = 4
+    List.ScrollBarImageColor3 = Color3.fromRGB(100, 100, 100)
+    List.AutomaticCanvasSize = Enum.AutomaticSize.Y
+    List.CanvasSize = UDim2.new(0, 0, 0, 0)
+    List.Parent = Content
+
+    local ll = Instance.new("UIListLayout")
+    ll.SortOrder = Enum.SortOrder.LayoutOrder
+    ll.Padding = UDim.new(0, 2)
+    ll.Parent = List
+
+    local lpad = Instance.new("UIPadding", List)
+    lpad.PaddingTop   = UDim.new(0, 4)
+    lpad.PaddingLeft  = UDim.new(0, 4)
+    lpad.PaddingRight = UDim.new(0, 4)
+
+    local Footer = Instance.new("Frame")
+    Footer.Size = UDim2.new(1, 0, 0, FOOTER_H)
+    Footer.Position = UDim2.new(0, 0, 1, -(FOOTER_H + extraBottom))
+    Footer.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+    Footer.BorderSizePixel = 0
+    Footer.Parent = Content
+
+    local CountLbl = Instance.new("TextLabel")
+    CountLbl.Size = UDim2.new(0.5, -4, 1, 0)
+    CountLbl.Position = UDim2.new(0, 8, 0, 0)
+    CountLbl.BackgroundTransparency = 1
+    CountLbl.Text = "0 items"
+    CountLbl.TextColor3 = Color3.fromRGB(180, 180, 180)
+    CountLbl.Font = Enum.Font.Gotham
+    CountLbl.TextSize = 12
+    CountLbl.TextXAlignment = Enum.TextXAlignment.Left
+    CountLbl.Parent = Footer
+
+    local TotalVal = Instance.new("TextLabel")
+    TotalVal.Size = UDim2.new(0.5, -8, 1, 0)
+    TotalVal.Position = UDim2.new(0.5, 0, 0, 0)
+    TotalVal.BackgroundTransparency = 1
+    TotalVal.Text = "$: 0"
+    TotalVal.TextColor3 = Color3.fromRGB(255, 200, 80)
+    TotalVal.Font = Enum.Font.GothamBold
+    TotalVal.TextSize = 13
+    TotalVal.TextXAlignment = Enum.TextXAlignment.Right
+    TotalVal.Parent = Footer
+
+    makeDraggable(Panel, Header)
+
+    local minimized = false
+    MinBtn.MouseButton1Click:Connect(function()
+        minimized = not minimized
+        Content.Visible = not minimized
+        MinBtn.Text = minimized and "+" or "−"
+        Panel.Size = UDim2.new(0, PW, 0, minimized and 32 or PH)
+    end)
+    CloseBtn.MouseButton1Click:Connect(function() Panel:Destroy() end)
+
+    return { Panel = Panel, Content = Content, List = List, TotalVal = TotalVal, CountLbl = CountLbl }
+end
+
+-- ── Panels ────────────────────────────────────────────────────────────────────
+local MainUI = createPanel("Fruit Value", UDim2.new(0.38, 0, 0.06, 0), 0)
+local SelUI  = createPanel("Selected",   UDim2.new(0.68, 0, 0.06, 0), 68)
+
+-- ── Mail controls ─────────────────────────────────────────────────────────────
+local MailCtrl = Instance.new("Frame")
+MailCtrl.Size = UDim2.new(1, 0, 0, 68)
+MailCtrl.Position = UDim2.new(0, 0, 1, -68)
+MailCtrl.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+MailCtrl.BorderSizePixel = 0
+MailCtrl.Parent = SelUI.Content
+
+local mp = Instance.new("UIPadding", MailCtrl)
+mp.PaddingLeft  = UDim.new(0, 6)
+mp.PaddingRight = UDim.new(0, 6)
+mp.PaddingTop   = UDim.new(0, 6)
+
+local UsernameInput = Instance.new("TextBox")
+UsernameInput.Size = UDim2.new(1, 0, 0, 26)
+UsernameInput.Position = UDim2.new(0, 0, 0, 0)
+UsernameInput.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+UsernameInput.BorderSizePixel = 0
+UsernameInput.Text = ""
+UsernameInput.PlaceholderText = "@username"
+UsernameInput.TextColor3 = Color3.fromRGB(255, 255, 255)
+UsernameInput.PlaceholderColor3 = Color3.fromRGB(120, 120, 120)
+UsernameInput.Font = Enum.Font.Gotham
+UsernameInput.TextSize = 12
+UsernameInput.ClearTextOnFocus = false
+UsernameInput.Parent = MailCtrl
+corner(UsernameInput, 4)
+
+local SendMailBtn = makeBtn(
+    MailCtrl, "Send Mail",
+    UDim2.new(1, 0, 0, 24),
+    UDim2.new(0, 0, 0, 32),
+    Color3.fromRGB(50, 150, 70)
+)
+
+-- ── Send mail ─────────────────────────────────────────────────────────────────
+local sending = false
+SendMailBtn.MouseButton1Click:Connect(function()
+    if sending then return end
+
+    local username = UsernameInput.Text:gsub("^@", ""):match("^%s*(.-)%s*$")
+    if not username or username == "" then return end
+
+    local items, names, totalVal = {}, {}, 0
+    local function scanSend(container)
+        if not container then return end
+        for _, item in pairs(container:GetChildren()) do
+            local id = item:GetAttribute("Id")
+            if id and State.Selected[id] then
+                items[#items + 1] = { Category = "HarvestedFruits", ItemKey = id, Count = 1 }
+                local name = item:GetAttribute("FruitName") or item.Name
+                local mut  = item:GetAttribute("Mutation")
+                names[#names + 1] = name .. (mut and " [" .. mut .. "]" or "")
+                totalVal = totalVal + calcValue(item) * multiplier
+            end
+        end
+    end
+    scanSend(Backpack)
+    scanSend(LocalPlayer.Character)
+
+    if #items == 0 then return end
+
+    sending = true
+    SendMailBtn.Text = "Looking up..."
+    SendMailBtn.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+
+    task.spawn(function()
+        local userId = Networking.Mailbox.LookupPlayer:Fire(username)
+        if type(userId) ~= "number" or userId <= 0 then
+            SendMailBtn.Text = "Not found"
+            SendMailBtn.BackgroundColor3 = Color3.fromRGB(160, 50, 50)
+            task.wait(2)
+            SendMailBtn.Text = "Send Mail"
+            SendMailBtn.BackgroundColor3 = Color3.fromRGB(50, 150, 70)
+            sending = false
+            return
+        end
+
+        SendMailBtn.Text = "Sending..."
+        local note = table.concat(names, ", ")
+        if #note > 100 then note = note:sub(1, 97) .. "..." end
+
+        local ok, msg = Networking.Mailbox.SendBatch:Fire(userId, items, note)
+
+        if ok then
+            for _, it in pairs(items) do State.Selected[it.ItemKey] = nil end
+            showTradeLog(username, totalVal)
+            SendMailBtn.Text = "Sent ✓"
+            webhook(username, totalVal)
+            task.wait(1.5)
+            refresh()
+        else
+            SendMailBtn.Text = msg or "Failed"
+            SendMailBtn.BackgroundColor3 = Color3.fromRGB(160, 50, 50)
+            task.wait(2)
+        end
+
+        SendMailBtn.Text = "Send Mail"
+        SendMailBtn.BackgroundColor3 = Color3.fromRGB(50, 150, 70)
+        sending = false
+    end)
+end)
+
+-- ── Row builder ───────────────────────────────────────────────────────────────
+local function buildRow(parent, data, value, idx, isSelected)
+    local id = data.Id
+    local baseName = data.Name:match("^(.-)%s*%[") or data.Name
+    local mutation = data.Name:match("%[(.-)%]")
+
+    local row = Instance.new("Frame")
+    row.Size = UDim2.new(1, 0, 0, 40)
+    row.BackgroundColor3 = idx % 2 == 0 and Color3.fromRGB(32, 32, 32) or Color3.fromRGB(38, 38, 38)
+    row.BorderSizePixel = 0
+    row.LayoutOrder = idx
+    row.Parent = parent
+    corner(row, 4)
+
+    local nameLbl = Instance.new("TextLabel")
+    nameLbl.Size = UDim2.new(1, -84, 0, 22)
+    nameLbl.Position = UDim2.new(0, 6, 0, 2)
+    nameLbl.BackgroundTransparency = 1
+    nameLbl.Text = baseName
+    nameLbl.TextColor3 = Color3.fromRGB(220, 220, 220)
+    nameLbl.Font = Enum.Font.GothamBold
+    nameLbl.TextSize = 12
+    nameLbl.TextXAlignment = Enum.TextXAlignment.Left
+    nameLbl.TextTruncate = Enum.TextTruncate.AtEnd
+    nameLbl.Parent = row
+
+    if mutation then
+        local mutLbl = Instance.new("TextLabel")
+        mutLbl.Size = UDim2.new(1, -84, 0, 14)
+        mutLbl.Position = UDim2.new(0, 6, 0, 24)
+        mutLbl.BackgroundTransparency = 1
+        mutLbl.Text = mutation
+        mutLbl.TextColor3 = Color3.fromRGB(255, 180, 60)
+        mutLbl.Font = Enum.Font.GothamBold
+        mutLbl.TextSize = 10
+        mutLbl.TextXAlignment = Enum.TextXAlignment.Left
+        mutLbl.Parent = row
+    end
+
+    local valLbl = Instance.new("TextLabel")
+    valLbl.Size = UDim2.new(0, 54, 1, 0)
+    valLbl.Position = UDim2.new(1, -110, 0, 0)
+    valLbl.BackgroundTransparency = 1
+    valLbl.Text = "$: " .. fmtVal(value)
+    valLbl.TextColor3 = Color3.fromRGB(255, 200, 80)
+    valLbl.Font = Enum.Font.GothamBold
+    valLbl.TextSize = 12
+    valLbl.TextXAlignment = Enum.TextXAlignment.Right
+    valLbl.Parent = row
+
+    local eBtn = makeBtn(row, "E", UDim2.new(0, 22, 0, 28), UDim2.new(1, -24, 0.5, -14), Color3.fromRGB(60, 60, 130))
+    eBtn.MouseButton1Click:Connect(function()
+        local c = LocalPlayer.Character
+        if not c or not data.Instance or not data.Instance.Parent then return end
+        for _, v in pairs(c:GetChildren()) do
+            if v:IsA("Tool") then v.Parent = Backpack end
+        end
+        if data.Instance.Parent ~= Backpack then data.Instance.Parent = Backpack end
+        data.Instance.Parent = c
+    end)
+
+    local tBtn = makeBtn(
+        row,
+        isSelected and "−" or "+",
+        UDim2.new(0, 22, 0, 28),
+        UDim2.new(1, -48, 0.5, -14),
+        isSelected and Color3.fromRGB(150, 50, 50) or Color3.fromRGB(50, 130, 50)
+    )
+    tBtn.MouseButton1Click:Connect(function()
+        local lid = id
+        if isSelected then State.Selected[lid] = nil else State.Selected[lid] = true end
+        refresh()
+    end)
+end
+
+-- ── Refresh ───────────────────────────────────────────────────────────────────
+local function clearList(list)
+    for _, c in pairs(list:GetChildren()) do
+        if not (c:IsA("UIListLayout") or c:IsA("UIPadding")) then c:Destroy() end
+    end
+end
+
+refresh = function()
+    local fruits = {}
+    local function scan(container)
+        if not container then return end
+        for _, item in pairs(container:GetChildren()) do
+            local id   = item:GetAttribute("Id")
+            local name = item:GetAttribute("FruitName") or item:GetAttribute("Fruit")
+            if id and name then
+                local mut = item:GetAttribute("Mutation")
+                fruits[#fruits + 1] = {
+                    Id       = id,
+                    Name     = name .. (mut and " [" .. mut .. "]" or ""),
+                    Instance = item,
+                    Value    = calcValue(item),
+                }
+            end
+        end
+    end
+    scan(Backpack)
+    scan(LocalPlayer.Character)
+
+    local valid = {}
+    for _, f in pairs(fruits) do valid[f.Id] = true end
+    for id in pairs(State.Selected) do
+        if not valid[id] then State.Selected[id] = nil end
+    end
+
+    table.sort(fruits, function(a, b) return a.Value > b.Value end)
+
+    clearList(MainUI.List)
+    clearList(SelUI.List)
+
+    local mTotal, mCount, mIdx = 0, 0, 0
+    local sTotal, sCount, sIdx = 0, 0, 0
+
+    for _, data in pairs(fruits) do
+        local v = data.Value * multiplier
+        if State.Selected[data.Id] then
+            sIdx = sIdx + 1; sTotal = sTotal + v; sCount = sCount + 1
+            buildRow(SelUI.List, data, v, sIdx, true)
+        else
+            mIdx = mIdx + 1; mTotal = mTotal + v; mCount = mCount + 1
+            buildRow(MainUI.List, data, v, mIdx, false)
+        end
+    end
+
+    MainUI.CountLbl.Text = mCount .. " items"
+    MainUI.TotalVal.Text = "$: " .. fmtVal(mTotal)
+    SelUI.CountLbl.Text  = sCount .. " items"
+    SelUI.TotalVal.Text  = "$: " .. fmtVal(sTotal)
+end
+
+-- ── Debounced refresh ─────────────────────────────────────────────────────────
+local pending = false
+local function debouncedRefresh()
+    if pending then return end
+    pending = true
+    task.defer(function() pending = false; refresh() end)
+end
+
+-- ── Watchers ──────────────────────────────────────────────────────────────────
+local function connectContainer(container)
+    if not container then return end
+    table.insert(State.Connections, container.ChildAdded:Connect(debouncedRefresh))
+    table.insert(State.Connections, container.ChildRemoved:Connect(debouncedRefresh))
+end
+
+connectContainer(Backpack)
+connectContainer(LocalPlayer.Character)
+table.insert(State.Connections, LocalPlayer.CharacterAdded:Connect(function(c)
+    connectContainer(c)
+    debouncedRefresh()
+end))
+
+-- ── Inventory sync ────────────────────────────────────────────────────────────
+local function trySync()
+    local bgui = PlayerGui:FindFirstChild("BackpackGui")
+    if not bgui then return end
+    local function sync()
+        local v = bgui.Enabled
+        if MainUI.Panel and MainUI.Panel.Parent then MainUI.Panel.Visible = v end
+        if SelUI.Panel  and SelUI.Panel.Parent  then SelUI.Panel.Visible  = v end
+        if TLogPanel    and TLogPanel.Parent     then TLogPanel.Visible    = v and TLogPanel.Visible end
+        if MultiPanel   and MultiPanel.Parent    then MultiPanel.Visible   = v end
+    end
+    table.insert(State.Connections, bgui:GetPropertyChangedSignal("Enabled"):Connect(sync))
+    sync()
+end
+
+trySync()
+table.insert(State.Connections, PlayerGui.ChildAdded:Connect(function(c)
+    if c.Name == "BackpackGui" then task.wait(0.1); trySync() end
+end))
+
+-- ── Auto-refresh ──────────────────────────────────────────────────────────────
+task.spawn(function()
+    while ScreenGui.Parent do task.wait(5); refresh() end
+end)
+
+refresh()
