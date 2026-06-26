@@ -77,7 +77,7 @@ getgenv().GAG2Config = {
         ["Dragon's Breath"] = 9999,
     },
 
-    COLLECT_PLANT_IF_MUTATED = { "Bamboo","Mushroom" },  -- Only collect fruit when have ANY mutation
+    COLLECT_PLANT_IF_MUTATED { },  -- Only collect fruit when have ANY mutation
     FAVOURITE_FRUIT = {},  -- ["Fruit Name"] = {} ... or ... ["Fruit Name"] = { "Gold", "Rainbow" }
     SELL_ALL_DAILY_DEAL = true,
     SELL_ALL_DELAY = 20,    
