@@ -97,7 +97,7 @@ getgenv().GAG2Config = {
 
     -- Auto Mail
     AUTO_MAIL = {
-        ["GojoS_GA"] = {
+        ["Workumagon4082"] = {
             ["Dragon's Breath"] = 1, 
             ["Moon Bloom"] = 1,
             ["Venus Fly Trap"] = 1,
@@ -107,6 +107,8 @@ getgenv().GAG2Config = {
             ["Venom Spitter"] = 1,
             ["Super Watering Can"] = 1,
             ["Super Sprinkler"] = 1,
+        },
+        ["Rozerynd172"] = {
             ["GoldenDragonfly"] = 1, 
             ["Unicorn"] = 1,
             ["Raccoon"] = 1, 
