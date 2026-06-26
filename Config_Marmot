@@ -5,17 +5,11 @@ getgenv().GAG2Config = {
     COLLECT_FRUIT_DELAY = 20,
 
     BUY_PET = {  -- ["Pet Name"] = Amount
-        ["Monkey"] = 99, 
-        ["Bee"] = 99, 
         ["BlackDragon"] = 99, 
         ["GoldenDragonfly"] = 99, 
         ["Unicorn"] = 99,
-        ["Bear"] = 99, 
         ["Raccoon"] = 99, 
         ["IceSerpent"] = 99,
-
-        ["Robin"] = 5,
-        ["Deer"] = 5,
     },
 
     EQUIP_PET = {  -- {"Pet Name", Amount to Equip, Priority}
@@ -26,7 +20,7 @@ getgenv().GAG2Config = {
     },
 
     PLANT_SEED = {  -- ["Seed Name"] = Amount
-        ["Carrot"] = 4, 
+        ["Carrot"] = 20, 
         ["Strawberry"] = 4,
         ["Blueberry"] = 4,
         ["Tulip"] = 4,
@@ -83,7 +77,7 @@ getgenv().GAG2Config = {
         ["Dragon's Breath"] = 9999,
     },
 
-    COLLECT_PLANT_IF_MUTATED = { "Bamboo" },  -- Only collect fruit when have ANY mutation
+    COLLECT_PLANT_IF_MUTATED = { "Bamboo","Mushroom" },  -- Only collect fruit when have ANY mutation
     FAVOURITE_FRUIT = {},  -- ["Fruit Name"] = {} ... or ... ["Fruit Name"] = { "Gold", "Rainbow" }
     SELL_ALL_DAILY_DEAL = true,
     SELL_ALL_DELAY = 20,    
