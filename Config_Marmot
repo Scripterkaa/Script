@@ -89,7 +89,6 @@ getgenv().GAG2Config = {
     USE_SPRINKLER = {},  -- "Sprinkler Name"
 
     BUY_GEAR = {  -- ["Gear Name"] = Amount
-        ["Legendary Sprinkler"] = 9999,
         ["Super Watering Can"] = 9999,
         ["Super Sprinkler"] = 9999,
     },  
@@ -107,7 +106,6 @@ getgenv().GAG2Config = {
             ["Venom Spitter"] = "All",
         },
         ["Amoralowry97443"] = {
-            ["Legendary Sprinkler"] = 5,
             ["Super Watering Can"] = "All",
             ["Super Sprinkler"] = "All",
         },
