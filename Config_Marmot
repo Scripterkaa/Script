@@ -4,6 +4,7 @@ getgenv().GAG2Config = {
     AUTO_UPDATE_RESTART = true,
     COLLECT_FRUIT_DELAY = 20,
 
+    MAX_PET_EQUIP = 6,
     BUY_PET = {  -- ["Pet Name"] = Amount
         ["BlackDragon"] = 99, 
         ["Raccoon"] = 99, 
@@ -53,8 +54,10 @@ getgenv().GAG2Config = {
         ["Venus Fly Trap"] = 9999,
         ["Venom Spitter"] = 9999,
         ["Moon Bloom"] = 9999,
+        ["Hypno Bloom"] = 9999,
         ["Dragon's Breath"] = 9999,
     },
+    BUY_AUCTION = {},  -- ["Item Name"] = { Max Sheckle Price, Buy Until Amount }
 
     SELL_FRUIT_MULTIPLIER = { ["Bamboo"] = 1, ["Mushroom"] = 1.5 },
     COLLECT_PLANT_IF_MUTATED = { "Mushroom" },  -- Only collect fruit when have ANY mutation
@@ -89,13 +92,8 @@ getgenv().GAG2Config = {
             ["Super Watering Can"] = "All",
             ["Super Sprinkler"] = "All",
         },
-        ["Rozerynd172"] = {
-            ["GoldenDragonfly"] = 1, 
-            ["Unicorn"] = 1,
-            ["Raccoon"] = 1, 
-            ["IceSerpent"] = 1,
-        },
     },  -- ["Username"] = { ["Item Name"] = Amount }
+    AUTO_MAIL_DELAY = 60,
     COLLECT_MAIL = true,
 
     -- Discord
