@@ -57,7 +57,11 @@ getgenv().GAG2Config = {
         ["Hypno Bloom"] = 9999,
         ["Dragon's Breath"] = 9999,
     },
-    BUY_AUCTION = {},  -- ["Item Name"] = { Max Sheckle Price, Buy Until Amount }
+    BUY_AUCTION = {
+        ["Dragon's Breath"] = { 50000000 , 9999 },
+        ["Hypno Bloom"] = { 50000000 , 9999 },
+        ["Moon Bloom"] = { 50000000 , 9999 },
+    },  -- ["Item Name"] = { Max Sheckle Price, Buy Until Amount }
 
     SELL_FRUIT_MULTIPLIER = { ["Bamboo"] = 1, ["Mushroom"] = 1.5 },
     COLLECT_PLANT_IF_MUTATED = { "Mushroom" },  -- Only collect fruit when have ANY mutation
