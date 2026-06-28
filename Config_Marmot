@@ -58,9 +58,9 @@ getgenv().GAG2Config = {
         ["Dragon's Breath"] = 9999,
     },
     BUY_AUCTION = {
-        ["Dragon's Breath"] = { 50000000 , 9999 },
-        ["Hypno Bloom"] = { 40000000 , 9999 },
-        ["Moon Bloom"] = { 30000000 , 9999 },
+        ["Dragon's Breath"] = { 200000000 , 9999 },
+        ["Hypno Bloom"] = { 200000000 , 9999 },
+        ["Moon Bloom"] = { 200000000 , 9999 },
     },  -- ["Item Name"] = { Max Sheckle Price, Buy Until Amount }
 
     SELL_FRUIT_MULTIPLIER = { ["Bamboo"] = 1, ["Mushroom"] = 1.5 },
