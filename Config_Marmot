@@ -56,6 +56,7 @@ getgenv().GAG2Config = {
         ["Dragon's Breath"] = 9999,
     },
 
+    SELL_FRUIT_MULTIPLIER = { ["Bamboo"] = 1, ["Mushroom"] = 1.5 },
     COLLECT_PLANT_IF_MUTATED = { "Mushroom" },  -- Only collect fruit when have ANY mutation
     FAVOURITE_FRUIT = {},  -- ["Fruit Name"] = {} ... or ... ["Fruit Name"] = { "Gold", "Rainbow" }
     SELL_ALL_DAILY_DEAL = true,
@@ -79,7 +80,7 @@ getgenv().GAG2Config = {
             ["Dragon's Breath"] = "All", 
             ["Moon Bloom"] = "All",
             ["Venus Fly Trap"] = "All",
-            ["Gold"] = 10,
+            ["Gold"] = 50,
             ["Rainbow"] = "All",
             ["Mega"] = "All",
             ["Venom Spitter"] = "All",
