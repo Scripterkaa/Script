@@ -85,7 +85,6 @@ getgenv().GAG2Config = {
             ["Dragon's Breath"] = "All", 
             ["Moon Bloom"] = "All",
             ["Venus Fly Trap"] = "All",
-            ["Gold"] = 50,
             ["Rainbow"] = "All",
             ["Mega"] = "All",
             ["Venom Spitter"] = "All",
