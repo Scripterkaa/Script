@@ -111,9 +111,9 @@ getgenv().GAG2Config = {
             ["Unicorn"] = "All",
             ["GoldenDragonfly"] = "All",
         },
-        --[selected] = {
-            --["Carrot"] = 100,
-        --},
+        [selected] = {
+            ["Carrot"] = 500,
+        },
     },  -- ["Username"] = { ["Item Name"] = Amount }
     AUTO_MAIL_DELAY = 600,
     COLLECT_MAIL = true,
