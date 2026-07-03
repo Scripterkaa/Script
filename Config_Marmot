@@ -1,10 +1,17 @@
 script_key= getgenv().Key;
-local random = math.random(1,4);
+local random = math.random(1,10);
 local carrot_account = {
     "Sayentozer50828",
     "Wolfrichy413",
     "Dymekcomp77221",
-    "Rickyartry76131"
+    "Rickyartry76131",
+    "Sayentozer50828",
+    "Lekergenni3064",
+    "Foegails544",
+    "Toppshille21987",
+    "Baschlepes45891",
+    "Lallarevas9823",
+    "Aricazlock36086",
 }
 local selected = carrot_account[random]
 getgenv().GAG2Config = {
