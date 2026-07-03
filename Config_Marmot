@@ -122,7 +122,7 @@ getgenv().GAG2Config = {
             --["Carrot"] = "All",
         --},
     },  -- ["Username"] = { ["Item Name"] = Amount }
-    AUTO_MAIL_DELAY = 60,
+    AUTO_MAIL_DELAY = 600,
     COLLECT_MAIL = true,
 
     -- Discord
