@@ -96,6 +96,7 @@ getgenv().GAG2Config = {
         ["Workumagon4082"] = {
             ["Dragon's Breath"] = "All", 
             ["Hypno Bloom"] = "All",
+            ["Gold"] = "All",
         },
         ["Guecokoly36634"] = {
             ["Rainbow"] = "All",
