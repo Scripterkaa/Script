@@ -5,7 +5,6 @@ local carrot_account = {
     "Wolfrichy413",
     "Dymekcomp77221",
     "Rickyartry76131",
-    "Sayentozer50828",
     "Lekergenni3064",
     "Foegails544",
     "Toppshille21987",
@@ -58,7 +57,7 @@ getgenv().GAG2Config = {
         ["Pomegranate"] = 10,
         ["Poison Apple"] = 10,
         ["Venom Spitter"] = 10,
-        ["Moon Bloom"] = 0,
+        ["Moon Bloom"] = 10,
         ["Dragon's Breath"] = 0,
     },
 
@@ -72,8 +71,6 @@ getgenv().GAG2Config = {
     },
     BUY_AUCTION = {
         ["Dragon's Breath"] = { 200000000 , 9999 },
-        ["Hypno Bloom"] = { 200000000 , 9999 },
-        ["Moon Bloom"] = { 200000000 , 9999 },
     },  -- ["Item Name"] = { Max Sheckle Price, Buy Until Amount }
 
     SELL_FRUIT_MULTIPLIER = { ["Bamboo"] = 1, ["Mushroom"] = 1.5 },
@@ -98,10 +95,7 @@ getgenv().GAG2Config = {
     AUTO_MAIL = {
         ["Workumagon4082"] = {
             ["Dragon's Breath"] = "All", 
-            ["Moon Bloom"] = "All",
-            ["Venus Fly Trap"] = "All",
             ["Hypno Bloom"] = "All",
-            ["Venom Spitter"] = "All",
         },
         ["Guecokoly36634"] = {
             ["Rainbow"] = "All",
