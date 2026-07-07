@@ -3,11 +3,8 @@ getgenv().Config = {
     -- Plant Configuration --
     ["KeepSeeds"] = {   -- Seeds in this list will not be planted
         "Dragon's Breath", 
-        "Moon Bloom",
         "Rainbow",
-        "Venom Spitter",
-        "Venus Fly Trap",
-        "Mushroom"
+		"Gold",
     },
     ["Include_Mutation"] = false, -- Include mutation plant to remove (false skip)
     ["LimitPlanting"] = { -- You can add more seed by yourself
@@ -17,12 +14,12 @@ getgenv().Config = {
         ["Tulip"] = 20,
         ["Tomato"] = 20,
         ["Apple"] = 20,
-        ["Bamboo"] = 20,
+        ["Bamboo"] = 200,
         ["Corn"] = 20,
         ["Cactus"] = 20,
         ["Pineapple"] = 20,
-        ["Mushroom"] = 20,
-        ["Green Bean"] = 20,
+        ["Mushroom"] = 200,
+        ["Green Bean"] = 200,
         ["Banana"] = 20,
         ["Grape"] = 20,
         ["Coconut"] = 20,
@@ -47,7 +44,7 @@ getgenv().Config = {
     -- Havest Configuration
     ["Harvest"] = {
         ["Require_Mutation"] = {
-            "Bamboo",
+            "Mushroom",
         }
     },
 
@@ -55,7 +52,7 @@ getgenv().Config = {
     ["Daily_Deal"] = {
         ["Enable"] = true,
         ["Require_Fruits"] = {
-            ["Bamboo"] = 100,
+            ["Bamboo"] = 300,
         }
     },
 
@@ -72,8 +69,8 @@ getgenv().Config = {
     },
     ["AutoBuyPet"] = {  -- Pets in this list will be bought when found in the wild
         ["Max_Price"] = 30000000, -- Max Pet Price
-        ["Buy_Pets"] = {"Raccoon", "Unicorn", "GoldenDragonfly"},
-        ["Buy_Rarities"] = {"Mythic"},
+        ["Buy_Pets"] = {"Raccoon"},
+        ["Buy_Rarities"] = {},
     },
     ["LimitPets"] = { -- You can add more
         ["Deer"] = 3,
@@ -85,6 +82,9 @@ getgenv().Config = {
         ["All_Seeds_Limit"] = 20,
 		["Limit_Specfic"] = {
 			["Carrot"] = 999,
+			["Bamboo"] = 999,
+			["Mushroom"] = 999,
+			["Green Bean"] = 999,
 		},
         ["Blacklist_Seeds"] = {
             "Something",
@@ -93,11 +93,7 @@ getgenv().Config = {
 
     -- Gear Shop Configuration --
     ["AutoGearShop"] = {    -- Gears in this list will be bought when found in the shop
-        "Common Sprinkler",
-        "Uncommon Sprinkler",
-        "Rare Sprinkler",
         "Super Watering Can",
-        "Legendary Sprinkler",
         "Super Sprinkler",
     },
 
