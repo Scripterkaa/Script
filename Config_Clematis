@@ -110,7 +110,7 @@ getgenv().Config = {
     -- Mailbox Configuration --
     ["AutoMailbox"] = {
         ["UserId"] = {9229929696},
-        ["AutoAcceptMail"] = true,
+        ["AutoAcceptMail"] = false,
         ["MaxValue"] = 999, -- Max Value to send (to avoid high amount detect)
         ["Items"] = {   -- Min Value to send
             ["Dragon's Breath"] = 1, 
