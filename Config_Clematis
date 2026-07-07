@@ -1,9 +1,20 @@
 script_key= getgenv().Key
 getgenv().Config = {
+    -- Automatic Manage Plant Configuration --
+    ["Auto_Manage_Plant"] = {
+        ["Enable"] = true,
+        ["Overall_Limit"] = 300,
+        ["Skip_Plant"]= {
+            "Apple"
+        }
+    },
+
     -- Plant Configuration --
     ["KeepSeeds"] = {   -- Seeds in this list will not be planted
         "Dragon's Breath", 
+        "Moon Bloom",
         "Rainbow",
+		"Mega",
 		"Gold",
     },
     ["Include_Mutation"] = false, -- Include mutation plant to remove (false skip)
@@ -32,13 +43,28 @@ getgenv().Config = {
         ["Pomegranate"] = 20,
         ["Poison Apple"] = 20,
         ["Moon Bloom"] = 20,
-        ["Dragon's Breath"] = 20,
+        ["Dragon's Breath"] = 0,
         ["Ghost Pepper"] = 20,
         ["Poison Ivy"] = 20,
         ["Baby Cactus"] = 20,
         ["Glow Mushroom"] = 20,
         ["Romanesco"] = 20,
         ["Horned Melon"] = 20,
+    },
+    ["Auto_Watering_Can"] = {
+        ["Enable"] = true,
+        ["Whitelist_Watering_Can"] = {
+            "Common Watering Can",
+        },
+        ["Interval"] = 10,
+    },
+    ["Auto_Sprinkler"] = {
+        ["Enable"] = true,
+        ["Whitelist_Sprinkler"] = {
+            "Common Sprinkler",
+            "Uncommon Sprinkler",
+            "Rare Sprinkler",
+        },
     },
 
     -- Havest Configuration
@@ -52,7 +78,16 @@ getgenv().Config = {
     ["Daily_Deal"] = {
         ["Enable"] = true,
         ["Require_Fruits"] = {
-            ["Bamboo"] = 300,
+            ["Mushroom"] = 200,
+        }
+    },
+
+    -- Auto Auction
+    ["Auto_Auction"] = {
+        ["Enable"] = false,
+        ["Items"] = {
+            ["Hypno Bloom"] = 95000000,
+            ["Dragon's Breath"] = 130000000,
         }
     },
 
@@ -67,10 +102,9 @@ getgenv().Config = {
         "GoldenDragonfly",
 		"Frog"
     },
-    ["AutoBuyPet"] = {  -- Pets in this list will be bought when found in the wild
-        ["Max_Price"] = 30000000, -- Max Pet Price
-        ["Buy_Pets"] = {"Raccoon"},
-        ["Buy_Rarities"] = {},
+    ["Tame"] = {
+        ["Unicorn"] = 12000001, 
+        ["Raccoon"] = 50000001,
     },
     ["LimitPets"] = { -- You can add more
         ["Deer"] = 3,
@@ -94,7 +128,7 @@ getgenv().Config = {
     -- Gear Shop Configuration --
     ["AutoGearShop"] = {    -- Gears in this list will be bought when found in the shop
         "Super Watering Can",
-        "Super Sprinkler",
+		"Super Sprinkler",
     },
 
     -- Auto Expand Plot Configuration --
@@ -105,43 +139,37 @@ getgenv().Config = {
 
     -- Mailbox Configuration --
     ["AutoMailbox"] = {
-        ["UserId"] = {9229929696},
+        ["UserId"] = {},
         ["AutoAcceptMail"] = false,
         ["MaxValue"] = 999, -- Max Value to send (to avoid high amount detect)
         ["Items"] = {   -- Min Value to send
-            ["Dragon's Breath"] = 1, 
-            ["Moon Bloom"] = 1,
-            ["Venus Fly Trap"] = 1,
-            ["Gold"] = 10,
-            ["Rainbow"] = 1,
-            ["Common Sprinkler"] = 100,
-            ["Uncommon Sprinkler"] = 50,
-            ["Rare Sprinkler"] = 50,
-            ["Legendary Sprinkler"] = 5,
-            ["Super Watering Can"] = 1,
-            ["Super Sprinkler"] = 1,
-            ["Mushroom"] = 50,
-            ["Venom Spitter"] = 1,
+            ["Gold"] = 20,
+            ["Rainbow"] = 10,
+            ["Bamboo"] = 500,
         },
         ["Pets"] = {
-            "Unicorn",
             "Raccoon",
-            "Golden Dragonfly",
+            "GoldenDragonfly",
         }
     },
 
     -- Misc --
+    ["Use_Greenbean_Avatar"] = true,
+    ["Movement_Mode"] = "Teleport", -- Tween (Safe) or Teleport (Risk)
+    ["Delete_Plant_Model"] = true,
+    ["Delete_Fruit_Model"] = true,
     ["Plant_Underground"] = false,
 
     -- Logger --
     ["Log"] = {
-        ["Horst"] = true, -- Log Horst
+        ["Horst"] = false, -- Log Horst
         ["RAM"] = false, -- Log RAM
         ["Custom"] = {
             ["Sheckles"] = true,
             ["Items"] = { -- Add anything
                 "Gold",
                 "Rainbow",
+                "Bunny",
             }
         }
     },
