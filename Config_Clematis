@@ -159,7 +159,7 @@ getgenv().Config = {
 
     -- Logger --
     ["Log"] = {
-        ["Horst"] = false, -- Log Horst
+        ["Horst"] = true, -- Log Horst
         ["RAM"] = false, -- Log RAM
         ["Custom"] = {
             ["Sheckles"] = true,
