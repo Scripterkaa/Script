@@ -103,7 +103,6 @@ getgenv().Config = {
 		"Frog"
     },
     ["Tame"] = {
-        ["Unicorn"] = 12000001, 
         ["Raccoon"] = 50000001,
     },
     ["LimitPets"] = { -- You can add more
