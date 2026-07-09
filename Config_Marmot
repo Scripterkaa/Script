@@ -42,7 +42,7 @@ getgenv().GAG2Config = {
         ["Bamboo"] = 200,
         ["Corn"] = 4,
         ["Cactus"] = 4,
-        ["Pineapple"] = 4,
+        ["Pineapple"] = 0,
         ["Mushroom"] = 200,
         ["Green Bean"] = 200,
         ["Banana"] = 10,
@@ -62,6 +62,7 @@ getgenv().GAG2Config = {
     },
 
     BUY_SEED = {  -- ["Seed Name"] = Amount
+        ["Pineapple"] = 9999
         ["Carrot"] = 9999, 
         ["Bamboo"] = 9999,
         ["Mushroom"] = 9999,
