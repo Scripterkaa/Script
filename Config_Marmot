@@ -62,7 +62,6 @@ getgenv().GAG2Config = {
     },
 
     BUY_SEED = {  -- ["Seed Name"] = Amount
-        ["Pineapple"] = 9999,
         ["Carrot"] = 9999, 
         ["Bamboo"] = 9999,
         ["Mushroom"] = 9999,
