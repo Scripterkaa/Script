@@ -95,7 +95,7 @@ getgenv().GAG2Config = {
 
     -- Auto Mail
     AUTO_MAIL = {
-        --[[["Workumagon4082"] = {
+        ["Workumagon4082"] = {
             ["Dragon's Breath"] = "All", 
             ["Hypno Bloom"] = "All",
             ["Gold"] = "All",
@@ -114,7 +114,7 @@ getgenv().GAG2Config = {
             ["Raccoon"] = "All",
             ["Unicorn"] = "All",
             ["GoldenDragonfly"] = "All",
-        },--]]
+        },
     },  -- ["Username"] = { ["Item Name"] = Amount }
     AUTO_MAIL_DELAY = 60,
     COLLECT_MAIL = true,
