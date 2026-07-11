@@ -109,6 +109,7 @@ getgenv().GAG2Config = {
         ["Amoralowry97443"] = {
             ["Super Watering Can"] = "All",
             ["Super Sprinkler"] = "All",
+            ["Legendary Sprinkler"] = "All",
         },
         ["Rozerynd172"] = {
             ["Raccoon"] = "All",
