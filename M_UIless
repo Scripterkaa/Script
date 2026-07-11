@@ -1,0 +1,387 @@
+local acc
+local receiver = {}
+
+if  game.Players.LocalPlayer.Name == "Ingslente7805" then
+    acc = "ong"
+    table.insert(receiver, 11014867424)
+    table.insert(receiver, 11014863964)
+elseif game.Players.LocalPlayer.Name == "Wakerbegun1293" then
+    acc = "ong"
+    table.insert(receiver, 11014855688)
+    table.insert(receiver, 11052308051)
+elseif game.Players.LocalPlayer.Name == "Doskybart856" then
+    acc = "ong"
+    table.insert(receiver, 11014873345)
+    table.insert(receiver, 11093144127)
+elseif game.Players.LocalPlayer.Name == "Itoshi_Uni" then
+    acc = "ong"
+    table.insert(receiver, 11014862985)
+    table.insert(receiver, 11093139430)
+elseif game.Players.LocalPlayer.Name == "brfzszrh3547" then
+    acc = "ong"
+    table.insert(receiver, 11014863964)
+    table.insert(receiver, 11093139430)
+elseif game.Players.LocalPlayer.Name == "shushubybi" then
+    acc = "min"
+    table.insert(receiver, 11093140586)
+    table.insert(receiver, 11093027420)
+elseif game.Players.LocalPlayer.Name == "shumyya17" then
+    acc = "min"
+    table.insert(receiver, 11093139627)
+    table.insert(receiver, 11093130318)
+elseif  game.Players.LocalPlayer.Name == "Minkie177" then
+    acc = "min"
+    table.insert(receiver, 11093137790)
+    table.insert(receiver, 11092364232)
+elseif  game.Players.LocalPlayer.Name == "babijeen" then
+    acc = "min"
+    table.insert(receiver, 11093149547)
+    table.insert(receiver, 11093137697)    
+end
+
+if acc == nil then
+    return
+end
+
+getgenv().FarmConfig = getgenv().FarmConfig or {
+    Sprinklers            = { "Super Sprinkler","Legendary Sprinkler","Rare Sprinkler","Uncommon Sprinkler","Common Sprinkler" },
+    WateringCan           = "Super Watering Can",
+    WaterCooldown         = 60,
+    Mode                  = 1,
+    ReceiverIds           = receiver, -- userId ตัวรับ (วนไปเรื่อยๆ)
+    MutationSendThreshold = 20,                         -- ส่งเมื่อ mutation >=100kg ครบ N ผล
+}
+local Config = getgenv().FarmConfig
+getgenv().FarmRunning = true
+
+local Players           = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local LocalPlayer = Players.LocalPlayer
+local Backpack    = LocalPlayer:WaitForChild("Backpack")
+local Gardens     = workspace:WaitForChild("Gardens")
+local Networking  = require(ReplicatedStorage:WaitForChild("SharedModules"):WaitForChild("Networking"))
+
+local BASE_WEIGHT  = 7.5
+local WEIGHT_LIMIT = 100
+
+local SprinklerData = {
+    ["Common Sprinkler"]    = { Lifetime = 125, Tier = 1 },
+    ["Uncommon Sprinkler"]  = { Lifetime = 125, Tier = 1 },
+    ["Rare Sprinkler"]      = { Lifetime = 125, Tier = 1 },
+    ["Legendary Sprinkler"] = { Lifetime = 125, Tier = 1 },
+    ["Super Sprinkler"]     = { Lifetime = 125, Tier = 1 },
+}
+
+local spkSlots       = {}
+local lastWaterTime  = -math.huge
+local dragonTimer    = 0
+local receiverIndex  = 1
+
+local function log(txt) print("[Farm]", txt) end
+
+-- ── Helpers ──────────────────────────────────────────────────────
+local function findMyPlot()
+    for _, p in pairs(Gardens:GetChildren()) do
+        if p:GetAttribute("OwnerUserId") == LocalPlayer.UserId then return p end
+    end
+end
+
+local function getItemCount(name)
+    local t = Backpack:FindFirstChild(name)
+    if not t then return 0 end
+    return t:GetAttribute("Count") or 1
+end
+
+local function getPlotCenter(plot)
+    local plants = plot:FindFirstChild("Plants")
+    if not plants then return nil end
+    local first = plants:GetChildren()[1]
+    if not first then return nil end
+    local base = first:FindFirstChild("Base")
+    if not base then return nil end
+    local x, z = base.CFrame.Position.X, base.CFrame.Position.Z
+    local rp = RaycastParams.new()
+    rp.FilterType = Enum.RaycastFilterType.Exclude
+    rp.FilterDescendantsInstances = { plot }
+    local ray = workspace:Raycast(Vector3.new(x,500,z), Vector3.new(0,-1000,0), rp)
+    return Vector3.new(x, ray and ray.Position.Y or base.CFrame.Position.Y, z)
+end
+
+local function getPlantPositions(plot)
+    local plants = plot:FindFirstChild("Plants")
+    if not plants then return {} end
+    local result = {}
+    for _, plant in pairs(plants:GetChildren()) do
+        if plant:GetAttribute("PlantId") then
+            local base = plant:FindFirstChild("Base")
+            if base then result[#result+1] = { pos=base.CFrame.Position, plant=plant } end
+        end
+    end
+    return result
+end
+
+local function teleportTo(pos)
+    local hrp = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+    if hrp then hrp.CFrame = CFrame.new(pos + Vector3.new(0,5,0)) end
+end
+
+local function useTool(name, fn)
+    local tool = Backpack:FindFirstChild(name)
+    if not tool then return false end
+    tool.Parent = LocalPlayer.Character
+    task.wait(0.3); fn(tool); task.wait(0.3)
+    if tool.Parent == LocalPlayer.Character then tool.Parent = Backpack end
+    task.wait(0.1)
+    return true
+end
+
+local function hasMutation(item)
+    local m = item:GetAttribute("Mutation")
+    return m ~= nil and m ~= "" and m ~= "None"
+end
+
+-- ── Mailbox ──────────────────────────────────────────────────────
+local function getNextReceiver()
+    if #Config.ReceiverIds == 0 then return nil end
+    local id = Config.ReceiverIds[receiverIndex]
+    receiverIndex = (receiverIndex % #Config.ReceiverIds) + 1
+    return id
+end
+
+local function countMutationFruits()
+    local n = 0
+    for _, item in pairs(Backpack:GetChildren()) do
+        if item:GetAttribute("HarvestedFruit") == true then
+            if (item:GetAttribute("Weight") or 0) >= WEIGHT_LIMIT and hasMutation(item) then
+                n += 1
+            end
+        end
+    end
+    return n
+end
+
+local function sendMutationFruits()
+    if isSending then return end
+    if #Config.ReceiverIds == 0 then return end
+    if countMutationFruits() < Config.MutationSendThreshold then return end
+
+    isSending = true
+
+    local items = {}
+    for _, item in pairs(Backpack:GetChildren()) do
+        if item:GetAttribute("HarvestedFruit") == true then
+            if (item:GetAttribute("Weight") or 0) >= WEIGHT_LIMIT and hasMutation(item) then
+                local id = item:GetAttribute("Id")
+                if id then items[#items+1] = { Category = "HarvestedFruits", ItemKey = id, Count = 1 } end
+            end
+        end
+    end
+
+    local i = 1
+    while i + 19 <= #items do  -- ส่งเฉพาะ batch ครบ 20 เท่านั้น
+        local batch = {}
+        for j = i, i + 19 do
+            batch[#batch+1] = items[j]
+        end
+        local userId = getNextReceiver()
+        if userId then
+            Networking.Mailbox.SendBatch:Fire(userId, batch, "mutation auto")
+            log("ส่ง 20 mutation → userId "..tostring(userId))
+        end
+        i += 20
+        if i + 19 <= #items then task.wait(10) end  -- cooldown เฉพาะระหว่าง batch
+    end
+    -- เศษ < 20 ผลค้างไว้ในกระเป๋า รอสะสมจนครบ 20 อีกรอบ
+
+    isSending = false
+end
+
+-- ── Clear Dragons ────────────────────────────────────────────────
+local function clearDragons(plot)
+    local plants = plot:FindFirstChild("Plants")
+    if not plants then return end
+    local count = 0
+    for _, plant in pairs(plants:GetChildren()) do
+        for _, child in pairs(plant:GetChildren()) do
+            if child.Name == "Dragon" or child.Name == "Model" then
+                pcall(child.Destroy, child)
+            end
+        end
+        local fruits = plant:FindFirstChild("Fruits")
+        if fruits then
+            for _, fruit in pairs(fruits:GetChildren()) do
+                local fl = fruit:FindFirstChild("Fireleaf")
+                if fl then pcall(fl.Destroy, fl) end
+            end
+        end
+        count += 1
+        if count % 10 == 0 then task.wait() end
+    end
+end
+
+-- ── Sprinkler ────────────────────────────────────────────────────
+local function placeSprinkler(pos, name)
+    if getItemCount(name) <= 0 then return false end
+    local data = SprinklerData[name]
+    if not data then return false end
+    local ok = false
+    useTool(name, function(tool)
+        Networking.Place.PlaceSprinkler:Fire(pos, name, tool, data.Tier)
+        ok = true
+    end)
+    return ok
+end
+
+local function setupSprinklers(center)
+    spkSlots = {}
+    local toPlace = {}
+    for _, name in ipairs(Config.Sprinklers) do
+        if getItemCount(name) > 0 then toPlace[#toPlace+1] = name end
+    end
+    if #toPlace == 0 then log("ไม่มี sprinkler"); return end
+    local n = #toPlace
+    for i, name in ipairs(toPlace) do
+        if not getgenv().FarmRunning then return end
+        local angle = (2*math.pi/n) * (i-1)
+        local pos = Vector3.new(center.X + math.cos(angle)*3, center.Y, center.Z + math.sin(angle)*3)
+        if placeSprinkler(pos, name) then
+            spkSlots[#spkSlots+1] = { pos=pos, name=name, placedAt=os.clock() }
+            log("วาง "..name)
+        end
+        task.wait(0.5)
+    end
+    log("วาง sprinkler "..#spkSlots.." อัน")
+end
+
+local function checkSprinklerExpiry()
+    for i, slot in ipairs(spkSlots) do
+        local data = SprinklerData[slot.name]
+        if data and (os.clock()-slot.placedAt) >= data.Lifetime then
+            if getItemCount(slot.name) <= 0 then table.remove(spkSlots, i); continue end
+            if placeSprinkler(slot.pos, slot.name) then
+                spkSlots[i].placedAt = os.clock()
+                log("Re-place "..slot.name)
+            end
+        end
+    end
+end
+
+-- ── Watering ─────────────────────────────────────────────────────
+local function handleWatering(plantPositions)
+    if (os.clock()-lastWaterTime) < Config.WaterCooldown then return end
+    if #plantPositions == 0 or getItemCount(Config.WateringCan) <= 0 then return end
+    local sumX, sumY, sumZ = 0, 0, 0
+    for _, p in ipairs(plantPositions) do sumX+=p.pos.X; sumY+=p.pos.Y; sumZ+=p.pos.Z end
+    local n = #plantPositions
+    useTool(Config.WateringCan, function(tool)
+        Networking.WateringCan.UseWateringCan:Fire(Vector3.new(sumX/n,sumY/n,sumZ/n), Config.WateringCan, tool)
+    end)
+    lastWaterTime = os.clock()
+    log("รดน้ำแล้ว")
+end
+
+-- ── Collect & Sell ───────────────────────────────────────────────
+local function shouldCollect(fruit)
+    local weightKg = BASE_WEIGHT * (fruit:GetAttribute("SizeMulti") or 0)
+    local hasMut   = hasMutation(fruit)
+    if Config.Mode == 1 then
+        if weightKg < WEIGHT_LIMIT then return true end
+        return hasMut
+    else
+        return weightKg >= WEIGHT_LIMIT and hasMut
+    end
+end
+
+local function sellUnwanted()
+    for _, item in pairs(Backpack:GetChildren()) do
+        if item:GetAttribute("HarvestedFruit") == true then
+            if (item:GetAttribute("Weight") or 0) < WEIGHT_LIMIT then
+                local id = item:GetAttribute("Id")
+                if id then Networking.NPCS.SellFruit:Fire(id) end
+            end
+        end
+    end
+end
+
+local function countBackpackFruits()
+    local n = 0
+    for _, item in pairs(Backpack:GetChildren()) do
+        if item:GetAttribute("HarvestedFruit") == true then n += 1 end
+    end
+    return n
+end
+
+local function collectPass(plot)
+    local plants = plot:FindFirstChild("Plants")
+    if not plants then return end
+    local n = 0
+    for _, plant in pairs(plants:GetChildren()) do
+        if not getgenv().FarmRunning then return end
+        local plantId = plant:GetAttribute("PlantId")
+        local fruits  = plant:FindFirstChild("Fruits")
+        if not plantId or not fruits then continue end
+        for _, fruit in pairs(fruits:GetChildren()) do
+            local age, maxAge = fruit:GetAttribute("Age"), fruit:GetAttribute("MaxAge")
+            if not (age and maxAge and age >= maxAge) then continue end
+            if not shouldCollect(fruit) then continue end
+            local fid = fruit:GetAttribute("FruitId") or fruit:GetAttribute("Id") or fruit.Name:match("_(.+)$")
+            if fid then
+                if countBackpackFruits() >= 80 then
+                    sellUnwanted()
+                    task.wait(0.05)
+                end
+                Networking.Garden.CollectFruit:Fire(plantId, fid)
+                n += 1
+                -- เช็ค mutation ถึง threshold ไหม
+                if countMutationFruits() >= Config.MutationSendThreshold then
+                    sendMutationFruits()
+                    task.wait(0.1)
+                end
+            end
+        end
+    end
+    if n > 0 then
+        task.wait(0.05)
+        sellUnwanted()
+        sendMutationFruits()  -- เช็คอีกครั้งหลังจบ pass
+        log("เก็บ "..n.." ผล | mutation="..countMutationFruits())
+    end
+end
+
+-- ── Main ─────────────────────────────────────────────────────────
+task.spawn(function()
+    local plot = findMyPlot()
+    if not plot then log("ไม่พบ plot"); return end
+
+    local center = getPlotCenter(plot)
+    if not center then log("ไม่พบ center"); return end
+
+    local plantPositions = getPlantPositions(plot)
+    log("plants: "..#plantPositions.." | receivers: "..#Config.ReceiverIds)
+
+    teleportTo(center)
+    task.wait(0.5)
+
+    task.spawn(clearDragons, plot)
+    setupSprinklers(center)
+    if not getgenv().FarmRunning then return end
+
+    handleWatering(plantPositions)
+    log("Running... mode="..Config.Mode)
+
+    while getgenv().FarmRunning do
+        collectPass(plot)
+        checkSprinklerExpiry()
+        handleWatering(plantPositions)
+
+        dragonTimer += 0.1
+        if dragonTimer >= 30 then
+            task.spawn(clearDragons, plot)
+            dragonTimer = 0
+        end
+
+        task.wait(0.1)
+    end
+    log("หยุด")
+end)
