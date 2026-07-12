@@ -372,6 +372,7 @@ task.spawn(function()
 
     while getgenv().FarmRunning do
         collectPass(plot)
+        teleportTo(center)
         checkSprinklerExpiry()
         handleWatering(plantPositions)
 
