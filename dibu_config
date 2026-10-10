@@ -76,5 +76,5 @@ getgenv().DIBUConfig = {
     HideUsername = false,       -- censor the overhead nametag (streams/screenshots)
 }
 getgenv().beta = true
-script_key= getgenv().key
+script_key= getgenv().key;
 loadstring(game:HttpGet("https://api.luarmor.net/files/v4/loaders/e2e08c21a34afa479395dce91cbaf353.lua"))()
