@@ -52,7 +52,7 @@ getgenv().DIBUConfig = {
     PuddleTarget = "nearest",   -- smart/nearest
 
     -- [[ Fishing Settings ]] --
-    Underground = false,
+    Underground = true,
     FishSpot = "smart", -- "smart" / 0 / 10 / 40 / 70
     BaitPerTrip = 12,           -- bait to buy per shop trip (max 200)
     FishSell    = 12,           -- sell every N fish
