@@ -1,0 +1,80 @@
+getgenv().DIBUConfig = {
+
+    -- [[ Main Settings ]] --
+    AutoFarm = true,           
+    JobMode  = "fishing",      -- fishing/stocker/cooking/atm_swiper/janitor/farming
+    Farming  = false,         
+    -- [[ Job Randomizer ]] --
+    JobRandomizer         = false,
+    JobRandomizerInterval = 30,    
+    JobRandomizerPool     = { "atm_swiper", "stocker", "cooking", "janitor", "fishing", "farming" },
+
+    -- [[ Money & Deposit ]] --
+    AutoDeposit      = true,
+    DepositThreshold = 200,     
+    DepositAll       = true,    
+
+    -- [[ Safety & Protections ]] --
+    AntiKill    = true,
+    AntiRagdoll = true,
+    AutoRespawn = true,
+    AutoHit     = true,
+    StaminaFarm = true,
+
+    -- [[ Server Hopping ]] --
+    MoneyStallRejoin  = false,
+    MoneyStallMins    = 15,     
+    AutoHop           = true,
+    AutoHopInterval   = 0,     -- minutes (0 = off)
+    AutoHopMaxPlayers = 0,      -- hop if server over this (0 = off)
+    HopTargetMaxPlayers = 8,    -- only hop to servers at/under this
+    AutoLowServerHop  = false,
+    HopOnDeath        = false,   -- hop to a new server if a player downs you (escape griefers)
+
+    -- [[ Vehicle Settings ]] --
+    VehicleType       = "car", -- bike/car
+    Vehicle           = "auto", -- auto / vehicle name
+    SwiperUseVehicle  = false,
+    AutoRepairVehicle = true,
+
+    -- [[ ATM Swiper ]] --
+    AutoBuyTools = true,
+    BulkBuyCount = 5,
+
+    -- [[ Stocker ]] --
+    BestBox = true,
+    BoxType = "NormalBox",      -- NormalBox/SunflowerSeedsBox/ElectronicsBox/GoldenBox
+
+    -- [[ Cook ]] --
+    AutoBuySkillet = true,
+
+    -- [[ Janitor ]] --
+    PuddleTarget = "nearest",   -- smart/nearest
+
+    -- [[ Fishing Settings ]] --
+    Underground = false,
+    FishSpot = "smart", -- "smart" / 0 / 10 / 40 / 70
+    BaitPerTrip = 12,           -- bait to buy per shop trip (max 200)
+    FishSell    = 12,           -- sell every N fish
+    FishSkipSell     = false,   -- skip Sell
+    FishSafeStore = false,      -- keep rare fish (store in safe)
+    FishSafeTiers = {},         -- Uncommon/Rare/Epic/Legendary/Omega
+    FishSellNow      = true,    -- INSTANT-sell a rare on catch 
+    FishSellNowTiers = { "Legendary", "Omega" }, -- which rarities trigger the instant sell
+    FishKeepRarities = {},      -- Uncommon/Rare/Epic/Legendary/Omega
+    FishDropUnwanted = false,  
+    FishingRod  = "smart",      -- smart / rod name
+    FishingBait = "smart",      -- smart / bait name
+    FishPreset  = "blatant",    -- legit/fast/blatant
+    FishWebhook = "https://discord.com/api/webhooks/1545851508233478248/Wa8_hmeHYmK2xrowrvG7qFUQkXKZmnk8XzQhyw92n12PREuSwir6fNGiQHuHy4UPllec",
+    FishNotifyTiers = { "Legendary", "Omega" },
+
+    -- [[ Display & Performance ]] --
+    FpsBoost = true,
+    FpsBoostExtreme = true,     --
+    Whitescreen = true,        -- blank 3D render, HUD stays
+    HideUsername = false,       -- censor the overhead nametag (streams/screenshots)
+}
+getgenv().beta = true
+script_key= getgenv().key
+loadstring(game:HttpGet("https://api.luarmor.net/files/v4/loaders/e2e08c21a34afa479395dce91cbaf353.lua"))()
