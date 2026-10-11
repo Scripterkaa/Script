@@ -1,80 +1,99 @@
 getgenv().DIBUConfig = {
 
-    -- [[ Main Settings ]] --
-    AutoFarm = true,           
-    JobMode  = "fishing",      -- fishing/stocker/cooking/atm_swiper/janitor/farming
-    Farming  = false,         
-    -- [[ Job Randomizer ]] --
+    -- MAIN
+    AutoFarm = true,
+    JobMode  = "fishing",  -- fishing / stocker / cooking / atm_swiper / janitor / farming
+    Farming  = false, 
+
+    -- JOB RANDOMIZER
     JobRandomizer         = false,
-    JobRandomizerInterval = 30,    
+    JobRandomizerInterval = 30,  -- minutes
     JobRandomizerPool     = { "atm_swiper", "stocker", "cooking", "janitor", "fishing", "farming" },
 
-    -- [[ Money & Deposit ]] --
+    -- MONEY
     AutoDeposit      = true,
-    DepositThreshold = 200,     
-    DepositAll       = true,    
+    DepositThreshold = 200,
+    DepositAll       = true,
 
-    -- [[ Safety & Protections ]] --
-    AntiKill    = true,
-    AntiRagdoll = true,
-    AutoRespawn = true,
-    AutoHit     = true,
-    StaminaFarm = true,
+    -- SAFETY
+    AntiKill     = true,
+    AntiRagdoll  = true,
+    AutoRespawn  = true,
+    AutoHit      = true,
+    StaminaFarm  = false,
+    HideUsername = false, 
+    AutoShiesty  = false,
+    AutoEShot    = false,  
 
-    -- [[ Server Hopping ]] --
-    MoneyStallRejoin  = false,
-    MoneyStallMins    = 15,     
-    AutoHop           = true,
-    AutoHopInterval   = 0,     -- minutes (0 = off)
-    AutoHopMaxPlayers = 0,      -- hop if server over this (0 = off)
-    HopTargetMaxPlayers = 8,    -- only hop to servers at/under this
-    AutoLowServerHop  = false,
-    HopOnDeath        = false,   -- hop to a new server if a player downs you (escape griefers)
+    -- SERVER HOPPING
+    MoneyStallRejoin    = false,
+    MoneyStallMins      = 15,
+    AutoHop             = false,
+    AutoHopInterval     = 60,  -- minutes (0 = off)
+    AutoHopMaxPlayers   = 0,  -- hop if this server is over N (0 = off)
+    HopTargetMaxPlayers = 8,  -- only hop to servers at/under N
+    AutoLowServerHop    = false,
+    HopOnDeath          = false,
+    HopOnPeek           = false,  -- someone dies/respawns above you while underground
 
-    -- [[ Vehicle Settings ]] --
-    VehicleType       = "car", -- bike/car
-    Vehicle           = "auto", -- auto / vehicle name
-    SwiperUseVehicle  = false,
+    -- VEHICLE
+    VehicleType       = "car",  -- bike / car
+    Vehicle           = "auto",  -- auto / vehicle name
     AutoRepairVehicle = true,
+    PawnSpareVehicles = true,
+    PawnVehicleNames  = {},  -- empty = auto pick
 
-    -- [[ ATM Swiper ]] --
-    AutoBuyTools = true,
-    BulkBuyCount = 5,
+    -- ATM SWIPER
+    AutoBuyTools      = true,
+    BulkBuyCount      = 5,
+    SwiperUnderground = false,  -- separate from UndergroundMode below
 
-    -- [[ Stocker ]] --
+    -- STOCKER
     BestBox = true,
-    BoxType = "NormalBox",      -- NormalBox/SunflowerSeedsBox/ElectronicsBox/GoldenBox
+    BoxType = "NormalBox",  -- NormalBox / SunflowerSeedsBox / ElectronicsBox / GoldenBox
 
-    -- [[ Cook ]] --
+    -- COOK
     AutoBuySkillet = true,
 
-    -- [[ Janitor ]] --
-    PuddleTarget = "nearest",   -- smart/nearest
+    -- JANITOR
+    PuddleTarget = "nearest",  -- smart / nearest
 
-    -- [[ Fishing Settings ]] --
-    Underground = true,
-    FishSpot = "smart", -- "smart" / 0 / 10 / 40 / 70
-    BaitPerTrip = 12,           -- bait to buy per shop trip (max 200)
-    FishSell    = 12,           -- sell every N fish
-    FishSkipSell     = false,   -- skip Sell
-    FishSafeStore = false,      -- keep rare fish (store in safe)
-    FishSafeTiers = {},         -- Uncommon/Rare/Epic/Legendary/Omega
-    FishSellNow      = true,    -- INSTANT-sell a rare on catch 
-    FishSellNowTiers = { "Legendary", "Omega" }, -- which rarities trigger the instant sell
-    FishKeepRarities = {},      -- Uncommon/Rare/Epic/Legendary/Omega
-    FishDropUnwanted = false,  
-    FishingRod  = "smart",      -- smart / rod name
-    FishingBait = "smart",      -- smart / bait name
-    FishPreset  = "blatant",    -- legit/fast/blatant
-    FishWebhook = "https://discord.com/api/webhooks/1545851508233478248/Wa8_hmeHYmK2xrowrvG7qFUQkXKZmnk8XzQhyw92n12PREuSwir6fNGiQHuHy4UPllec",
-    FishNotifyTiers = { "Legendary", "Omega" },
+    -- FARMING
+    FarmSeed           = "smart",  -- smart / SunflowerSeeds / CornSeeds / TomatoSeeds / GoldenTomatoSeeds
+    FarmWater          = true,
+    FarmWaterThreshold = 60,  
+    FarmPotUpgrade     = true,
 
-    -- [[ Display & Performance ]] --
-    FpsBoost = true,
-    FpsBoostExtreme = true,     --
-    Whitescreen = true,        -- blank 3D render, HUD stays
-    HideUsername = false,       -- censor the overhead nametag (streams/screenshots)
+    -- FISHING
+    UndergroundMode  = "full",  
+    BaitPerTrip      = 12,
+    FishSell         = 12,  -- sell every N fish
+    FishSpot         = "smart",  -- smart / 0 / 10 / 40 / 70
+    FishingRod       = "smart",  -- smart / rod name
+    FishingBait      = "smart",  -- smart / bait name
+    FishAutoLicense  = true,
+    FishStaminaFarm  = false,
+    FishSafeStore    = false,
+    FishSafeTiers    = {},  -- Uncommon / Rare / Epic / Legendary / Omega
+    FishSellNow      = true,
+    FishSellNowTiers = { "Legendary", "Omega" },
+    FishSkipSell     = false,
+
+    FishSkipEnabled   = false,  -- the switch
+    FishSkipType      = "cancel",  -- cancel (drop the bite, recast) / drop (win it, then drop)
+    FishMinRarity     = "Common",  -- keep this rarity and above; lower ones are thrown back
+    FishKeepOnlyLvl70 = false, 
+
+    FishWebhook        = "https://discord.com/api/webhooks/1545851505586864159/zrzBoUW5IevGFK0sWHirkqSwxH7BRO5hjNuABrg8CJ_QCvyRQuBbPVm8iuu87O0pANx8",  -- your Discord webhook URL
+    FishWebhookEnabled = true,  
+    FishNotifyTiers    = { "Legendary", "Omega" },
+
+    -- DISPLAY
+    Hud               = true,
+    FpsBoost          = true,
+    FpsBoostExtreme   = true,  
+    Whitescreen       = true,
+    SkipSpinAnimation = true,
 }
-getgenv().beta = true
 script_key= getgenv().key;
 loadstring(game:HttpGet("https://api.luarmor.net/files/v4/loaders/e2e08c21a34afa479395dce91cbaf353.lua"))()
