@@ -1,0 +1,102 @@
+repeat task.wait(1) until game:IsLoaded()
+getgenv().DIBUConfig = {
+
+    -- MAIN
+    AutoFarm = true,
+    JobMode  = "atm_swiper",  -- fishing / stocker / cooking / atm_swiper / janitor / farming
+    Farming  = true, 
+
+    -- JOB RANDOMIZER
+    JobRandomizer         = false,
+    JobRandomizerInterval = 30,  -- minutes
+    JobRandomizerPool     = { "atm_swiper", "stocker", "cooking", "janitor", "fishing", "farming" },
+
+    -- MONEY
+    AutoDeposit      = true,
+    DepositThreshold = 200,
+    DepositAll       = true,
+
+    -- SAFETY
+    AntiKill     = true,
+    AntiRagdoll  = true,
+    AutoRespawn  = true,
+    AutoHit      = true,
+    StaminaFarm  = false,
+    HideUsername = false, 
+    AutoShiesty  = false,  
+    AutoEShot    = false,
+    MoneyMerge   = false,
+    MoneyMergeRole = "receiver",
+    MoneyMergeWaitCooldown = false,
+
+    -- SERVER HOPPING
+    MoneyStallRejoin    = true,
+    MoneyStallMins      = 10,
+    AutoHop             = true,
+    AutoHopInterval     = 60,  -- minutes (0 = off)
+    AutoHopMaxPlayers   = 0,  -- hop if this server is over N (0 = off)
+    HopTargetMaxPlayers = 8,  -- only hop to servers at/under N
+    AutoLowServerHop    = true,
+    HopOnDeath          = true,
+    HopOnPeek           = false,  -- someone dies/respawns above you while underground
+
+    -- VEHICLE
+    VehicleType       = "car",  -- bike / car
+    Vehicle           = "auto",  -- auto / vehicle name
+    AutoRepairVehicle = true,
+
+    -- ATM SWIPER
+    AutoBuyTools      = true,
+    BulkBuyCount      = 5,
+    SwiperUnderground = true,  
+
+    -- STOCKER
+    BestBox = true,
+    BoxType = "NormalBox",  -- NormalBox / SunflowerSeedsBox / ElectronicsBox / GoldenBox
+
+    -- COOK
+    AutoBuySkillet = true,
+
+    -- JANITOR
+    PuddleTarget = "nearest",  -- smart / nearest
+
+    -- FARMING
+    FarmSeed           = "smart",  -- smart / SunflowerSeeds / CornSeeds / TomatoSeeds / GoldenTomatoSeeds
+    FarmWater          = true,
+    FarmWaterThreshold = 60,  -- water below this % (10..95)
+    FarmPotUpgrade     = true,
+
+    -- FISHING
+    UndergroundMode  = "full",  
+    BaitPerTrip      = 12,
+    FishSell         = 12,  -- sell every N fish
+    FishSpot         = "smart",  -- smart / 0 / 10 / 40 / 70 / 75
+    FishingRod       = "smart",  -- smart / rod name
+    FishingBait      = "smart",  -- smart / bait name / Squidtec
+    FishAutoLicense  = true,    -- auto buy fishing license (spot 75)
+    FishStaminaFarm  = false,
+    FishSafeStore    = false,
+    FishSafeTiers    = {},  -- Uncommon / Rare / Epic / Legendary / Omega
+    FishSellNow      = true,
+    FishSellNowTiers = { "Legendary", "Omega" },
+    FishSkipSell     = false,
+
+    FishSkipEnabled   = false,  -- the switch
+    FishSkipType      = "cancel",  -- how: cancel (drop the bite, recast) / drop (win it, then drop)
+    FishMinRarity     = "Common",  -- keep this rarity and above; lower ones are thrown back
+    FishKeepOnlyLvl70 = false, 
+
+    FishWebhook        = "YOUR_WEBHOOK_URL",  -- your Discord webhook URL
+    FishWebhookEnabled = true,  
+    FishNotifyTiers    = { "Legendary", "Omega" },
+    FishWebhookFields  = { "Fish", "Tier", "Weight" },  -- + Account / Hand Cash / Bank / 
+
+    -- DISPLAY
+    Hud               = true,
+    FpsBoost          = true,
+    FpsBoostExtreme   = true,  
+    Whitescreen       = true,
+    SkipSpinAnimation = true,
+}
+script_key= getgenv().key;
+loadstring(game:HttpGet("https://api.luarmor.net/files/v4/loaders/ece6bc479c0cae6ef5d1934ab43f5672.lua"))()
