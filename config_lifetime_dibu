@@ -4,8 +4,8 @@ getgenv().DIBUConfig = {
 
     -- MAIN
     AutoFarm = true,
-    JobMode  = "atm_swiper",  -- fishing / stocker / cooking / atm_swiper / janitor / farming
-    Farming  = true, 
+    JobMode  = "fishing",  -- fishing / stocker / cooking / atm_swiper / janitor / farming
+    Farming  = false, 
 
     -- JOB RANDOMIZER
     JobRandomizer         = false,
@@ -31,14 +31,14 @@ getgenv().DIBUConfig = {
     MoneyMergeWaitCooldown = false,
 
     -- SERVER HOPPING
-    MoneyStallRejoin    = true,
+    MoneyStallRejoin    = false,
     MoneyStallMins      = 10,
-    AutoHop             = true,
+    AutoHop             = false,
     AutoHopInterval     = 60,  -- minutes (0 = off)
     AutoHopMaxPlayers   = 0,  -- hop if this server is over N (0 = off)
     HopTargetMaxPlayers = 8,  -- only hop to servers at/under N
-    AutoLowServerHop    = true,
-    HopOnDeath          = true,
+    AutoLowServerHop    = false,
+    HopOnDeath          = false,
     HopOnPeek           = false,  -- someone dies/respawns above you while underground
 
     -- VEHICLE
@@ -69,25 +69,25 @@ getgenv().DIBUConfig = {
 
     -- FISHING
     UndergroundMode  = "full",  
-    BaitPerTrip      = 12,
+    BaitPerTrip      = 50,
     FishSell         = 12,  -- sell every N fish
-    FishSpot         = "smart",  -- smart / 0 / 10 / 40 / 70 / 75
+    FishSpot         = 70,  -- smart / 0 / 10 / 40 / 70 / 75
     FishingRod       = "smart",  -- smart / rod name
     FishingBait      = "smart",  -- smart / bait name / Squidtec
     FishAutoLicense  = true,    -- auto buy fishing license (spot 75)
-    FishStaminaFarm  = false,
+    FishStaminaFarm  = true,
     FishSafeStore    = false,
     FishSafeTiers    = {},  -- Uncommon / Rare / Epic / Legendary / Omega
     FishSellNow      = true,
     FishSellNowTiers = { "Legendary", "Omega" },
     FishSkipSell     = false,
 
-    FishSkipEnabled   = false,  -- the switch
+    FishSkipEnabled   = true,  -- the switch
     FishSkipType      = "cancel",  -- how: cancel (drop the bite, recast) / drop (win it, then drop)
-    FishMinRarity     = "Common",  -- keep this rarity and above; lower ones are thrown back
-    FishKeepOnlyLvl70 = false, 
+    FishMinRarity     = "Epic",  -- keep this rarity and above; lower ones are thrown back
+    FishKeepOnlyLvl70 = true, 
 
-    FishWebhook        = "YOUR_WEBHOOK_URL",  -- your Discord webhook URL
+    FishWebhook        = "https://discord.com/api/webhooks/1558797846646628452/DHxwQdIpamoP0JppZLlGoJcEOkoKO7z5_525ttWi80yvuycuxj6UZeO5wxqHzL-vt95D",  -- your Discord webhook URL
     FishWebhookEnabled = true,  
     FishNotifyTiers    = { "Legendary", "Omega" },
     FishWebhookFields  = { "Fish", "Tier", "Weight" },  -- + Account / Hand Cash / Bank / 
