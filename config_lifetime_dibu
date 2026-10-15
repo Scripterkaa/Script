@@ -1,4 +1,5 @@
 repeat task.wait(1) until game:IsLoaded()
+task.wait(15)
 getgenv().DIBUConfig = {
 
     -- MAIN
