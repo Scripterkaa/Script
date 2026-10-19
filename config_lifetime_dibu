@@ -1,4 +1,5 @@
 repeat task.wait(1) until game:IsLoaded()
+getgenv().beta = true
 getgenv().DIBUConfig = {
 
     -- MAIN
