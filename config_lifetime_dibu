@@ -98,6 +98,7 @@ getgenv().DIBUConfig = {
     FpsBoostExtreme   = true,  
     Whitescreen       = true,
     SkipSpinAnimation = true,
+    FpsCap = 30,
 }
 script_key= getgenv().key;
 loadstring(game:HttpGet("https://api.luarmor.net/files/v4/loaders/ece6bc479c0cae6ef5d1934ab43f5672.lua"))()
