@@ -101,4 +101,4 @@ getgenv().DIBUConfig = {
     FpsCap = 30,
 }
 script_key= getgenv().key;
-loadstring(game:HttpGet("https://api.luarmor.net/files/v4/loaders/e2e08c21a34afa479395dce91cbaf353.lua"))()
+loadstring(game:HttpGet("https://api.luarmor.net/files/v4/loaders/e13ca9ee6a5a1b224fb259fd4443bab1.lua"))() 
