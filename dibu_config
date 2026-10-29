@@ -1,8 +1,10 @@
+repeat task.wait(1) until game:IsLoaded()
 getgenv().DIBUConfig = {
 
     -- MAIN
     AutoFarm = true,
     JobMode  = "fishing",  -- fishing / stocker / cooking / atm_swiper / janitor / farming
+    BrokeFallbackJob = "stocker",
     Farming  = false, 
 
     -- JOB RANDOMIZER
@@ -22,12 +24,15 @@ getgenv().DIBUConfig = {
     AutoHit      = true,
     StaminaFarm  = false,
     HideUsername = false, 
-    AutoShiesty  = false,
-    AutoEShot    = false,  
+    AutoShiesty  = false,  
+    AutoEShot    = false,
+    MoneyMerge   = false,
+    MoneyMergeRole = "receiver",
+    MoneyMergeWaitCooldown = false,
 
     -- SERVER HOPPING
     MoneyStallRejoin    = false,
-    MoneyStallMins      = 15,
+    MoneyStallMins      = 10,
     AutoHop             = false,
     AutoHopInterval     = 60,  -- minutes (0 = off)
     AutoHopMaxPlayers   = 0,  -- hop if this server is over N (0 = off)
@@ -40,13 +45,11 @@ getgenv().DIBUConfig = {
     VehicleType       = "car",  -- bike / car
     Vehicle           = "auto",  -- auto / vehicle name
     AutoRepairVehicle = true,
-    PawnSpareVehicles = true,
-    PawnVehicleNames  = {},  -- empty = auto pick
 
     -- ATM SWIPER
     AutoBuyTools      = true,
     BulkBuyCount      = 5,
-    SwiperUnderground = false,  -- separate from UndergroundMode below
+    SwiperUnderground = true,  
 
     -- STOCKER
     BestBox = true,
@@ -61,32 +64,33 @@ getgenv().DIBUConfig = {
     -- FARMING
     FarmSeed           = "smart",  -- smart / SunflowerSeeds / CornSeeds / TomatoSeeds / GoldenTomatoSeeds
     FarmWater          = true,
-    FarmWaterThreshold = 60,  
+    FarmWaterThreshold = 60,  -- water below this % (10..95)
     FarmPotUpgrade     = true,
 
     -- FISHING
     UndergroundMode  = "full",  
-    BaitPerTrip      = 12,
+    BaitPerTrip      = 50,
     FishSell         = 12,  -- sell every N fish
-    FishSpot         = "smart",  -- smart / 0 / 10 / 40 / 70
+    FishSpot         = 70,  -- smart / 0 / 10 / 40 / 70 / 75
     FishingRod       = "smart",  -- smart / rod name
-    FishingBait      = "smart",  -- smart / bait name
-    FishAutoLicense  = true,
-    FishStaminaFarm  = false,
+    FishingBait      = "smart",  -- smart / bait name / Squidtec
+    FishAutoLicense  = false,    -- auto buy fishing license (spot 75)
+    FishStaminaFarm  = true,
     FishSafeStore    = false,
     FishSafeTiers    = {},  -- Uncommon / Rare / Epic / Legendary / Omega
     FishSellNow      = true,
     FishSellNowTiers = { "Legendary", "Omega" },
     FishSkipSell     = false,
 
-    FishSkipEnabled   = false,  -- the switch
-    FishSkipType      = "cancel",  -- cancel (drop the bite, recast) / drop (win it, then drop)
-    FishMinRarity     = "Common",  -- keep this rarity and above; lower ones are thrown back
-    FishKeepOnlyLvl70 = false, 
+    FishSkipEnabled   = true,  -- the switch
+    FishSkipType      = "cancel",  -- how: cancel (drop the bite, recast) / drop (win it, then drop)
+    FishMinRarity     = "Epic",  -- keep this rarity and above; lower ones are thrown back
+    FishKeepOnlyLvl70 = true, 
 
-    FishWebhook        = "https://discord.com/api/webhooks/1545851505586864159/zrzBoUW5IevGFK0sWHirkqSwxH7BRO5hjNuABrg8CJ_QCvyRQuBbPVm8iuu87O0pANx8",  -- your Discord webhook URL
+    FishWebhook        = "https://discord.com/api/webhooks/1558797846646628452/DHxwQdIpamoP0JppZLlGoJcEOkoKO7z5_525ttWi80yvuycuxj6UZeO5wxqHzL-vt95D",  -- your Discord webhook URL
     FishWebhookEnabled = true,  
     FishNotifyTiers    = { "Legendary", "Omega" },
+    FishWebhookFields  = { "Fish", "Tier", "Weight" },  -- + Account / Hand Cash / Bank / 
 
     -- DISPLAY
     Hud               = true,
@@ -94,6 +98,7 @@ getgenv().DIBUConfig = {
     FpsBoostExtreme   = true,  
     Whitescreen       = true,
     SkipSpinAnimation = true,
+    FpsCap = 30,
 }
 script_key= getgenv().key;
 loadstring(game:HttpGet("https://api.luarmor.net/files/v4/loaders/e2e08c21a34afa479395dce91cbaf353.lua"))()
