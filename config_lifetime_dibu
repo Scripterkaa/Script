@@ -82,10 +82,10 @@ getgenv().DIBUConfig = {
     FishSellNowTiers = { "Legendary", "Omega" },
     FishSkipSell     = false,
 
-    FishSkipEnabled   = false,  -- the switch
+    FishSkipEnabled   = true,  -- the switch
     FishSkipType      = "cancel",  -- how: cancel (drop the bite, recast) / drop (win it, then drop)
     FishMinRarity     = "Epic",  -- keep this rarity and above; lower ones are thrown back
-    FishKeepOnlyLvl70 = false, 
+    FishKeepOnlyLvl70 = true, 
 
     FishWebhook        = "https://discord.com/api/webhooks/1558797846646628452/DHxwQdIpamoP0JppZLlGoJcEOkoKO7z5_525ttWi80yvuycuxj6UZeO5wxqHzL-vt95D",  -- your Discord webhook URL
     FishWebhookEnabled = true,  
